@@ -14,6 +14,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {ConfirmationDialogComponent} from '../components/confirmation-dialog/confirmation-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {RoomFormDialogComponent} from "../components/room-form-dialog/room-form-dialog.component";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -31,16 +33,23 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSelectModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatInputModule,
   ],
   declarations: [
     CalendarComponent,
     SiteSelectionComponent,
     RoomSelectionComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    RoomFormDialogComponent
   ],
-  exports: [CalendarComponent, SiteSelectionComponent, RoomSelectionComponent],
+  exports: [
+    CalendarComponent,
+    SiteSelectionComponent,
+    RoomSelectionComponent
+  ],
   entryComponents: [
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    RoomFormDialogComponent
   ]
 })
 export class SharedModule {

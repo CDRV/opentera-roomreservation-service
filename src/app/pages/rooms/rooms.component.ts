@@ -8,6 +8,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ConfirmationDialogComponent} from '../../components/confirmation-dialog/confirmation-dialog.component';
+import {RoomFormDialogComponent} from "../../components/room-form-dialog/room-form-dialog.component";
 
 @Component({
   selector: 'app-rooms',
@@ -15,6 +16,7 @@ import {ConfirmationDialogComponent} from '../../components/confirmation-dialog/
   styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent implements OnInit, AfterViewInit {
+  private selectedSite: Site;
 
   constructor(private roomService: RoomService,
               private snackBar: MatSnackBar,
@@ -35,14 +37,17 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   selectedSiteChange(selected: Site) {
     if (selected) {
+      this.selectedSite = selected;
       this.getRooms(selected.id_site);
     } else {
+      this.selectedSite = null;
       this.rooms = [];
     }
   }
 
   private getRooms(idSite: number) {
-    this.roomService.getBySite(idSite).subscribe(rooms => {
+    this.roomService.getBySite(idSite);
+    this.roomService.roomsList$().subscribe(rooms => {
       this.rooms = rooms;
       this.dataSource = new MatTableDataSource(rooms);
     });
@@ -86,7 +91,25 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openUserGroupForm(row: any) {
-    console.log(row);
+  openRoomFormDialog(row: any) {
+    const copy = {...row};
+    console.log(copy);
+    const dialogRef = this.dialog.open(RoomFormDialogComponent, {
+      width: '500px',
+      data: copy ? copy : new Room()
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        result.id_site = this.selectedSite.id_site;
+        console.log(result);
+        this.roomService.save(result).subscribe((updated: Room) => {
+          this.openSnackBar('Le local ' + updated.room_name + ' a été sauvegardé.', 'X');
+        }, err => {
+          console.error('Une erreur s\'est produite lors de la sauvegarde.', err);
+          this.openSnackBar('Une erreur s\'est produite lors de la sauvegarde.', 'X');
+        });
+      }
+    });
   }
 }
