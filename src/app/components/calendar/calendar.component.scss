@@ -1,0 +1,42 @@
+h3 {
+  margin: 0 0 10px;
+}
+
+pre {
+  background-color: #f5f5f5;
+  padding: 15px;
+}
+
+.calendar-controls {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-controls h3 {
+  width: auto;
+  margin: 0;
+}
+
+.buttons-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+}
+
+.buttons-wrapper button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.buttons-wrapper button:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.buttons-wrapper button:nth-child(2) {
+  border-radius: 0;
+}

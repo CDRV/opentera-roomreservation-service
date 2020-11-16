@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+}
+
+tr {
+  cursor: pointer;
+  transition: background-color ease-in-out 0.5s;
+}
+
+tr:hover {
+  background-color: #efefef;
+}
+
+.controls {
+  justify-content: end;
+  max-width: 70px;
+}
+
+.mat-table .mat-icon {
+  color: var(--primary-color--medium);
+  cursor: pointer;
+}
+
+.mat-table .mat-icon:first-of-type {
+  margin-right: 10px;
+}
+
+.mat-table .mat-icon:hover {
+  color: var(--primary-color);
+}

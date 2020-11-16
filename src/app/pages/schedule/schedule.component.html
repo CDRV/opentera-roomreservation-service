@@ -1,0 +1,7 @@
+<div class="filters">
+  <app-site-selection (selectedSiteChange)="selectedSiteChange($event)"></app-site-selection>
+  <app-room-selection [idSite]="selectedSite.id_site"
+                      (selectedRoomChange)="selectedRoomChange($event)"></app-room-selection>
+</div>
+
+<app-calendar [idRoom]="selectedRoom.id_room"></app-calendar>
