@@ -12,12 +12,11 @@ tr:hover {
 }
 
 .controls {
-  justify-content: end;
+  text-align: right;
   max-width: 70px;
 }
 
 .mat-table .mat-icon {
-  color: var(--primary-color--medium);
   cursor: pointer;
 }
 

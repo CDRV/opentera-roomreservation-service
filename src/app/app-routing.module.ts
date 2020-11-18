@@ -3,8 +3,8 @@ import {Routes, RouterModule} from '@angular/router';
 import {LoginComponent} from './pages/login/login.component';
 import {AuthGuardService} from './services/authentication.service';
 import {ScheduleComponent} from './pages/schedule/schedule.component';
-import {AppLayoutComponent} from './layout/app-layout/app-layout.component';
-import {LoginLayoutComponent} from './layout/login-layout/login-layout.component';
+import {AppLayoutComponent} from './shared/layout/app-layout/app-layout.component';
+import {LoginLayoutComponent} from './shared/layout/login-layout/login-layout.component';
 import {RoomsComponent} from './pages/rooms/rooms.component';
 
 

@@ -3,7 +3,7 @@ import {startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMon
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView} from 'angular-calendar';
 import {ScheduleService} from '../../services/schedule.service';
-import {Reservation} from '../../shared/models/reservation.model';
+import {Reservation} from '../../core/models/reservation.model';
 import {Subject} from 'rxjs';
 
 const colors: any = {

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {makeApiURL} from '../shared/utils/make-api-url';
-import {Site} from '../shared/models/site.model';
+import {makeApiURL} from '../core/utils/make-api-url';
+import {Site} from '../core/models/site.model';
 
 @Injectable({
   providedIn: 'root'

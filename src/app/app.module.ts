@@ -1,10 +1,10 @@
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TokenInterceptor} from './services/token-interceptor.service';
+import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationService} from './services/authentication.service';
 import {LoginModule} from './pages/login/login.module';
@@ -14,9 +14,11 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
-import {AppLayoutComponent} from './layout/app-layout/app-layout.component';
-import {LoginLayoutComponent} from './layout/login-layout/login-layout.component';
+import {AppLayoutComponent} from './shared/layout/app-layout/app-layout.component';
+import {LoginLayoutComponent} from './shared/layout/login-layout/login-layout.component';
 import {RoomsModule} from './pages/rooms/rooms.module';
+import {AppErrorHandler} from './core/interceptors/app-error-handler.injector';
+import {ServerErrorInterceptor} from './core/interceptors/server-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import {RoomsModule} from './pages/rooms/rooms.module';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-    AuthenticationService,
+    {provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true},
+    {provide: ErrorHandler, useClass: AppErrorHandler},
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })

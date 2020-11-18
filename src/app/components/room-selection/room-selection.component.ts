@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {RoomService} from '../../services/room.service';
-import {Room} from '../../shared/models/room.model';
+import {Room} from '../../core/models/room.model';
+import {MatTableDataSource} from '@angular/material/table';
+import {Site} from '../../core/models/site.model';
 
 @Component({
   selector: 'app-room-selection',
@@ -24,13 +26,16 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
 
   private getRooms() {
     if (this.idSite) {
-      this.roomService.getBySite(this.idSite).subscribe(res => {
-        this.rooms = res;
+      this.roomService.getBySite(this.idSite);
+      this.roomService.roomsList$().subscribe(rooms => {
+        this.rooms = rooms;
       });
     }
   }
 
-  onValueChanged(selected: Room) {
+  onValueChanged(event: any) {
+    const selected: Room = event.value;
+    console.log(selected);
     if (selected) {
       this.selectedRoomChange.emit(selected);
     } else {

@@ -4,8 +4,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
-import {GlobalConstants} from '../shared/utils/global-constants';
-import {makeApiURL} from '../shared/utils/make-api-url';
+import {GlobalConstants} from '../core/utils/global-constants';
+import {makeApiURL} from '../core/utils/make-api-url';
 
 const defaultPath = '/';
 

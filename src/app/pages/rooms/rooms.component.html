@@ -23,11 +23,11 @@
 
     <ng-container matColumnDef="controls">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-      <td mat-cell *matCellDef="let row"> {{row.room_name}}
-        <mat-icon fontSet="material-icons-outlined" (click)="openRoomFormDialog(row)"
+      <td mat-cell *matCellDef="let row" class="controls">
+        <mat-icon fontSet="material-icons" (click)="openRoomFormDialog(row)"
                   [title]="'Modifier'">edit
         </mat-icon>
-        <mat-icon fontSet="material-icons-outlined" (click)="deleteRoom(row.id_room)" [title]="'Supprimer'">
+        <mat-icon fontSet="material-icons" (click)="deleteRoom(row.id_room)" [title]="'Supprimer'">
           delete
         </mat-icon>
       </td>

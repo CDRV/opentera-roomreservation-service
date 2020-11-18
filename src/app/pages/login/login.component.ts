@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -15,20 +15,27 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthenticationService
   ) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.redirect();
+
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
-  async onSubmit() {
+  private redirect() {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/home']);
+    }
+  }
+
+  onSubmit() {
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
     if (this.form.valid) {

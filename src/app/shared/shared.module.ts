@@ -14,8 +14,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {ConfirmationDialogComponent} from '../components/confirmation-dialog/confirmation-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {RoomFormDialogComponent} from "../components/room-form-dialog/room-form-dialog.component";
-import {MatInputModule} from "@angular/material/input";
+import {RoomFormDialogComponent} from '../components/room-form-dialog/room-form-dialog.component';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({

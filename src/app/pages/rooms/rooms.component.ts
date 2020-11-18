@@ -1,6 +1,6 @@
 import {RoomService} from '../../services/room.service';
-import {Room} from '../../shared/models/room.model';
-import {Site} from '../../shared/models/site.model';
+import {Room} from '../../core/models/room.model';
+import {Site} from '../../core/models/site.model';
 import {AfterViewInit, Component, ViewChild, OnInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -9,6 +9,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ConfirmationDialogComponent} from '../../components/confirmation-dialog/confirmation-dialog.component';
 import {RoomFormDialogComponent} from "../../components/room-form-dialog/room-form-dialog.component";
+import {NotificationService} from '../../services/notification.service';
 
 @Component({
   selector: 'app-rooms',
@@ -19,7 +20,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   private selectedSite: Site;
 
   constructor(private roomService: RoomService,
-              private snackBar: MatSnackBar,
+              private notificationService: NotificationService,
               public dialog: MatDialog) {
     this.rooms = [];
     this.dataSource = new MatTableDataSource(this.rooms);
@@ -76,24 +77,17 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.roomService.delete(idRoom).subscribe(() => {
-          this.openSnackBar('Le local ' + idRoom + ' a été supprimé.', 'X');
+          this.notificationService.showSuccess('Le local ' + idRoom + ' a été supprimé.');
         }, err => {
           console.error('Ce compte ne possède pas les permissions pour supprimer ce local.', err);
-          this.openSnackBar('Ce compte ne possède pas les permissions pour supprimer ce local.', 'X');
+          this.notificationService.showError('Ce compte ne possède pas les permissions pour supprimer ce local.');
         });
       }
     });
   }
 
-  private openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 3000,
-    });
-  }
-
   openRoomFormDialog(row: any) {
     const copy = {...row};
-    console.log(copy);
     const dialogRef = this.dialog.open(RoomFormDialogComponent, {
       width: '500px',
       data: copy ? copy : new Room()
@@ -101,13 +95,15 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        if (!result.id_room) {
+          result.id_room = 0;
+        }
         result.id_site = this.selectedSite.id_site;
-        console.log(result);
         this.roomService.save(result).subscribe((updated: Room) => {
-          this.openSnackBar('Le local ' + updated.room_name + ' a été sauvegardé.', 'X');
+          this.notificationService.showSuccess('Le local ' + updated.room_name + ' a été sauvegardé.');
         }, err => {
           console.error('Une erreur s\'est produite lors de la sauvegarde.', err);
-          this.openSnackBar('Une erreur s\'est produite lors de la sauvegarde.', 'X');
+          this.notificationService.showError('Une erreur s\'est produite lors de la sauvegarde.');
         });
       }
     });

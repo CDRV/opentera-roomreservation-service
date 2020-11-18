@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {makeApiURL} from '../shared/utils/make-api-url';
-import {Room} from '../shared/models/room.model';
+import {makeApiURL} from '../core/utils/make-api-url';
+import {Room} from '../core/models/room.model';
 import {tap} from 'rxjs/operators';
 
 @Injectable({
@@ -38,12 +38,16 @@ export class RoomService {
     );
   }
 
-  save(room: Room): Observable<Room> {
-    return this.http.post<Room>(this.API_URL + this.controller, room).pipe(
+  save(room: Room): Observable<any> {
+    return this.http.post(this.API_URL + this.controller, {room}).pipe(
       tap(result => {
-        console.log(result);
         room = result[0];
-        this.roomsList = [...this.roomsList, room];
+        const index = this.roomsList.findIndex(p => p.id_room === room.id_room);
+        if (index === -1) {
+          this.roomsList = [...this.roomsList, room];
+        } else {
+          this.roomsList[index] = room;
+        }
         this.roomsListSubject.next(this.roomsList);
       })
     );

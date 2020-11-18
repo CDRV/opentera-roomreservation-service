@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ScheduleService} from '../../services/schedule.service';
-import {Site} from '../../shared/models/site.model';
-import {Room} from '../../shared/models/room.model';
+import {Site} from '../../core/models/site.model';
+import {Room} from '../../core/models/room.model';
 
 @Component({
   selector: 'app-schedule',
