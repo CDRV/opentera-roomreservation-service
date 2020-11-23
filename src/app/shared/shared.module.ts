@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CalendarComponent} from '../components/calendar/calendar.component';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {FlatpickrModule} from 'angularx-flatpickr';
 import {CalendarModule, DateAdapter} from 'angular-calendar';
@@ -17,6 +17,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {RoomFormDialogComponent} from '../components/room-form-dialog/room-form-dialog.component';
 import {MatInputModule} from '@angular/material/input';
 import {ReservationFormDialogComponent} from '../components/reservation-form-dialog/reservation-form-dialog.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -35,6 +37,9 @@ import {ReservationFormDialogComponent} from '../components/reservation-form-dia
     MatDialogModule,
     MatSnackBarModule,
     MatInputModule,
+    NgxMaterialTimepickerModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     CalendarComponent,

@@ -1,11 +1,26 @@
-<h1 mat-dialog-title>Informations {{data.user_name}}</h1>
+<h1 mat-dialog-title>{{title}}</h1>
 <div mat-dialog-content>
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data.user_name">
-  </mat-form-field>
+
+  <form [formGroup]="reservationForm">
+    <mat-form-field>
+      <mat-label>User</mat-label>
+      <input matInput formControlName="user">
+    </mat-form-field>
+
+    <app-site-selection (selectedSiteChange)=" selectedSiteChange($event)"></app-site-selection>
+    <app-room-selection [idSite]="selectedSite.id_site" (selectedRoomChange)="selectedRoomChange($event)"></app-room-selection>
+
+    <ngx-timepicker-field formControlName="startTime"></ngx-timepicker-field>
+    <ngx-timepicker-field formControlName="endTime" [min]="getStartTime()"></ngx-timepicker-field>
+
+    <mat-checkbox [(ngModel)]="hasSession" [ngModelOptions]="{standalone: true}">Checked</mat-checkbox>
+
+    <div *ngIf="hasSession">Session part of form</div>
+  </form>
+
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="delete()">Delete</button>
   <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
 </div>

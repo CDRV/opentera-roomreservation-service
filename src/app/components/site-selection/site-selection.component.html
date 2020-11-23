@@ -1,6 +1,6 @@
 <mat-form-field appearance="fill">
   <mat-label>Site</mat-label>
-  <mat-select (selectionChange)="onValueChanged($event)">
+  <mat-select (selectionChange)="onValueChanged($event)" [value]="selectedOption">
     <mat-option *ngFor="let site of sites" [value]="site" >
       {{site.site_name}}
     </mat-option>

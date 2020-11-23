@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {RoomService} from '../../services/room.service';
 import {Room} from '../../core/models/room.model';
-import {MatTableDataSource} from '@angular/material/table';
-import {Site} from '../../core/models/site.model';
+import {SelectedRoomService} from '../../services/selected-room.service';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-room-selection',
@@ -13,8 +13,10 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
   @Output() selectedRoomChange = new EventEmitter();
   @Input() idSite: number;
   rooms = [];
+  selectedOption: any;
 
-  constructor(private roomService: RoomService) {
+  constructor(private roomService: RoomService,
+              private selectedRoomService: SelectedRoomService) {
   }
 
   ngOnInit(): void {
@@ -27,16 +29,27 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
   private getRooms() {
     if (this.idSite) {
       this.roomService.getBySite(this.idSite);
-      this.roomService.roomsList$().subscribe(rooms => {
-        this.rooms = rooms;
+      this.roomService.roomsList$().pipe(
+        switchMap(rooms => {
+          this.rooms = rooms;
+          return this.selectedRoomService.getSelectedRoom();
+        })
+      ).subscribe(room => {
+        if (room && room.id_room) {
+          const alreadySelected = this.rooms.find(p => p.id_room === room.id_room);
+          if (alreadySelected) {
+            this.selectedOption = alreadySelected;
+            this.selectedRoomChange.emit(alreadySelected);
+          }
+        }
       });
     }
   }
 
   onValueChanged(event: any) {
-    const selected: Room = event.value;
-    console.log(selected);
-    if (selected) {
+    if (event.value) {
+      const selected: Room = event.value;
+      this.selectedRoomService.setSelectedRoom(selected);
       this.selectedRoomChange.emit(selected);
     } else {
       this.selectedRoomChange.emit(null);

@@ -19,7 +19,6 @@ import {LoginLayoutComponent} from './shared/layout/login-layout/login-layout.co
 import {RoomsModule} from './pages/rooms/rooms.module';
 import {AppErrorHandler} from './core/interceptors/app-error-handler.injector';
 import {ServerErrorInterceptor} from './core/interceptors/server-error.interceptor';
-import { ReservationFormDialogComponent } from './components/reservation-form-dialog/reservation-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +39,7 @@ import { ReservationFormDialogComponent } from './components/reservation-form-di
     MatSidenavModule,
     MatButtonModule,
     MatListModule,
-    MatIconModule,
+    MatIconModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},

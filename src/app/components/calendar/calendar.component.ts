@@ -104,13 +104,6 @@ export class CalendarComponent implements OnInit, OnChanges {
     return day + '-' + month + '-' + date.getFullYear();
   }
 
-  constructor(private modal: NgbModal,
-              private notificationService: NotificationService,
-              public dialog: MatDialog,
-              private scheduleService: ScheduleService) {
-    this.currentDate = CalendarComponent.getPreviousMonday(new Date());
-  }
-
   private static createCalendarEvent(reservation: Reservation): CalendarEvent {
     const endDate = new Date(reservation.reservation_start_datetime);
     const hours = Math.floor(reservation.reservation_duration);
@@ -129,6 +122,13 @@ export class CalendarComponent implements OnInit, OnChanges {
         afterEnd: false,
       }
     };
+  }
+
+  constructor(private modal: NgbModal,
+              private notificationService: NotificationService,
+              public dialog: MatDialog,
+              private scheduleService: ScheduleService) {
+    this.currentDate = CalendarComponent.getPreviousMonday(new Date());
   }
 
   ngOnInit(): void {
@@ -217,7 +217,8 @@ export class CalendarComponent implements OnInit, OnChanges {
     const copy = {...item};
     const dialogRef = this.dialog.open(ReservationFormDialogComponent, {
       width: '500px',
-      data: copy ? copy : new Reservation()
+      data: copy ? copy : new Reservation(),
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {

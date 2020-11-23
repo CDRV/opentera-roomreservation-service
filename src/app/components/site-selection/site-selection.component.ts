@@ -1,6 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SiteService} from '../../services/site.service';
 import {Site} from '../../core/models/site.model';
+import {SelectedSiteService} from '../../services/selected-site.service';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-site-selection',
@@ -10,19 +12,33 @@ import {Site} from '../../core/models/site.model';
 export class SiteSelectionComponent implements OnInit {
   @Output() selectedSiteChange = new EventEmitter();
   sites = [];
+  selectedOption: any;
 
-  constructor(private siteService: SiteService) {
+  constructor(private siteService: SiteService,
+              private selectedSiteService: SelectedSiteService) {
   }
 
   ngOnInit() {
-    this.siteService.getAccessibleSites().subscribe(res => {
-      this.sites = res;
+    this.siteService.getAccessibleSites().pipe(
+      switchMap(res => {
+        this.sites = res;
+        return this.selectedSiteService.getSelectedSite();
+      })
+    ).subscribe(site => {
+      if (site && site.id_site) {
+        const alreadySelected = this.sites.find(p => p.id_site === site.id_site);
+        if (alreadySelected) {
+          this.selectedOption = alreadySelected;
+          this.selectedSiteChange.emit(alreadySelected);
+        }
+      }
     });
   }
 
   onValueChanged(event: any) {
-    const selected: Site = event.value;
-    if (selected) {
+    if (event.value) {
+      const selected: Site = event.value;
+      this.selectedSiteService.setSelectedSite(selected);
       this.selectedSiteChange.emit(selected);
     } else {
       this.selectedSiteChange.emit(null);

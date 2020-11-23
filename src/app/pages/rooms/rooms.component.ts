@@ -6,9 +6,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {ConfirmationDialogComponent} from '../../components/confirmation-dialog/confirmation-dialog.component';
-import {RoomFormDialogComponent} from "../../components/room-form-dialog/room-form-dialog.component";
+import {RoomFormDialogComponent} from '../../components/room-form-dialog/room-form-dialog.component';
 import {NotificationService} from '../../services/notification.service';
 
 @Component({
