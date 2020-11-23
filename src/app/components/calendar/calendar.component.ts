@@ -5,6 +5,9 @@ import {CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cale
 import {ScheduleService} from '../../services/schedule.service';
 import {Reservation} from '../../core/models/reservation.model';
 import {Subject} from 'rxjs';
+import {ReservationFormDialogComponent} from '../reservation-form-dialog/reservation-form-dialog.component';
+import {NotificationService} from '../../services/notification.service';
+import {MatDialog} from '@angular/material/dialog';
 
 const colors: any = {
   red: {
@@ -40,24 +43,6 @@ export class CalendarComponent implements OnInit, OnChanges {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
-
   calendarData: CalendarEvent[] = [];
   events: CalendarEvent[] = [
     {
@@ -65,7 +50,6 @@ export class CalendarComponent implements OnInit, OnChanges {
       end: addDays(new Date(), 1),
       title: 'A 3 day event',
       color: colors.red,
-      actions: this.actions,
       allDay: true,
       resizable: {
         beforeStart: true,
@@ -77,7 +61,6 @@ export class CalendarComponent implements OnInit, OnChanges {
       start: startOfDay(new Date()),
       title: 'An event with no end date',
       color: colors.yellow,
-      actions: this.actions,
     },
     {
       start: subDays(endOfMonth(new Date()), 3),
@@ -91,7 +74,6 @@ export class CalendarComponent implements OnInit, OnChanges {
       end: addHours(new Date(), 2),
       title: 'A draggable and resizable event',
       color: colors.yellow,
-      actions: this.actions,
       resizable: {
         beforeStart: true,
         afterEnd: true,
@@ -123,6 +105,8 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   constructor(private modal: NgbModal,
+              private notificationService: NotificationService,
+              public dialog: MatDialog,
               private scheduleService: ScheduleService) {
     this.currentDate = CalendarComponent.getPreviousMonday(new Date());
   }
@@ -156,57 +140,12 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+    console.log(date, events);
     if (isSameMonth(date, this.viewDate)) {
       this.activeDayIsOpen = !((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0);
       this.viewDate = date;
     }
-  }
-
-  eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd,
-                    }: CalendarEventTimesChangedEvent): void {
-    console.log('eventTimesChanged', {
-      event,
-      newStart,
-      newEnd,
-    });
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    console.log('handleEvent', event);
-    this.modalData = {event, action};
-    this.modal.open(this.modalContent, {size: 'lg'});
-  }
-
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -272,5 +211,22 @@ export class CalendarComponent implements OnInit, OnChanges {
         this.refresh.next();
       });
     }
+  }
+
+  openReservationFormDialog(item: any) {
+    const copy = {...item};
+    const dialogRef = this.dialog.open(ReservationFormDialogComponent, {
+      width: '500px',
+      data: copy ? copy : new Reservation()
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+        if (!result.id_room) {
+          result.id_room = 0;
+        }
+      }
+    });
   }
 }

@@ -16,6 +16,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {RoomFormDialogComponent} from '../components/room-form-dialog/room-form-dialog.component';
 import {MatInputModule} from '@angular/material/input';
+import {ReservationFormDialogComponent} from '../components/reservation-form-dialog/reservation-form-dialog.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {MatInputModule} from '@angular/material/input';
     SiteSelectionComponent,
     RoomSelectionComponent,
     ConfirmationDialogComponent,
-    RoomFormDialogComponent
+    RoomFormDialogComponent,
+    ReservationFormDialogComponent
   ],
   exports: [
     CalendarComponent,
@@ -49,7 +51,8 @@ import {MatInputModule} from '@angular/material/input';
   ],
   entryComponents: [
     ConfirmationDialogComponent,
-    RoomFormDialogComponent
+    RoomFormDialogComponent,
+    ReservationFormDialogComponent
   ]
 })
 export class SharedModule {

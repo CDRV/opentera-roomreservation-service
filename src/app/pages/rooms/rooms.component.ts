@@ -101,9 +101,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         result.id_site = this.selectedSite.id_site;
         this.roomService.save(result).subscribe((updated: Room) => {
           this.notificationService.showSuccess('Le local ' + updated.room_name + ' a été sauvegardé.');
-        }, err => {
-          console.error('Une erreur s\'est produite lors de la sauvegarde.', err);
-          this.notificationService.showError('Une erreur s\'est produite lors de la sauvegarde.');
         });
       }
     });

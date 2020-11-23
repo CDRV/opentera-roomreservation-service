@@ -1,6 +1,6 @@
 <h3>
   Edit events
-  <button mat-flat-button color="primary" (click)="addEvent()">
+  <button mat-flat-button color="primary" (click)="openReservationFormDialog(null)">
     Add new
   </button>
 </h3>
@@ -73,8 +73,7 @@
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
+    (eventClicked)="openReservationFormDialog($event.event)"
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view
@@ -83,8 +82,7 @@
     [events]="calendarData"
     [dayStartHour]="7"
     [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
+    (eventClicked)="openReservationFormDialog($event.event)"
   >
   </mwl-calendar-week-view>
   <mwl-calendar-day-view
@@ -94,8 +92,7 @@
     [refresh]="refresh"
     [dayStartHour]="7"
     draggable="false"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
+    (eventClicked)="openReservationFormDialog($event.event)"
   >
   </mwl-calendar-day-view>
 </div>
