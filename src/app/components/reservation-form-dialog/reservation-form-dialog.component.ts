@@ -11,6 +11,8 @@ import {Participant} from '../../core/models/participant.model';
 import {Session} from '../../core/models/session.model';
 import {UserInfosService} from '../../services/user-infos.service';
 import {UserInfos} from '../../core/models/user-infos.model';
+import {MatCheckboxChange} from '@angular/material/checkbox';
+import {TimeValidator} from '../../shared/validators/time-validator';
 
 @Component({
   selector: 'app-reservation-form-dialog',
@@ -23,7 +25,7 @@ export class ReservationFormDialogComponent implements OnInit {
   title: string;
   reservationForm: FormGroup;
   hasSession = false;
-  isFormValid = false;
+  isEnabled = false;
   selectedSite: Site;
   selectedRoom: Room;
   selectedParticipants: Participant[] = [];
@@ -36,6 +38,8 @@ export class ReservationFormDialogComponent implements OnInit {
               private userInfosService: UserInfosService,
               private notificationService: NotificationService,
               private scheduleService: ScheduleService) {
+    this.selectedRoom = new Room();
+    this.selectedSite = new Site();
   }
 
   onNoClick(): void {
@@ -63,8 +67,6 @@ export class ReservationFormDialogComponent implements OnInit {
       this.userInfos = infos;
     });
     this.initializeForm();
-    this.selectedRoom = new Room();
-    this.selectedSite = new Site();
     if (this.data.meta) {
       this.idReservation = this.data.meta;
       this.title = 'Informations ' + this.data.user_name;
@@ -80,12 +82,16 @@ export class ReservationFormDialogComponent implements OnInit {
     const inOneHour = new Date();
     inOneHour.setHours(inOneHour.getHours() + 1);
     this.reservationForm = this.fb.group({
-      user: new FormControl({value: this.userInfos.user_fullname, disabled: true}, Validators.required),
-      startDate: new FormControl(today, Validators.required),
-      startTime: new FormControl(today, Validators.required),
-      endTime: new FormControl(inOneHour, Validators.required),
-      test: new FormControl('')
-    });
+        user: new FormControl({value: this.userInfos.user_fullname, disabled: true}, Validators.required),
+        startDate: new FormControl(today, Validators.required),
+        startTime: new FormControl(today, Validators.required),
+        endTime: new FormControl(inOneHour, Validators.required),
+        hasSession: new FormControl(false)
+      },
+      {
+        validator: TimeValidator('endTime', 'startTime')
+      });
+
   }
 
   getReservation() {
@@ -97,7 +103,7 @@ export class ReservationFormDialogComponent implements OnInit {
 
   private setValues() {
     const startTime = new Date(this.reservation.reservation_start_datetime);
-    const endTime = this.addDuration();
+    const endTime = new Date(this.reservation.reservation_end_datetime);
 
     this.reservationForm.controls.user.setValue(this.reservation.user_name);
     this.reservationForm.controls.startDate.setValue(startTime);
@@ -109,26 +115,29 @@ export class ReservationFormDialogComponent implements OnInit {
     }
   }
 
-  private addDuration(): Date {
-    const endTime = new Date(this.reservation.reservation_start_datetime);
-    const duration = this.reservation.reservation_duration;
-    const hours = Math.floor(duration);
-    const minutes = duration % 1;
-    endTime.setHours(endTime.getHours() + hours);
-    endTime.setMinutes(endTime.getMinutes() + minutes);
-    return endTime;
-  }
-
   selectedSiteChange(selectedSite: Site) {
     this.selectedSite = selectedSite;
   }
 
   selectedRoomChange(selectedRoom: Room) {
     this.selectedRoom = selectedRoom;
+    this.enableSave();
   }
 
   selectedParticipantChange(selectedParticipant: Participant) {
     this.selectedParticipants.push(selectedParticipant);
+    this.enableSave();
+  }
+
+  enableSave() {
+    if (this.reservationForm.invalid // If form invalid
+      || !this.selectedRoom.hasOwnProperty('id_room') // No room selected
+      || (this.hasSession && this.selectedParticipants?.length === 0)) { // Missing session's information
+      this.validateAllFields(this.reservationForm); // Show errors in form
+      this.isEnabled = false; // Disable save button
+    } else {
+      this.isEnabled = true;
+    }
   }
 
   validate() {
@@ -136,9 +145,7 @@ export class ReservationFormDialogComponent implements OnInit {
       this.validateAllFields(this.reservationForm);
       return;
     }
-    if (!this.reservationForm.pristine) {
-      console.log('pristine');
-    }
+
     const reservation = this.createReservation();
     this.dialogRef.close(reservation);
   }
@@ -158,34 +165,35 @@ export class ReservationFormDialogComponent implements OnInit {
     const reservation = new Reservation();
     reservation.id_reservation = reservation.id_reservation ? reservation.id_reservation : 0;
     reservation.id_room = this.selectedRoom.id_room;
-    reservation.reservation_start_datetime = this.setStartDate();
-    reservation.reservation_duration = this.getDuration();
+    reservation.reservation_start_datetime = this.setDate(this.reservationForm.controls.startTime.value);
+    reservation.reservation_end_datetime = this.setDate(this.reservationForm.controls.endTime.value);
     reservation.user_uuid = this.userInfos.user_uuid;
     reservation.user_name = this.userInfos.user_fullname;
-    //reservation.session = this.createSession();
+    // reservation.session = this.createSession();
+    console.log(reservation);
     return reservation;
   }
 
-  private setStartDate(): Date {
-    const date: Date = this.reservationForm.controls.startDate.value;
-    const time: Date = this.reservationForm.controls.startTime.value;
+  private setDate(formValue: any): Date {
+    const date: Date = new Date(this.reservationForm.controls.startDate.value);
+    const time: Date = formValue;
     date.setHours(time.getHours(), time.getMinutes(), 0, 0);
     return date;
-  }
-
-  private getDuration(): number {
-    const start = this.reservationForm.controls.startTime.value;
-    const end = this.reservationForm.controls.endTime.value;
-    const startTime = start.getTime();
-    const endTime = end.getTime();
-    const diff = endTime - startTime;
-    const diffInHours = diff / 1000 / 60 / 60;
-    return Math.round((diffInHours + Number.EPSILON) * 100) / 100;
   }
 
   private createSession(): Session {
     const session = new Session();
     session.session_participants_ids = this.selectedParticipants.map(a => a.id_participant);
     return session;
+  }
+
+  change($event: any) {
+    this.enableSave();
+  }
+
+  changeSession(event: MatCheckboxChange) {
+    this.hasSession = event.checked;
+    console.log('changeSession', this.hasSession);
+    this.enableSave();
   }
 }

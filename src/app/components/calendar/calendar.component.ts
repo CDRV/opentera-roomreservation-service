@@ -106,16 +106,10 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   private static createCalendarEvent(reservation: Reservation): CalendarEvent {
-    const endDate = new Date(reservation.reservation_start_datetime);
-    const hours = Math.floor(reservation.reservation_duration);
-    const minutes = reservation.reservation_duration % 1;
-    endDate.setHours(endDate.getHours() + hours);
-    endDate.setMinutes(endDate.getMinutes() + minutes);
-
     return {
       title: reservation.user_name,
       start: new Date(reservation.reservation_start_datetime),
-      end: endDate,
+      end: new Date(reservation.reservation_end_datetime),
       color: colors.red,
       draggable: false,
       resizable: {
@@ -194,7 +188,6 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   private getSchedule(startDate: Date, endDate: Date) {
-    console.log('getScehdue', this.idRoom, startDate, endDate);
     if (this.idRoom) {
       this.currentDate = startDate;
       const start = CalendarComponent.getDateString(startDate);

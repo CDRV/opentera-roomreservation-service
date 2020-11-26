@@ -19,7 +19,8 @@
         <mat-label>
           Date
         </mat-label>
-        <input matInput [owlDateTimeTrigger]="startDate" [owlDateTime]="startDate" formControlName="startDate">
+        <input matInput [owlDateTimeTrigger]="startDate" [owlDateTime]="startDate" formControlName="startDate"
+               (dateTimeChange)="change($event)">
         <owl-date-time [pickerType]="'calendar'" #startDate></owl-date-time>
       </mat-form-field>
 
@@ -27,7 +28,8 @@
         <mat-label>
           Start
         </mat-label>
-        <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime">
+        <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime"
+               (dateTimeChange)="change($event)">
         <owl-date-time [pickerType]="'timer'" #start></owl-date-time>
       </mat-form-field>
 
@@ -35,26 +37,19 @@
         <mat-label>
           End
         </mat-label>
-        <input matInput [owlDateTimeTrigger]="end" [owlDateTime]="end" formControlName="endTime">
+        <input matInput [owlDateTimeTrigger]="end" [owlDateTime]="end" formControlName="endTime"
+               (dateTimeChange)="change($event)">
         <owl-date-time [pickerType]="'timer'" #end></owl-date-time>
       </mat-form-field>
 
     </div>
 
     <div class="column">
-      <mat-checkbox [(ngModel)]="hasSession" [ngModelOptions]="{standalone: true}">
+      <mat-checkbox formControlName="hasSession" (change)="changeSession($event)">
         Séance de téléréadaptation
       </mat-checkbox>
       <div *ngIf="hasSession" class="session">
         Session part of form
-
-        <mat-form-field>
-          <mat-label>User</mat-label>
-          <input matInput [required]="hasSession" formControlName="test">
-          <mat-error>
-            Required
-          </mat-error>
-        </mat-form-field>
       </div>
 
 
@@ -65,5 +60,5 @@
 <div class="buttons" mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
   <button mat-button (click)="delete()">Delete</button>
-  <button mat-button [disabled]="isFormValid" (click)="validate()" cdkFocusInitial>Save</button>
+  <button mat-button [disabled]="!isEnabled" (click)="validate()">Save</button>
 </div>

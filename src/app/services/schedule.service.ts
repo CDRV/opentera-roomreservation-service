@@ -24,7 +24,7 @@ export class ScheduleService {
   }
 
   delete(idReservation: number): Observable<any> {
-    return this.http.delete(this.API_URL + this.controller + 'id=' + idReservation);
+    return this.http.delete(this.API_URL + this.controller + '?id=' + idReservation);
   }
 
   save(reservation: Reservation): Observable<any> {
