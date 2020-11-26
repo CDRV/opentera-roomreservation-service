@@ -2,25 +2,68 @@
 <div mat-dialog-content>
 
   <form [formGroup]="reservationForm">
-    <mat-form-field>
-      <mat-label>User</mat-label>
-      <input matInput formControlName="user">
-    </mat-form-field>
+    <div class="column">
+      <mat-form-field>
+        <mat-label>User</mat-label>
+        <input matInput formControlName="user">
+      </mat-form-field>
 
-    <app-site-selection (selectedSiteChange)=" selectedSiteChange($event)"></app-site-selection>
-    <app-room-selection [idSite]="selectedSite.id_site" (selectedRoomChange)="selectedRoomChange($event)"></app-room-selection>
+      <app-site-selection (selectedSiteChange)=" selectedSiteChange($event)"></app-site-selection>
+      <app-room-selection [idSite]="selectedSite.id_site"
+                          (selectedRoomChange)="selectedRoomChange($event)"></app-room-selection>
+      <app-participant-selection [idSite]="selectedSite.id_site"
+                                 (selectedParticipantChange)="selectedParticipantChange($event)"></app-participant-selection>
 
-    <ngx-timepicker-field formControlName="startTime"></ngx-timepicker-field>
-    <ngx-timepicker-field formControlName="endTime" [min]="getStartTime()"></ngx-timepicker-field>
 
-    <mat-checkbox [(ngModel)]="hasSession" [ngModelOptions]="{standalone: true}">Checked</mat-checkbox>
+      <mat-form-field>
+        <mat-label>
+          Date
+        </mat-label>
+        <input matInput [owlDateTimeTrigger]="startDate" [owlDateTime]="startDate" formControlName="startDate">
+        <owl-date-time [pickerType]="'calendar'" #startDate></owl-date-time>
+      </mat-form-field>
 
-    <div *ngIf="hasSession">Session part of form</div>
+      <mat-form-field>
+        <mat-label>
+          Start
+        </mat-label>
+        <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime">
+        <owl-date-time [pickerType]="'timer'" #start></owl-date-time>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>
+          End
+        </mat-label>
+        <input matInput [owlDateTimeTrigger]="end" [owlDateTime]="end" formControlName="endTime">
+        <owl-date-time [pickerType]="'timer'" #end></owl-date-time>
+      </mat-form-field>
+
+    </div>
+
+    <div class="column">
+      <mat-checkbox [(ngModel)]="hasSession" [ngModelOptions]="{standalone: true}">
+        Séance de téléréadaptation
+      </mat-checkbox>
+      <div *ngIf="hasSession" class="session">
+        Session part of form
+
+        <mat-form-field>
+          <mat-label>User</mat-label>
+          <input matInput [required]="hasSession" formControlName="test">
+          <mat-error>
+            Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+
+    </div>
   </form>
 
 </div>
-<div mat-dialog-actions>
+<div class="buttons" mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
   <button mat-button (click)="delete()">Delete</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+  <button mat-button [disabled]="isFormValid" (click)="validate()" cdkFocusInitial>Save</button>
 </div>

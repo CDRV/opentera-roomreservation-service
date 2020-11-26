@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>Participant</mat-label>
+  <mat-select (selectionChange)="onValueChanged($event)" [value]="selectedOption">
+    <mat-option *ngFor="let participant of participants" [value]="participant">
+      {{participant.participant_name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

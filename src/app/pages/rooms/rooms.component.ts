@@ -9,6 +9,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationDialogComponent} from '../../components/confirmation-dialog/confirmation-dialog.component';
 import {RoomFormDialogComponent} from '../../components/room-form-dialog/room-form-dialog.component';
 import {NotificationService} from '../../services/notification.service';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-rooms',
@@ -17,6 +18,7 @@ import {NotificationService} from '../../services/notification.service';
 })
 export class RoomsComponent implements OnInit, AfterViewInit {
   private selectedSite: Site;
+  private refreshing: boolean;
 
   constructor(private roomService: RoomService,
               private notificationService: NotificationService,
@@ -33,23 +35,30 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
+    this.getRooms();
   }
 
   selectedSiteChange(selected: Site) {
     if (selected) {
       this.selectedSite = selected;
-      this.getRooms(selected.id_site);
+      this.refreshRooms();
     } else {
       this.selectedSite = null;
       this.rooms = [];
     }
   }
 
-  private getRooms(idSite: number) {
-    this.roomService.getBySite(idSite);
-    this.roomService.roomsList$().subscribe(rooms => {
+  private getRooms() {
+    this.roomService.roomsList$().subscribe((rooms: Room[]) => {
       this.rooms = rooms;
       this.dataSource = new MatTableDataSource(rooms);
+    });
+  }
+
+  private refreshRooms() {
+    this.refreshing = true;
+    this.roomService.getBySite(this.selectedSite.id_site).subscribe(() => {
+      this.refreshing = false;
     });
   }
 
@@ -92,7 +101,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       data: copy ? copy : new Room()
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
       if (result) {
         if (!result.id_room) {
           result.id_room = 0;

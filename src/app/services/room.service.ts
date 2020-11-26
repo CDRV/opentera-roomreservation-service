@@ -22,11 +22,12 @@ export class RoomService {
     return this.roomsListSubject.asObservable();
   }
 
-  getBySite(idSite: number) {
-    this.http.get<Room[]>(this.API_URL + this.controller + '?id_site=' + idSite).subscribe(result => {
-      this.roomsList = result;
-      this.roomsListSubject.next(this.roomsList);
-    });
+  getBySite(idSite: number): Observable<Room[]> {
+    return this.http.get<Room[]>(this.API_URL + this.controller + '?id_site=' + idSite).pipe(
+      tap(result => {
+        this.roomsList = result;
+        this.roomsListSubject.next(this.roomsList);
+      }));
   }
 
   delete(idRoom: number): Observable<any> {

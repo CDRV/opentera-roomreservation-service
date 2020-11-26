@@ -19,6 +19,8 @@ import {LoginLayoutComponent} from './shared/layout/login-layout/login-layout.co
 import {RoomsModule} from './pages/rooms/rooms.module';
 import {AppErrorHandler} from './core/interceptors/app-error-handler.injector';
 import {ServerErrorInterceptor} from './core/interceptors/server-error.interceptor';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -39,13 +41,17 @@ import {ServerErrorInterceptor} from './core/interceptors/server-error.intercept
     MatSidenavModule,
     MatButtonModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true},
     {provide: ErrorHandler, useClass: AppErrorHandler},
     AuthenticationService
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })

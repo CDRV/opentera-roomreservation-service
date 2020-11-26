@@ -3,6 +3,7 @@ import {RoomService} from '../../services/room.service';
 import {Room} from '../../core/models/room.model';
 import {SelectedRoomService} from '../../services/selected-room.service';
 import {switchMap} from 'rxjs/operators';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-room-selection',
@@ -14,34 +15,43 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
   @Input() idSite: number;
   rooms = [];
   selectedOption: any;
+  private refreshing: boolean;
 
   constructor(private roomService: RoomService,
               private selectedRoomService: SelectedRoomService) {
   }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
     this.getRooms();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.refreshRooms();
+  }
+
   private getRooms() {
-    if (this.idSite) {
-      this.roomService.getBySite(this.idSite);
-      this.roomService.roomsList$().pipe(
-        switchMap(rooms => {
-          this.rooms = rooms;
-          return this.selectedRoomService.getSelectedRoom();
-        })
-      ).subscribe(room => {
-        if (room && room.id_room) {
-          const alreadySelected = this.rooms.find(p => p.id_room === room.id_room);
-          if (alreadySelected) {
-            this.selectedOption = alreadySelected;
-            this.selectedRoomChange.emit(alreadySelected);
-          }
+    this.roomService.roomsList$().pipe(
+      switchMap(rooms => {
+        this.rooms = rooms;
+        return this.selectedRoomService.getSelectedRoom();
+      })
+    ).subscribe(room => {
+      if (room && room.id_room) {
+        const alreadySelected = this.rooms.find(p => p.id_room === room.id_room);
+        if (alreadySelected) {
+          this.selectedOption = alreadySelected;
+          this.selectedRoomChange.emit(alreadySelected);
         }
+      }
+    });
+  }
+
+  private refreshRooms() {
+    if (this.idSite) {
+      this.refreshing = true;
+      this.roomService.getBySite(this.idSite).subscribe(res => {
+        console.log(res);
+        this.refreshing = false;
       });
     }
   }

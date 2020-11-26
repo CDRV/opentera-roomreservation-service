@@ -1,6 +1,6 @@
 export class GlobalConstants {
   static protocol = 'https';
-  static hostname = '127.0.0.1';
+  static hostname = 'localhost';
   static port = 40075;
   static tsService = 'api/';
   static roomService = 'room/';

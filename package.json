@@ -28,8 +28,8 @@
     "bootstrap": "^4.5.0",
     "date-fns": "^2.16.1",
     "flatpickr": "^4.6.6",
+    "ng-pick-datetime": "^7.0.0",
     "ngx-cookie-service": "^10.1.1",
-    "ngx-material-timepicker": "^5.5.3",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

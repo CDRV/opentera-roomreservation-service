@@ -20,10 +20,14 @@ export class ScheduleService {
   }
 
   getById(idReservation: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(this.API_URL + this.controller + 'id_reservation=' + idReservation);
+    return this.http.get<Reservation[]>(this.API_URL + this.controller + '?id_reservation=' + idReservation);
   }
 
   delete(idReservation: number): Observable<any> {
     return this.http.delete(this.API_URL + this.controller + 'id=' + idReservation);
+  }
+
+  save(reservation: Reservation): Observable<any> {
+    return this.http.post(this.API_URL + this.controller, {reservation});
   }
 }

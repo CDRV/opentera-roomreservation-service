@@ -17,8 +17,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {RoomFormDialogComponent} from '../components/room-form-dialog/room-form-dialog.component';
 import {MatInputModule} from '@angular/material/input';
 import {ReservationFormDialogComponent} from '../components/reservation-form-dialog/reservation-form-dialog.component';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {ParticipantSelectionComponent} from '../components/participant-selection/participant-selection.component';
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 
 
 @NgModule({
@@ -37,14 +38,16 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatDialogModule,
     MatSnackBarModule,
     MatInputModule,
-    NgxMaterialTimepickerModule,
     MatCheckboxModule,
     ReactiveFormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   declarations: [
     CalendarComponent,
     SiteSelectionComponent,
     RoomSelectionComponent,
+    ParticipantSelectionComponent,
     ConfirmationDialogComponent,
     RoomFormDialogComponent,
     ReservationFormDialogComponent
@@ -52,7 +55,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   exports: [
     CalendarComponent,
     SiteSelectionComponent,
-    RoomSelectionComponent
+    RoomSelectionComponent,
+    ParticipantSelectionComponent
   ],
   entryComponents: [
     ConfirmationDialogComponent,

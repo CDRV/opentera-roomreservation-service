@@ -20,4 +20,7 @@ export class Session {
   session_participants: Participant[];
   session_users: User[];
   session_devices: Device[];
+
+  session_participants_ids: number[];
+  session_users_ids: number[];
 }

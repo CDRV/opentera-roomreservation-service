@@ -1,13 +1,14 @@
 import {Component, ChangeDetectionStrategy, OnInit, ViewChild, TemplateRef, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
+import {startOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView} from 'angular-calendar';
+import {CalendarEvent, CalendarView} from 'angular-calendar';
 import {ScheduleService} from '../../services/schedule.service';
 import {Reservation} from '../../core/models/reservation.model';
 import {Subject} from 'rxjs';
 import {ReservationFormDialogComponent} from '../reservation-form-dialog/reservation-form-dialog.component';
 import {NotificationService} from '../../services/notification.service';
 import {MatDialog} from '@angular/material/dialog';
+import {take} from 'rxjs/operators';
 
 const colors: any = {
   red: {
@@ -120,7 +121,8 @@ export class CalendarComponent implements OnInit, OnChanges {
       resizable: {
         beforeStart: false,
         afterEnd: false,
-      }
+      },
+      meta: reservation.id_reservation
     };
   }
 
@@ -146,10 +148,6 @@ export class CalendarComponent implements OnInit, OnChanges {
         events.length === 0);
       this.viewDate = date;
     }
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
   setView(view: CalendarView) {
@@ -216,17 +214,18 @@ export class CalendarComponent implements OnInit, OnChanges {
   openReservationFormDialog(item: any) {
     const copy = {...item};
     const dialogRef = this.dialog.open(ReservationFormDialogComponent, {
-      width: '500px',
+      width: '800px',
       data: copy ? copy : new Reservation(),
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      if (result) {
-        if (!result.id_room) {
-          result.id_room = 0;
-        }
+    dialogRef.afterClosed().pipe(take(1)).subscribe(reservation => {
+      console.log(reservation);
+      if (reservation) {
+        console.log('reservation', reservation);
+        this.scheduleService.save(reservation).subscribe(res => {
+          console.log(res);
+        });
       }
     });
   }
