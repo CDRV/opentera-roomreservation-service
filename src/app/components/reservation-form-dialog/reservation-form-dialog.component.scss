@@ -3,7 +3,7 @@ form {
   flex-wrap: wrap;
   flex-direction: row;
 
-  .column  {
+  .column {
     display: flex;
     padding: 10px;
     width: 50%;
@@ -11,6 +11,10 @@ form {
 
     .session {
       padding-top: 16px;
+    }
+
+    mat-checkbox {
+      padding-bottom: 0.7em;
     }
   }
 

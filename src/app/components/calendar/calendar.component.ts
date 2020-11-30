@@ -136,7 +136,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
-    console.log(date, events);
+    console.log('dayClicked', events);
     if (isSameMonth(date, this.viewDate)) {
       this.activeDayIsOpen = !((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0);
@@ -150,14 +150,12 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   closeOpenMonthViewDay(event: Date) {
-    console.log('closeOpenMonthViewDay', event);
     this.currentDate = CalendarComponent.getPreviousMonday(new Date(event));
     this.activeDayIsOpen = false;
     this.dateChange();
   }
 
   dateChange() {
-    console.log(this.currentDate);
     if (this.view === 'day') {
       this.getDayData(this.currentDate);
     } else if (this.view === 'week') {
@@ -213,7 +211,6 @@ export class CalendarComponent implements OnInit, OnChanges {
     });
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(reservation => {
-      console.log(reservation);
       if (reservation) {
         console.log('reservation', reservation);
         this.scheduleService.save(reservation).subscribe(res => {
