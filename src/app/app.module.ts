@@ -9,18 +9,11 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationService} from './services/authentication.service';
 import {LoginModule} from './pages/login/login.module';
 import {ScheduleModule} from './pages/schedule/schedule.module';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatButtonModule} from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
-import {MatIconModule} from '@angular/material/icon';
 import {AppLayoutComponent} from './shared/layout/app-layout/app-layout.component';
 import {LoginLayoutComponent} from './shared/layout/login-layout/login-layout.component';
 import {RoomsModule} from './pages/rooms/rooms.module';
 import {AppErrorHandler} from './core/interceptors/app-error-handler.injector';
 import {ServerErrorInterceptor} from './core/interceptors/server-error.interceptor';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -37,13 +30,6 @@ import {MatSelectModule} from '@angular/material/select';
     ScheduleModule,
     RoomsModule,
     HttpClientModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatListModule,
-    MatIconModule,
-    MatInputModule,
-    MatSelectModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
