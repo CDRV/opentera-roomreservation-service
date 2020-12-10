@@ -14,6 +14,7 @@ import {LoginLayoutComponent} from './shared/layout/login-layout/login-layout.co
 import {RoomsModule} from './pages/rooms/rooms.module';
 import {AppErrorHandler} from './core/interceptors/app-error-handler.injector';
 import {ServerErrorInterceptor} from './core/interceptors/server-error.interceptor';
+import {AppMaterialModule} from './shared/app-material.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {ServerErrorInterceptor} from './core/interceptors/server-error.intercept
     ScheduleModule,
     RoomsModule,
     HttpClientModule,
+    AppMaterialModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
