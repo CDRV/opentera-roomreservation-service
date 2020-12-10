@@ -201,13 +201,14 @@ export class ReservationFormDialogComponent implements OnInit {
   private getDuration(startString: string, endString: string): number {
     const start = this.setDate(startString);
     const end = this.setDate(endString);
-    return Math.abs(end.getTime() - start.getTime()) / 60 * 60 * 1000;
+    const diffMs = end.getTime() - start.getTime();
+    return Math.floor(diffMs / 60000);
   }
 
   private createSession(): Session {
     const session = new Session();
     session.session_name = 'Séance télé';
-    session.id_session = this.session.id_session ? this.session.id_session : 0;
+    session.id_session = this.session?.id_session ? this.session.id_session : 0;
     session.session_participants_ids = this.selectedParticipants.map(a => a.id_participant);
     return session;
   }
