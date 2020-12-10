@@ -44,7 +44,8 @@ import {AppMaterialModule} from './app-material.module';
     CalendarComponent,
     SiteSelectionComponent,
     RoomSelectionComponent,
-    ParticipantSelectionComponent
+    ParticipantSelectionComponent,
+    AppMaterialModule
   ],
   entryComponents: [
     ConfirmationDialogComponent,
