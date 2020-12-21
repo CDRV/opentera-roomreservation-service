@@ -3,8 +3,8 @@
 
   <form [formGroup]="reservationForm">
     <div class="column">
-      <mat-form-field>
-        <mat-label>User</mat-label>
+      <mat-form-field appearance="outline">
+        <mat-label>Utilisateur</mat-label>
         <input matInput formControlName="user">
       </mat-form-field>
 
@@ -12,7 +12,7 @@
       <app-room-selection [idSite]="selectedSite.id_site"
                           (selectedRoomChange)="selectedRoomChange($event)"></app-room-selection>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>
           Date
         </mat-label>
@@ -21,9 +21,9 @@
         <owl-date-time [pickerType]="'calendar'" #startDate></owl-date-time>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>
-          Start
+          Début
         </mat-label>
         <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime"
                (dateTimeChange)="change($event)">
@@ -31,9 +31,9 @@
       </mat-form-field>
 
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>
-          End
+          Fin
         </mat-label>
         <input matInput [owlDateTimeTrigger]="end" [owlDateTime]="end" formControlName="endTime"
                (dateTimeChange)="change($event)">
@@ -48,6 +48,13 @@
       <div *ngIf="hasSession" class="session">
         <app-participant-selection [idSite]="selectedSite.id_site"
                                    (selectedParticipantChange)="selectedParticipantChange($event)"></app-participant-selection>
+        <mat-list>
+          <div mat-subheader>Participants</div>
+          <mat-list-item *ngFor="let participant of selectedParticipants">
+            <mat-icon mat-list-icon (click)="deleteParticipant(participant.id_participant)" class="delete">delete</mat-icon>
+            <div mat-line>{{participant.participant_name}}</div>
+          </mat-list-item>
+        </mat-list>
       </div>
 
 
@@ -56,7 +63,7 @@
 
 </div>
 <div class="buttons" mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="delete()">Delete</button>
-  <button mat-button [disabled]=isEnabled (click)="validate()">Save</button>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button [disabled]=!this.idReservation (click)="delete()">Supprimer</button>
+  <button mat-button [disabled]=!isSaveButtonEnabled (click)="validate()">Sauvegarder</button>
 </div>

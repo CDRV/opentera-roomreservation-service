@@ -21,6 +21,6 @@ export class Session {
   session_users: User[];
   session_devices: Device[];
 
-  session_participants_ids: number[];
-  session_users_ids: number[];
+  session_participants_uuids: string[];
+  session_users_uuids: string[];
 }

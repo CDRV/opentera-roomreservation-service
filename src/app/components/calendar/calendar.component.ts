@@ -1,4 +1,13 @@
-import {Component, ChangeDetectionStrategy, OnInit, ViewChild, TemplateRef, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  ViewChild,
+  TemplateRef,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import {startOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
@@ -33,16 +42,11 @@ const colors: any = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarComponent implements OnInit, OnChanges {
-  @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
   @Input() idRoom: number;
 
   view: CalendarView = CalendarView.Week;
   calendarView = CalendarView;
   viewDate: Date = new Date();
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
 
   calendarData: CalendarEvent[] = [];
   events: CalendarEvent[] = [
@@ -120,8 +124,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     };
   }
 
-  constructor(private modal: NgbModal,
-              private notificationService: NotificationService,
+  constructor(private notificationService: NotificationService,
               public dialog: MatDialog,
               private scheduleService: ScheduleService) {
     this.currentDate = CalendarComponent.getPreviousMonday(new Date());
@@ -215,7 +218,10 @@ export class CalendarComponent implements OnInit, OnChanges {
         console.log('reservation', reservation);
         this.scheduleService.save(reservation).subscribe(res => {
           console.log(res);
+          this.dateChange();
         });
+      } else {
+        this.dateChange();
       }
     });
   }

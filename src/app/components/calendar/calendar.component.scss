@@ -13,11 +13,11 @@ pre {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
 
-.calendar-controls h3 {
-  width: auto;
-  margin: 0;
+  h3 {
+    width: auto;
+    margin: 0;
+  }
 }
 
 .buttons-wrapper {
@@ -25,18 +25,19 @@ pre {
   align-items: center;
   justify-content: center;
   width: 30%;
+
+  button:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  button:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  button:nth-child(2) {
+    border-radius: 0;
+  }
 }
 
-.buttons-wrapper button:first-child {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.buttons-wrapper button:last-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.buttons-wrapper button:nth-child(2) {
-  border-radius: 0;
-}

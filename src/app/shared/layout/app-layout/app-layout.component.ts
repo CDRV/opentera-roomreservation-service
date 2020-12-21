@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
 import {UserInfosService} from '../../../services/user-infos.service';
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-app-layout',
@@ -13,6 +14,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
 
   constructor(changeDetectorRef: ChangeDetectorRef,
               media: MediaMatcher,
+              private authService: AuthenticationService,
               private userInfosService: UserInfosService,
               public router: Router) {
     this.mobileQuery = media.matchMedia('(max-width: 1000px)');
@@ -39,4 +41,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
+  logout() {
+    this.authService.logOut().subscribe();
+  }
 }

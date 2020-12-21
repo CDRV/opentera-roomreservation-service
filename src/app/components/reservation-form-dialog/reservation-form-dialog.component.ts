@@ -25,7 +25,7 @@ export class ReservationFormDialogComponent implements OnInit {
   title: string;
   reservationForm: FormGroup;
   hasSession = false;
-  isEnabled = false;
+  isSaveButtonEnabled = false;
   selectedSite: Site;
   selectedRoom: Room;
   selectedParticipants: Participant[] = [];
@@ -37,8 +37,7 @@ export class ReservationFormDialogComponent implements OnInit {
     const msLocal = date.getTime() - offsetMs;
     const dateLocal = new Date(msLocal);
     const iso = dateLocal.toISOString();
-    const isoLocal = iso.slice(0, 19);
-    return isoLocal;
+    return iso.slice(0, 19);
   }
 
   constructor(public dialogRef: MatDialogRef<ReservationFormDialogComponent>,
@@ -79,7 +78,6 @@ export class ReservationFormDialogComponent implements OnInit {
     this.initializeForm();
     if (this.data.meta) {
       this.idReservation = this.data.meta;
-      this.title = 'Informations ' + this.data.user_name;
       this.getReservation();
     } else {
       this.reservation = new Reservation();
@@ -118,14 +116,17 @@ export class ReservationFormDialogComponent implements OnInit {
     const startTime = new Date(this.reservation.reservation_start_datetime);
     const endTime = new Date(this.reservation.reservation_end_datetime);
 
+    this.title = 'Informations de la réservation à ' + this.reservation.user_name;
     this.reservationForm.controls.user.setValue(this.reservation.user_name);
     this.reservationForm.controls.startDate.setValue(startTime);
     this.reservationForm.controls.startTime.setValue(startTime);
     this.reservationForm.controls.endTime.setValue(endTime);
 
     if (this.reservation.session) {
-      console.log(this.reservation.session);
+      this.title = this.session.session_name;
       this.session = this.reservation.session[0];
+      this.hasSession = true;
+      this.reservationForm.controls.hasSession.setValue(true);
       this.selectedParticipants = this.session.session_participants;
     }
   }
@@ -140,7 +141,10 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   selectedParticipantChange(selectedParticipant: Participant) {
-    this.selectedParticipants.push(selectedParticipant);
+    const found = this.selectedParticipants.some(participant => participant.id_participant === selectedParticipant.id_participant);
+    if (!found) {
+      this.selectedParticipants.push(selectedParticipant);
+    }
     this.enableSave();
   }
 
@@ -149,11 +153,10 @@ export class ReservationFormDialogComponent implements OnInit {
       || !this.selectedRoom.hasOwnProperty('id_room') // No room selected
       || (this.hasSession && this.selectedParticipants?.length === 0)) { // Missing session's information
       this.validateAllFields(this.reservationForm); // Show errors in form
-      this.isEnabled = false; // Disable save button
+      this.isSaveButtonEnabled = false; // Disable save button
     } else {
-      this.isEnabled = true;
+      this.isSaveButtonEnabled = true;
     }
-    console.log(this.isEnabled, this.reservationForm.invalid, !this.selectedRoom.hasOwnProperty('id_room'), this.hasSession && this.selectedParticipants?.length === 0);
   }
 
   validate() {
@@ -176,8 +179,10 @@ export class ReservationFormDialogComponent implements OnInit {
     const reservation = new Reservation();
     reservation.id_reservation = reservation.id_reservation ? reservation.id_reservation : 0;
     reservation.id_room = this.selectedRoom.id_room;
-    reservation.reservation_start_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(this.setDate(this.reservationForm.controls.startTime.value));
-    reservation.reservation_end_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(this.setDate(this.reservationForm.controls.endTime.value));
+    reservation.reservation_start_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
+      this.setDate(this.reservationForm.controls.startTime.value));
+    reservation.reservation_end_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
+      this.setDate(this.reservationForm.controls.endTime.value));
     reservation.user_uuid = this.userInfos.user_uuid;
     reservation.user_name = this.userInfos.user_fullname;
 
@@ -209,7 +214,8 @@ export class ReservationFormDialogComponent implements OnInit {
     const session = new Session();
     session.session_name = 'Séance télé';
     session.id_session = this.session?.id_session ? this.session.id_session : 0;
-    session.session_participants_ids = this.selectedParticipants.map(a => a.id_participant);
+    session.session_users_uuids = [this.userInfos.user_uuid];
+    session.session_participants_uuids = this.selectedParticipants.map(a => a.participant_uuid);
     return session;
   }
 
@@ -220,5 +226,9 @@ export class ReservationFormDialogComponent implements OnInit {
   changeSession(event: MatCheckboxChange) {
     this.hasSession = event.checked;
     this.enableSave();
+  }
+
+  deleteParticipant(id: number) {
+    this.selectedParticipants = this.selectedParticipants.filter(participant => participant.id_participant !== id);
   }
 }
