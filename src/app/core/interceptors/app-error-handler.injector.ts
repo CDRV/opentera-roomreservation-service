@@ -22,9 +22,8 @@ export class AppErrorHandler implements ErrorHandler {
     } else {
       // Client Error
       message = errorService.getClientMessage(error);
-      notifier.showError(message);
     }
 
-    console.error(error);
+    console.error(message, error);
   }
 }
