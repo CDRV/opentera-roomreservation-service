@@ -1,0 +1,10 @@
+.logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .text {
+    display: flex;
+    flex-direction: column;
+  }
+}

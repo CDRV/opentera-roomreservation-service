@@ -1,5 +1,5 @@
-import {ErrorHandler, NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {ErrorHandler, LOCALE_ID, NgModule} from '@angular/core';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserModule} from '@angular/platform-browser';
@@ -15,6 +15,9 @@ import {RoomsModule} from './pages/rooms/rooms.module';
 import {AppErrorHandler} from './core/interceptors/app-error-handler.injector';
 import {ServerErrorInterceptor} from './core/interceptors/server-error.interceptor';
 import {AppMaterialModule} from './shared/app-material.module';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -31,16 +34,16 @@ import {AppMaterialModule} from './shared/app-material.module';
     ScheduleModule,
     RoomsModule,
     HttpClientModule,
-    AppMaterialModule,
+    AppMaterialModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ServerErrorInterceptor, multi: true},
     {provide: ErrorHandler, useClass: AppErrorHandler},
+    {provide: LOCALE_ID, useValue: 'FR-fr'},
     AuthenticationService
   ],
-  exports: [
-  ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -5,10 +5,10 @@ import {RoomsComponent} from './rooms.component';
 
 @NgModule({
   declarations: [RoomsComponent],
-    imports: [
-        CommonModule,
-        SharedModule
-    ]
+  imports: [
+    SharedModule,
+    CommonModule,
+  ]
 })
 export class RoomsModule {
 }
