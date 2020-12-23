@@ -1,9 +1,65 @@
-mat-card {
-  max-width: 400px;
-  margin: 2em auto;
-  text-align: center;
+.login-container {
+  background-color: var(--primary-color);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-mat-form-field {
-  display: block;
+mat-card {
+  width:100%;
+  max-width: 500px;
+  text-align: center;
+  padding: 40px 0 80px;
+
+  form {
+    padding-top: 20px;
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  mat-form-field {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  mat-error {
+    padding-bottom: 3px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  footer {
+    left: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    font-size: 12px;
+    position: absolute;
+    align-items: center;
+    padding-bottom: 20px;
+    color: var(--light-text);
+    justify-content: space-between;
+
+    .version {
+      min-width: 20%;
+      margin-left: 10%;
+      text-align: left;
+    }
+
+    .organism {
+      text-align: right;
+      margin-right: 10%;
+    }
+
+    a {
+      color: var(--light-text);
+      text-decoration: none;
+    }
+
+  }
 }
+

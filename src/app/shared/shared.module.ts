@@ -12,10 +12,10 @@ import {ConfirmationDialogComponent} from '../components/confirmation-dialog/con
 import {RoomFormDialogComponent} from '../components/room-form-dialog/room-form-dialog.component';
 import {ReservationFormDialogComponent} from '../components/reservation-form-dialog/reservation-form-dialog.component';
 import {ParticipantSelectionComponent} from '../components/participant-selection/participant-selection.component';
-import {OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
 import {AppMaterialModule} from './app-material.module';
 import {LogoComponent} from '../components/logo/logo.component';
 import {AngularSvgIconModule} from 'angular-svg-icon';
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@danielmoncada/angular-datetime-picker';
 
 
 @NgModule({

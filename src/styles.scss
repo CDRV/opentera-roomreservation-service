@@ -1,18 +1,23 @@
 /* Components style from libraries */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
-@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
-html, body {
+html, body, app-root, app-app-layout, app-login-layout {
+  width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 body {
+  overflow: hidden;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   --field-background: #f1f5f9;
+  --light-text: #787e8a;
 }
 
 /****** THEME ******/
@@ -29,6 +34,7 @@ body {
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Material+Icons');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
 $fontConfig: (
   display-4: mat-typography-level(112px, 112px, 300, 'Open Sans', -0.0134em),
@@ -269,7 +275,11 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 /****** FORM FIELDS ******/
 .mat-form-field-appearance-outline {
   .mat-form-field-outline {
-    color: transparent;
+    color: var(--field-background);
+
+    &:hover {
+      color: var(--primary-color);
+    }
   }
 
   .mat-form-field-outline-start,
