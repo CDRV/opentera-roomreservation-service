@@ -49,7 +49,6 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
     if (this.idSite) {
       this.refreshing = true;
       this.roomService.getBySite(this.idSite).subscribe(res => {
-        console.log(res);
         this.refreshing = false;
       });
     }
