@@ -1,3 +1,5 @@
+<app-page-title [pageTitle]="'Horaire'"></app-page-title>
+
 <div class="filters">
   <app-site-selection (selectedSiteChange)="selectedSiteChange($event)"></app-site-selection>
   <app-room-selection [idSite]="selectedSite.id_site"

@@ -2,7 +2,8 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
 import {UserInfosService} from '../../../services/user-infos.service';
-import {AuthenticationService} from "../../../services/authentication.service";
+import {AuthenticationService} from '../../../services/authentication.service';
+import {GlobalConstants} from "../../../core/utils/global-constants";
 
 @Component({
   selector: 'app-app-layout',
@@ -11,6 +12,8 @@ import {AuthenticationService} from "../../../services/authentication.service";
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
   private refreshing: boolean;
+  version = GlobalConstants.version;
+  organism = GlobalConstants.organism;
 
   constructor(changeDetectorRef: ChangeDetectorRef,
               media: MediaMatcher,
@@ -43,5 +46,9 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logOut().subscribe();
+  }
+
+  goHome() {
+    this.router.navigate(['/']);
   }
 }
