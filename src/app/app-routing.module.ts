@@ -16,19 +16,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'horaire',
         pathMatch: 'full'
       },
       {
-        path: 'home',
-        component: ScheduleComponent
-      },
-      {
-        path: 'rooms',
+        path: 'locaux',
         component: RoomsComponent
       },
       {
-        path: 'schedule',
+        path: 'horaire',
         component: ScheduleComponent
       }
     ]
@@ -38,12 +34,12 @@ const routes: Routes = [
     component: LoginLayoutComponent,
     children: [
       {
-        path: 'login',
+        path: 'connexion',
         component: LoginComponent
       }
     ]
   },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'connexion' }
 ];
 
 @NgModule({
