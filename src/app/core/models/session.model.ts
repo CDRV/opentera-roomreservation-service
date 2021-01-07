@@ -12,7 +12,7 @@ export class Session {
   id_creator_service: number;
 
   session_name: string;
-  session_start_datetime: Date;
+  session_start_datetime: Date | string;
   session_duration: number;
   session_status: number;
   session_comments: string;

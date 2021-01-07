@@ -26,7 +26,7 @@ export class ServerErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           authService.logOut().subscribe();
-          ngZone.run(() => this.router.navigate(['/login']));
+          ngZone.run(() => this.router.navigate(['/connexion']));
         } else {
           return throwError(error);
         }

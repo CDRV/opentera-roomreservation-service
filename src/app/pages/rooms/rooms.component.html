@@ -1,11 +1,14 @@
-<app-site-selection (selectedSiteChange)="selectedSiteChange($event)"></app-site-selection>
+<app-page-title [pageTitle]="'Locaux'"></app-page-title>
 
-<mat-form-field appearance="outline">
-  <mat-label>Filter</mat-label>
+<div class="table-controls">
+  <app-site-selection (selectedSiteChange)="selectedSiteChange($event)"></app-site-selection>
+  <button mat-flat-button color="primary" (click)="openRoomFormDialog(null)">Ajouter</button>
+</div>
+
+<mat-form-field appearance="outline" class="filter">
+  <mat-label>Recherche</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
 </mat-form-field>
-
-<button mat-button (click)="openRoomFormDialog(null)">Ajouter</button>
 
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>

@@ -1,3 +1,5 @@
+import {Session} from './session.model';
+
 export class Reservation {
   id_reservation: number;
   id_room: number;

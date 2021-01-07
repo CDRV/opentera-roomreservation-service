@@ -1,70 +1,78 @@
-<h3>
-  Edit events
+<div class="reservation-button">
   <button mat-flat-button color="primary" (click)="openReservationFormDialog(null)">
-    Add new
+    Réserver
   </button>
-</h3>
+</div>
 
 <div class="calendar-controls">
   <div class="buttons-wrapper">
     <button
       mat-stroked-button
       color="primary"
+      (click)="setView(calendarView.Month)"
+      [class.active]="view === calendarView.Month"
+    >
+      Mois
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="setView(calendarView.Week)"
+      [class.active]="view === calendarView.Week"
+    >
+      Semaine
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="setView(calendarView.Day)"
+      [class.active]="view === calendarView.Day"
+    >
+      Jour
+    </button>
+  </div>
+  <h3 class="large">{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
+  <div class="buttons-wrapper">
+    <button
+      mat-flat-button
+      color="primary"
       mwlCalendarPreviousView
       [view]="view"
       [(viewDate)]="viewDate"
       (viewDateChange)="closeOpenMonthViewDay($event)"
     >
-      Previous
+      <mat-icon fontSet="material-icons" [title]="'Précédent'">
+        keyboard_arrow_left
+      </mat-icon>
+      <span>Précédent</span>
     </button>
     <button
-      mat-stroked-button
+      mat-flat-button
+      color="primary"
       mwlCalendarToday
       [(viewDate)]="viewDate"
       (viewDateChange)="closeOpenMonthViewDay($event)"
     >
-      Today
+      Aujourd'hui
     </button>
     <button
-      mat-stroked-button
+      mat-flat-button
       color="primary"
       mwlCalendarNextView
       [view]="view"
       [(viewDate)]="viewDate"
       (viewDateChange)="closeOpenMonthViewDay($event)"
     >
-      Next
-    </button>
-  </div>
-  <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
-  <div class="buttons-wrapper">
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="setView(calendarView.Month)"
-      [class.active]="view === calendarView.Month"
-    >
-      Month
-    </button>
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="setView(calendarView.Week)"
-      [class.active]="view === calendarView.Week"
-    >
-      Week
-    </button>
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="setView(calendarView.Day)"
-      [class.active]="view === calendarView.Day"
-    >
-      Day
+      <span>Suivant</span>
+      <mat-icon fontSet="material-icons" [title]="'Suivant'">
+        keyboard_arrow_right
+      </mat-icon>
     </button>
   </div>
 </div>
-<br/>
+
+<h3 class="small">{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
+
 <div [ngSwitch]="view">
   <mwl-calendar-month-view
     *ngSwitchCase="calendarView.Month"
@@ -81,6 +89,7 @@
     [viewDate]="viewDate"
     [events]="calendarData"
     [dayStartHour]="7"
+    [dayEndHour]="21"
     [refresh]="refresh"
     (eventClicked)="openReservationFormDialog($event.event)"
   >

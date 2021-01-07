@@ -48,7 +48,7 @@ export class AuthenticationService {
     return this.http.get(this.API_URL + 'user/logout').pipe(
       tap(() => {
           this.isLoggedIn = false;
-          this.router.navigate(['/login']);
+          this.router.navigate(['/connexion']);
           this.cookieService.delete(this.cookieValue, '/');
           this.stopRefreshTokenTimer();
         }

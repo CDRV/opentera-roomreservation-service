@@ -20,20 +20,15 @@ import {MatDialog} from '@angular/material/dialog';
 import {take} from 'rxjs/operators';
 
 const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
+  normal: {
+    primary: '#1a202e',
+    secondary: '#f1f5f9',
   },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
+  session: {
+    primary: '#85a96b',
+    secondary: '#dae5d3',
+  }
 };
-
 
 @Component({
   selector: 'app-calendar',
@@ -49,48 +44,10 @@ export class CalendarComponent implements OnInit, OnChanges {
   viewDate: Date = new Date();
 
   calendarData: CalendarEvent[] = [];
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
 
   activeDayIsOpen = true;
   refresh: Subject<any> = new Subject();
   private currentDate: Date;
-
 
   private static getPreviousMonday(date: Date) {
     const prevSunday = new Date(date);
@@ -111,10 +68,10 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   private static createCalendarEvent(reservation: Reservation): CalendarEvent {
     return {
-      title: reservation.user_name,
+      title: reservation.session_uuid ? 'Séance de téléréadaptation' : `Réservation ${reservation.user_name}`,
       start: new Date(reservation.reservation_start_datetime),
       end: new Date(reservation.reservation_end_datetime),
-      color: colors.red,
+      color: reservation.session_uuid ? colors.session : colors.normal,
       draggable: false,
       resizable: {
         beforeStart: false,
@@ -139,7 +96,6 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
-    console.log('dayClicked', events);
     if (isSameMonth(date, this.viewDate)) {
       this.activeDayIsOpen = !((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0);
@@ -199,7 +155,6 @@ export class CalendarComponent implements OnInit, OnChanges {
           calendarData.push(CalendarComponent.createCalendarEvent(reservation));
         });
         this.calendarData = calendarData;
-        console.log('calendarData', this.calendarData);
         this.refresh.next();
       });
     }
@@ -215,9 +170,7 @@ export class CalendarComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(reservation => {
       if (reservation) {
-        console.log('reservation', reservation);
         this.scheduleService.save(reservation).subscribe(res => {
-          console.log(res);
           this.dateChange();
         });
       } else {

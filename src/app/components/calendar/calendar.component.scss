@@ -1,10 +1,27 @@
-h3 {
-  margin: 0 0 10px;
+.reservation-button {
+  width: 150px;
+  top: 124px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+
+  button {
+    width: 100%;
+  }
 }
 
 pre {
   background-color: #f5f5f5;
   padding: 15px;
+}
+
+.small {
+  display: none;
+  text-align: center;
+  margin: 0 0 20px 0;
+  width: auto;
+  font-weight: 700;
+  font-family: Montserrat, sans-serif;
 }
 
 .calendar-controls {
@@ -13,31 +30,125 @@ pre {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin: 20px 0;
 
   h3 {
-    width: auto;
     margin: 0;
+    width: auto;
+    font-weight: 700;
+    font-family: Montserrat, sans-serif;
   }
 }
 
 .buttons-wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 30%;
 
-  button:first-child {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+  &:first-of-type {
+    justify-content: start;
   }
 
-  button:last-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+  &:last-of-type {
+    justify-content: end;
+
+    button {
+      &:nth-of-type(2) {
+        padding: 1px 0;
+      }
+    }
   }
 
-  button:nth-child(2) {
-    border-radius: 0;
+  button {
+    width: calc(100% / 3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      display: none;
+    }
+
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:nth-child(2) {
+      border-radius: 0;
+    }
   }
 }
 
+@media screen and (max-width: 1000px) {
+  .small {
+    display: block;
+  }
+  .calendar-controls {
+    .large {
+      display: none;
+    }
+  }
+  .buttons-wrapper {
+    width: 48%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .reservation-button {
+    width: 100%;
+    top: -67px;
+    position: relative;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .calendar-controls {
+    margin: 30px 0 20px;
+
+    .buttons-wrapper:last-of-type {
+      button {
+        &:first-child,
+        &:last-child {
+          width: 20%;
+          padding: 0;
+          min-width: initial;
+        }
+
+        &:nth-child(2) {
+          width: 60%;
+          padding: initial;
+        }
+
+        span {
+          display: none;
+        }
+
+        mat-icon {
+          display: initial;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .calendar-controls {
+    flex-direction: column;
+
+    .buttons-wrapper {
+      width: 100%;
+
+      &:first-of-type {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
