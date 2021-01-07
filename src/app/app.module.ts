@@ -16,6 +16,7 @@ import {AppErrorHandler} from './core/interceptors/app-error-handler.injector';
 import {ServerErrorInterceptor} from './core/interceptors/server-error.interceptor';
 import {AppMaterialModule} from './shared/app-material.module';
 import localeFr from '@angular/common/locales/fr';
+import {LogoModule} from './components/logo/logo.module';
 
 registerLocaleData(localeFr);
 
@@ -34,7 +35,8 @@ registerLocaleData(localeFr);
     ScheduleModule,
     RoomsModule,
     HttpClientModule,
-    AppMaterialModule
+    AppMaterialModule,
+    LogoModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
@@ -43,7 +45,8 @@ registerLocaleData(localeFr);
     {provide: LOCALE_ID, useValue: 'FR-fr'},
     AuthenticationService
   ],
-  exports: [],
+    exports: [
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

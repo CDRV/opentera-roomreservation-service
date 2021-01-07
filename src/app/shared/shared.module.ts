@@ -13,9 +13,8 @@ import {RoomFormDialogComponent} from '../components/room-form-dialog/room-form-
 import {ReservationFormDialogComponent} from '../components/reservation-form-dialog/reservation-form-dialog.component';
 import {ParticipantSelectionComponent} from '../components/participant-selection/participant-selection.component';
 import {AppMaterialModule} from './app-material.module';
-import {LogoComponent} from '../components/logo/logo.component';
-import {AngularSvgIconModule} from 'angular-svg-icon';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@danielmoncada/angular-datetime-picker';
+import {PageTitleComponent} from "../components/page-title/page-title.component";
 
 
 @NgModule({
@@ -31,8 +30,7 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@danielmoncada/angular
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    AppMaterialModule,
-    AngularSvgIconModule.forRoot()
+    AppMaterialModule
   ],
   declarations: [
     CalendarComponent,
@@ -42,7 +40,7 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@danielmoncada/angular
     ConfirmationDialogComponent,
     RoomFormDialogComponent,
     ReservationFormDialogComponent,
-    LogoComponent
+    PageTitleComponent
   ],
   exports: [
     CalendarComponent,
@@ -50,7 +48,8 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@danielmoncada/angular
     RoomSelectionComponent,
     ParticipantSelectionComponent,
     AppMaterialModule,
-    LogoComponent
+    PageTitleComponent
+
   ],
   entryComponents: [
     ConfirmationDialogComponent,
