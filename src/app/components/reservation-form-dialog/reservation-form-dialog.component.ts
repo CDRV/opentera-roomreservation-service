@@ -81,7 +81,7 @@ export class ReservationFormDialogComponent implements OnInit {
       this.getReservation();
     } else {
       this.reservation = new Reservation();
-      this.title = 'New reservation';
+      this.title = 'Nouvelle réservation';
       this.enableSave();
     }
   }
@@ -106,7 +106,6 @@ export class ReservationFormDialogComponent implements OnInit {
   getReservation() {
     this.scheduleService.getById(this.idReservation).subscribe(reservation => {
       this.reservation = reservation[0];
-      console.log(this.reservation);
       this.setValues();
       this.enableSave();
     });
@@ -212,7 +211,7 @@ export class ReservationFormDialogComponent implements OnInit {
 
   private createSession(): Session {
     const session = new Session();
-    session.session_name = 'Séance télé';
+    session.session_name = 'Séance de téléréadaptation';
     session.id_session = this.session?.id_session ? this.session.id_session : 0;
     session.session_users_uuids = [this.userInfos.user_uuid];
     session.session_participants_uuids = this.selectedParticipants.map(a => a.participant_uuid);
@@ -230,5 +229,21 @@ export class ReservationFormDialogComponent implements OnInit {
 
   deleteParticipant(id: number) {
     this.selectedParticipants = this.selectedParticipants.filter(participant => participant.id_participant !== id);
+  }
+
+  startTimeAfterEndTime(): boolean {
+    return this.reservationForm.controls.endTime.hasError('startTimeAfterEndTime');
+  }
+
+  siteIsNotSelected(): boolean {
+    return !this.selectedSite.id_site;
+  }
+
+  roomIsNotSelected(): boolean {
+    return !this.selectedRoom.id_room;
+  }
+
+  hasNoParticipant(): boolean {
+    return this.selectedParticipants.length === 0;
   }
 }

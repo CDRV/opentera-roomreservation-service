@@ -13,12 +13,14 @@ export class SiteSelectionComponent implements OnInit {
   @Output() selectedSiteChange = new EventEmitter();
   sites = [];
   selectedOption: any;
+  refreshing: boolean;
 
   constructor(private siteService: SiteService,
               private selectedSiteService: SelectedSiteService) {
   }
 
   ngOnInit() {
+    this.refreshing = true;
     this.siteService.getAccessibleSites().pipe(
       switchMap(res => {
         this.sites = res;
@@ -32,6 +34,7 @@ export class SiteSelectionComponent implements OnInit {
           this.selectedSiteChange.emit(alreadySelected);
         }
       }
+      this.refreshing = false;
     });
   }
 

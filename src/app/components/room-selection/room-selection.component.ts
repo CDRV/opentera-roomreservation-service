@@ -3,7 +3,6 @@ import {RoomService} from '../../services/room.service';
 import {Room} from '../../core/models/room.model';
 import {SelectedRoomService} from '../../services/selected-room.service';
 import {switchMap} from 'rxjs/operators';
-import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-room-selection',
@@ -15,7 +14,7 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
   @Input() idSite: number;
   rooms = [];
   selectedOption: any;
-  private refreshing: boolean;
+  refreshing: boolean;
 
   constructor(private roomService: RoomService,
               private selectedRoomService: SelectedRoomService) {

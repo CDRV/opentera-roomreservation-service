@@ -1,8 +1,18 @@
-<mat-form-field appearance="outline">
+<mat-form-field appearance="outline" *ngIf="!refreshing">
   <mat-label>Site</mat-label>
   <mat-select (selectionChange)="onValueChanged($event)" [value]="selectedOption">
-    <mat-option *ngFor="let site of sites" [value]="site" >
+    <mat-option *ngFor="let site of sites" [value]="site">
       {{site.site_name}}
     </mat-option>
   </mat-select>
 </mat-form-field>
+
+<div class="refreshing">
+  <mat-progress-spinner
+    *ngIf="refreshing"
+    [mode]="'indeterminate'"
+    [value]="50"
+    [diameter]="30"
+    [color]="'primary'">
+  </mat-progress-spinner>
+</div>

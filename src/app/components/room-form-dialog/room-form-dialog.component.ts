@@ -13,9 +13,9 @@ export class RoomFormDialogComponent {
   constructor(public dialogRef: MatDialogRef<RoomFormDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: Room) {
     if (data.id_room) {
-      this.title = 'Informations ' + data.room_name;
+      this.title = 'Informations de ' + data.room_name;
     } else {
-      this.title = 'New room';
+      this.title = 'Nouveau local';
     }
   }
 
