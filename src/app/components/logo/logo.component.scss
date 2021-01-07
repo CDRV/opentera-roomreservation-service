@@ -4,7 +4,11 @@
   align-items: center;
   justify-content: center;
   margin: 10px;
-  color: var(--primary-color);
+
+  svg {
+    max-width: 60px;
+    max-height: 60px;
+  }
 
   .text {
     text-align-last: justify;
@@ -16,15 +20,62 @@
     .first-line {
       text-transform: uppercase;
       font-size: 40px;
+      line-height: 40px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      line-height: 40px;
     }
 
     .second-line {
       font-size: 20px;
-      line-height: 18px;
+      line-height: 20px;
       font-family: 'Montserrat', sans-serif;
     }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .logo-container {
+    .text {
+      .first-line {
+        font-size: 30px;
+        line-height: 30px;
+      }
+
+      .second-line {
+        font-size: 16px;
+        line-height: 16px;
+      }
+    }
+  }
+}
+
+
+.dark {
+  .logo-container {
+    color: var(--primary-color);
+  }
+
+  #head,
+  #torso,
+  #right-arm,
+  #left-arm,
+  #left-leg,
+  #right-leg {
+    fill: var(--primary-color);
+  }
+}
+
+.light {
+  .logo-container {
+    color: #fff;
+  }
+
+  #head,
+  #torso,
+  #right-arm,
+  #left-arm,
+  #left-leg,
+  #right-leg {
+    fill: #fff;
   }
 }

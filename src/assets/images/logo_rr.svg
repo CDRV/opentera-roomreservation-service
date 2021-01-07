@@ -1,8 +1,7 @@
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-     width="250pt" height="400pt" viewBox="0 0 275 440"
-     preserveAspectRatio="xMidYMid meet">
+     width="100%" viewBox="0 0 270 410">
 
-  <g transform="translate(5,432) scale(0.100000,-0.100000)" stroke="none">
+  <g transform="translate(1,425) scale(0.100000,-0.100000)" stroke="none">
     <path fill="#1a202e" id="head" d="M1246 4229 c-114 -15 -199 -79 -235 -174 -97 -258 -6 -591 190 -700
 46 -26 65 -30 129 -30 64 0 83 4 129 30 164 91 259 343 221 583 -31 186 -111
 270 -280 291 -46 6 -85 10 -85 10 0 -1 -31 -6 -69 -10z"/>

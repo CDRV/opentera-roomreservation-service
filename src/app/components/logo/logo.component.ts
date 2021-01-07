@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-logo',
@@ -6,9 +6,10 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./logo.component.scss']
 })
 export class LogoComponent implements OnInit {
-  logoPath = './assets/images/logo_rr.svg';
-  firstLine = 'OpenTera'
-  secondLine = 'Réservation de locaux'
+  @Input() style: string;
+  logoPath = '../../assets/images/logo_rr.svg';
+  firstLine = 'OpenTera';
+  secondLine = 'Réservation de locaux';
 
   constructor() {
   }

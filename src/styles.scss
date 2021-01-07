@@ -1,6 +1,7 @@
 /* Components style from libraries */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 @import "~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
+@import "theme";
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
@@ -17,262 +18,16 @@ body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   --field-background: #f1f5f9;
+  --border: #bbc5ce;
   --light-text: #787e8a;
-}
-
-/****** THEME ******/
-
-/**
-* Generated theme by Material Theme Generator
-* https://materialtheme.arcsine.dev
-*/
-
-@import '~@angular/material/theming';
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Material+Icons');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-$fontConfig: (
-  display-4: mat-typography-level(112px, 112px, 300, 'Open Sans', -0.0134em),
-  display-3: mat-typography-level(56px, 56px, 400, 'Open Sans', -0.0089em),
-  display-2: mat-typography-level(45px, 48px, 400, 'Open Sans', 0.0000em),
-  display-1: mat-typography-level(34px, 40px, 400, 'Open Sans', 0.0074em),
-  headline: mat-typography-level(24px, 32px, 400, 'Open Sans', 0.0000em),
-  title: mat-typography-level(20px, 32px, 500, 'Open Sans', 0.0075em),
-  subheading-2: mat-typography-level(16px, 28px, 400, 'Open Sans', 0.0094em),
-  subheading-1: mat-typography-level(15px, 24px, 500, 'Open Sans', 0.0067em),
-  body-2: mat-typography-level(14px, 24px, 500, 'Open Sans', 0.0179em),
-  body-1: mat-typography-level(14px, 20px, 400, 'Open Sans', 0.0179em),
-  button: mat-typography-level(14px, 14px, 500, 'Open Sans', 0.0893em),
-  caption: mat-typography-level(12px, 20px, 400, 'Open Sans', 0.0333em),
-  input: mat-typography-level(inherit, 1.125, 400, 'Open Sans', 1.5px)
-);
-
-// Foreground Elements
-
-// Light Theme Text
-$dark-text: #000000;
-$dark-primary-text: rgba($dark-text, 0.87);
-$dark-accent-text: rgba($dark-primary-text, 0.54);
-$dark-disabled-text: rgba($dark-primary-text, 0.38);
-$dark-dividers: rgba($dark-primary-text, 0.12);
-$dark-focused: rgba($dark-primary-text, 0.12);
-
-$mat-light-theme-foreground: (
-  base: black,
-  divider: $dark-dividers,
-  dividers: $dark-dividers,
-  disabled: $dark-disabled-text,
-  disabled-button: rgba($dark-text, 0.26),
-  disabled-text: $dark-disabled-text,
-  elevation: black,
-  secondary-text: $dark-accent-text,
-  hint-text: $dark-disabled-text,
-  accent-text: $dark-accent-text,
-  icon: $dark-accent-text,
-  icons: $dark-accent-text,
-  text: $dark-primary-text,
-  slider-min: $dark-primary-text,
-  slider-off: rgba($dark-text, 0.26),
-  slider-off-active: $dark-disabled-text,
-);
-
-// Dark Theme text
-$light-text: #ffffff;
-$light-primary-text: $light-text;
-$light-accent-text: rgba($light-primary-text, 0.7);
-$light-disabled-text: rgba($light-primary-text, 0.5);
-$light-dividers: rgba($light-primary-text, 0.12);
-$light-focused: rgba($light-primary-text, 0.12);
-
-$mat-dark-theme-foreground: (
-  base: $light-text,
-  divider: $light-dividers,
-  dividers: $light-dividers,
-  disabled: $light-disabled-text,
-  disabled-button: rgba($light-text, 0.3),
-  disabled-text: $light-disabled-text,
-  elevation: black,
-  hint-text: $light-disabled-text,
-  secondary-text: $light-accent-text,
-  accent-text: $light-accent-text,
-  icon: $light-text,
-  icons: $light-text,
-  text: $light-text,
-  slider-min: $light-text,
-  slider-off: rgba($light-text, 0.3),
-  slider-off-active: rgba($light-text, 0.3),
-);
-
-// Background config
-// Light bg
-$light-background: #fafafa;
-$light-bg-darker-5: darken($light-background, 5%);
-$light-bg-darker-10: darken($light-background, 10%);
-$light-bg-darker-20: darken($light-background, 20%);
-$light-bg-darker-30: darken($light-background, 30%);
-$light-bg-lighter-5: lighten($light-background, 5%);
-$dark-bg-tooltip: lighten(#2c2c2c, 20%);
-$dark-bg-alpha-4: rgba(#2c2c2c, 0.04);
-$dark-bg-alpha-12: rgba(#2c2c2c, 0.12);
-
-$mat-light-theme-background: (
-  background: $light-background,
-  status-bar: $light-bg-darker-20,
-  app-bar: $light-bg-darker-5,
-  hover: $dark-bg-alpha-4,
-  card: $light-bg-lighter-5,
-  dialog: $light-bg-lighter-5,
-  tooltip: $dark-bg-tooltip,
-  disabled-button: $dark-bg-alpha-12,
-  raised-button: $light-bg-lighter-5,
-  focused-button: $dark-focused,
-  selected-button: $light-bg-darker-20,
-  selected-disabled-button: $light-bg-darker-30,
-  disabled-button-toggle: $light-bg-darker-10,
-  unselected-chip: $light-bg-darker-10,
-  disabled-list-option: $light-bg-darker-10,
-);
-
-// Dark bg
-$dark-background: #2c2c2c;
-$dark-bg-lighter-5: lighten($dark-background, 5%);
-$dark-bg-lighter-10: lighten($dark-background, 10%);
-$dark-bg-lighter-20: lighten($dark-background, 20%);
-$dark-bg-lighter-30: lighten($dark-background, 30%);
-$light-bg-alpha-4: rgba(#fafafa, 0.04);
-$light-bg-alpha-12: rgba(#fafafa, 0.12);
-
-// Background palette for dark themes.
-$mat-dark-theme-background: (
-  background: $dark-background,
-  status-bar: $dark-bg-lighter-20,
-  app-bar: $dark-bg-lighter-5,
-  hover: $light-bg-alpha-4,
-  card: $dark-bg-lighter-5,
-  dialog: $dark-bg-lighter-5,
-  tooltip: $dark-bg-lighter-20,
-  disabled-button: $light-bg-alpha-12,
-  raised-button: $dark-bg-lighter-5,
-  focused-button: $light-focused,
-  selected-button: $dark-bg-lighter-20,
-  selected-disabled-button: $dark-bg-lighter-30,
-  disabled-button-toggle: $dark-bg-lighter-10,
-  unselected-chip: $dark-bg-lighter-20,
-  disabled-list-option: $dark-bg-lighter-10,
-);
-
-// Compute font config
-@include mat-core($fontConfig);
-
-// Theme Config
-
-body {
-  --primary-color: #1a202e;
-  --primary-lighter-color: #babcc0;
-  --primary-darker-color: #0f131d;
-  --text-primary-color: #{$light-primary-text};
-  --text-primary-lighter-color: #{$dark-primary-text};
-  --text-primary-darker-color: #{$light-primary-text};
-}
-
-$mat-primary: (
-  main: #1a202e,
-  lighter: #babcc0,
-  darker: #0f131d,
-  200: #1a202e, // For slide toggle,
-  contrast : (
-    main: $light-primary-text,
-    lighter: $dark-primary-text,
-    darker: $light-primary-text,
-  )
-);
-$theme-primary: mat-palette($mat-primary, main, lighter, darker);
-
-body {
-  --accent-color: #85a96b;
-  --accent-lighter-color: #dae5d3;
-  --accent-darker-color: #688f4e;
-  --text-accent-color: #{$dark-primary-text};
-  --text-accent-lighter-color: #{$dark-primary-text};
-  --text-accent-darker-color: #{$light-primary-text};
-}
-
-$mat-accent: (
-  main: #85a96b,
-  lighter: #dae5d3,
-  darker: #688f4e,
-  200: #85a96b, // For slide toggle,
-  contrast : (
-    main: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $light-primary-text,
-  )
-);
-$theme-accent: mat-palette($mat-accent, main, lighter, darker);
-
-body {
-  --warn-color: #d45c5c;
-  --warn-lighter-color: #f2cece;
-  --warn-darker-color: #c34141;
-  --text-warn-color: #{$light-primary-text};
-  --text-warn-lighter-color: #{$dark-primary-text};
-  --text-warn-darker-color: #{$light-primary-text};
-}
-
-$mat-warn: (
-  main: #d45c5c,
-  lighter: #f2cece,
-  darker: #c34141,
-  200: #d45c5c, // For slide toggle,
-  contrast : (
-    main: $light-primary-text,
-    lighter: $dark-primary-text,
-    darker: $light-primary-text,
-  )
-);
-$theme-warn: mat-palette($mat-warn, main, lighter, darker);
-;
-
-$theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
-$altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
-
-// Theme Init
-@include angular-material-theme($theme);
-
-.theme-alternate {
-  @include angular-material-theme($altTheme);
-}
-
-// Specific component overrides, pieces that are not in line with the general theming
-
-// Handle buttons appropriately, with respect to line-height
-.mat-raised-button, .mat-stroked-button, .mat-flat-button {
-  padding: 0 1.15em;
-  margin: 0 .65em;
-  min-width: 3em;
-  line-height: 36.4px
-}
-
-.mat-standard-chip {
-  padding: .5em .85em;
-  min-height: 2.5em;
-}
-
-.material-icons {
-  font-size: 24px;
-  font-family: 'Material Icons Outlined', 'Material Icons', serif;
-
-  .mat-badge-content {
-    font-family: 'Open Sans', sans-serif;
-  }
+  --header-height: 70px;
 }
 
 /****** FORM FIELDS ******/
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
 .mat-form-field-appearance-outline {
   .mat-form-field-outline {
     color: var(--field-background);
@@ -293,15 +48,93 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 /****** CALENDAR ******/
 .cal-month-view .cal-open-day-events {
   color: initial;
-  background-color: #d7d7d7;
+  background-color: var(--primary-lighter-color);
   box-shadow: none;
 }
 
 .cal-month-view .cal-day-badge {
-  background-color: #ff9800;
+  background-color: var(--accent-color);
 }
 
 .cal-header {
   text-transform: capitalize !important;
 }
 
+.cal-week-view .cal-current-time-marker {
+  background-color: var(--accent-color);
+}
+
+.cal-week-view .cal-header.cal-weekend span {
+  color: var(--light-text);
+}
+
+.cal-week-view {
+  border-top: none;
+  color: var(--primary-color);
+}
+
+.cal-week-view .cal-day-headers .cal-header:not(:last-child) {
+  border-color: var(--primary-color);
+}
+
+.cal-week-view .cal-day-headers {
+  border-left: none;
+  color: #fff;
+  background-color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.cal-week-view .cal-header.cal-today, .cal-month-view .cal-day-cell.cal-today {
+  background-color: var(--primary-lighter-color);
+  color: var(--primary-color);
+}
+
+.cal-week-view .cal-day-headers .cal-header, .cal-month-view .cal-cell-row .cal-cell {
+  transition: ease-in-out background-color 0.5s, ease-in-out color 0.5s;
+}
+
+.cal-week-view .cal-day-headers .cal-header:hover, .cal-week-view .cal-day-headers .cal-drag-over,
+.cal-month-view .cal-cell-row .cal-cell:hover {
+  background-color: var(--primary-lighter-color);
+  color: var(--primary-color);
+}
+
+.cal-week-view .cal-day-headers span {
+  opacity: 1;
+}
+
+.cal-month-view .cal-header {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+.cal-month-view .cal-cell-row:hover {
+  background-color: var(--field-background);
+}
+
+.cal-month-view .cal-header:hover {
+  background-color: var(--primary-color);
+}
+
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: var(--light-text);
+}
+.cal-month-view .cal-header .cal-cell {
+  padding: 10px 0;
+}
+
+.cal-week-view .cal-ends-within-day .cal-event {
+  color: var(--primary-color);
+}
+
+/****** BUTTONS ******/
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  transition: background-color ease-in-out 0.5s;
+
+  &:hover {
+    background-color: var(--accent-color);
+  }
+}
+
+.mat-drawer-backdrop {
+  position: fixed !important;
+}
