@@ -34,6 +34,15 @@ form {
     width: 100%;
     justify-content: space-between;
     align-items: center;
+
+    &:first-of-type {
+      padding-bottom: 10px;
+    }
+
+    &:first-of-type > *,
+    &:nth-of-type(2) > * {
+      width: 48%;
+    }
   }
 
   .session-type {
@@ -80,9 +89,17 @@ form {
     .fields-row {
       flex-direction: column;
 
-      mat-form-field, app-site-selection, app-room-selection {
-        width: 100%;
+      > * {
+        width: 100% !important;
         padding-bottom: 10px;
+      }
+
+      &:first-of-type {
+        padding-bottom: 0;
+      }
+
+      &:nth-of-type(2) {
+        padding-top: 0;
       }
     }
   }

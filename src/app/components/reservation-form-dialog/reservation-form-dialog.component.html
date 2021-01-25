@@ -22,7 +22,13 @@
         <mat-label>Réservation faite par</mat-label>
         <input matInput formControlName="user">
       </mat-form-field>
+      <mat-form-field appearance="outline" (change)="reservationNameChange()">
+        <mat-label>Nom de la réservation</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
 
+    <div class="fields-row">
       <app-site-selection (selectedSiteChange)=" selectedSiteChange($event)"></app-site-selection>
       <app-room-selection [idSite]="selectedSite.id_site"
                           (selectedRoomChange)="selectedRoomChange($event)"></app-room-selection>
