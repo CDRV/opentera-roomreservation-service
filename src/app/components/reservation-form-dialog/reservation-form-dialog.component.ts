@@ -214,6 +214,7 @@ export class ReservationFormDialogComponent implements OnInit {
     session.session_name = 'Séance de téléréadaptation';
     session.id_session = this.session?.id_session ? this.session.id_session : 0;
     session.session_users_uuids = [this.userInfos.user_uuid];
+    session.session_status = 0;
     session.session_participants_uuids = this.selectedParticipants.map(a => a.participant_uuid);
     return session;
   }
