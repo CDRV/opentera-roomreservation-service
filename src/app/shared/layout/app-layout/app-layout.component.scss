@@ -62,6 +62,8 @@ app-logo {
 
 .mat-drawer {
   width: 250px;
+  position: fixed;
+  margin-top: var(--header-height);
 }
 
 .mat-drawer-content {
@@ -70,11 +72,6 @@ app-logo {
 
 .mat-drawer-container {
   overflow: auto;
-}
-
-.mat-drawer {
-  position: fixed;
-  margin-top: var(--header-height);
 }
 
 mat-nav-list {
