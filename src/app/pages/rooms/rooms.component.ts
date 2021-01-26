@@ -28,7 +28,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   }
 
   rooms: Room[];
-  displayedColumns: string[] = ['id_room', 'room_name', 'controls'];
+  displayedColumns: string[] = ['room_name', 'controls'];
   dataSource: MatTableDataSource<Room>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
