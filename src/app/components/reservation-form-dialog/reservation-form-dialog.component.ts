@@ -31,6 +31,7 @@ export class ReservationFormDialogComponent implements OnInit {
   selectedParticipants: Participant[] = [];
   private userInfos: UserInfos;
   private session: Session;
+  private isCustomName = false;
 
   private static dateToISOLikeButLocal(date: Date): string {
     const offsetMs = date.getTimezoneOffset() * 60 * 1000;
@@ -74,6 +75,7 @@ export class ReservationFormDialogComponent implements OnInit {
   ngOnInit(): void {
     this.userInfosService.userInfos$().subscribe((infos: UserInfos) => {
       this.userInfos = infos;
+      this.setDefaultName();
     });
     this.initializeForm();
     if (this.data.meta) {
@@ -91,6 +93,7 @@ export class ReservationFormDialogComponent implements OnInit {
     const inOneHour = new Date();
     inOneHour.setHours(inOneHour.getHours() + 1);
     this.reservationForm = this.fb.group({
+        name: new FormControl('', Validators.required),
         user: new FormControl({value: this.userInfos.user_fullname, disabled: true}, Validators.required),
         startDate: new FormControl(today, Validators.required),
         startTime: new FormControl(today, Validators.required),
@@ -116,6 +119,7 @@ export class ReservationFormDialogComponent implements OnInit {
     const endTime = new Date(this.reservation.reservation_end_datetime);
 
     this.title = 'Informations de la réservation à ' + this.reservation.user_name;
+    this.reservationForm.controls.name.setValue(this.reservation.name);
     this.reservationForm.controls.user.setValue(this.reservation.user_name);
     this.reservationForm.controls.startDate.setValue(startTime);
     this.reservationForm.controls.startTime.setValue(startTime);
@@ -177,6 +181,7 @@ export class ReservationFormDialogComponent implements OnInit {
   private createReservation(): Reservation {
     const reservation = new Reservation();
     reservation.id_reservation = reservation.id_reservation ? reservation.id_reservation : 0;
+    reservation.name = this.reservationForm.controls.name.value;
     reservation.id_room = this.selectedRoom.id_room;
     reservation.reservation_start_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
       this.setDate(this.reservationForm.controls.startTime.value));
@@ -211,9 +216,10 @@ export class ReservationFormDialogComponent implements OnInit {
 
   private createSession(): Session {
     const session = new Session();
-    session.session_name = 'Séance de téléréadaptation';
+    session.session_name = this.reservationForm.controls.name.value;
     session.id_session = this.session?.id_session ? this.session.id_session : 0;
     session.session_users_uuids = [this.userInfos.user_uuid];
+    session.session_status = 0;
     session.session_participants_uuids = this.selectedParticipants.map(a => a.participant_uuid);
     return session;
   }
@@ -224,6 +230,7 @@ export class ReservationFormDialogComponent implements OnInit {
 
   changeSession(event: MatCheckboxChange) {
     this.hasSession = event.checked;
+    this.setDefaultName();
     this.enableSave();
   }
 
@@ -245,5 +252,21 @@ export class ReservationFormDialogComponent implements OnInit {
 
   hasNoParticipant(): boolean {
     return this.selectedParticipants.length === 0;
+  }
+
+  private setDefaultName() {
+    if (!this.reservationForm.controls.name.value || !this.isCustomName) {
+      let defaultName = '';
+      if (this.hasSession) {
+        defaultName = 'Séance de téléréadaptation';
+      } else {
+        defaultName = !!this.userInfos.user_fullname ? 'Réservation pour ' + this.userInfos.user_fullname : 'Réservation';
+      }
+      this.reservationForm.controls.name.setValue(defaultName);
+    }
+  }
+
+  reservationNameChange() {
+    this.isCustomName = true;
   }
 }

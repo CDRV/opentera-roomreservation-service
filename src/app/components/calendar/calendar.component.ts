@@ -57,7 +57,7 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   private static createCalendarEvent(reservation: Reservation): CalendarEvent {
     return {
-      title: reservation.session_uuid ? 'Séance de téléréadaptation' : `Réservation ${reservation.user_name}`,
+      title: reservation.name,
       start: new Date(reservation.reservation_start_datetime),
       end: new Date(reservation.reservation_end_datetime),
       color: reservation.session_uuid ? colors.session : colors.normal,
