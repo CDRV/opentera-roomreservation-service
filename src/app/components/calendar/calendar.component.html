@@ -80,6 +80,7 @@
     [events]="calendarData"
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
+    [cellTemplate]="customMonthCellTemplate"
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="openReservationFormDialog($event.event)"
   >
@@ -105,3 +106,14 @@
   >
   </mwl-calendar-day-view>
 </div>
+
+<ng-template #customMonthCellTemplate let-day="day" let-locale="locale">
+  <div class="cal-cell-top">
+    <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+    <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+  </div>
+  <ng-container *ngFor="let event of day.events">
+    <small class="month-event">{{ event.title }} -
+      {{event.start | date: 'h:mm a'}} à {{event.end | date: 'h:mm a'}}</small>
+  </ng-container>
+</ng-template>
