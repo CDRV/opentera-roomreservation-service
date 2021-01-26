@@ -1,15 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  ViewChild,
-  TemplateRef,
-  Input,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
-import {startOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Component, ChangeDetectionStrategy, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {isSameDay, isSameMonth} from 'date-fns';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
 import {ScheduleService} from '../../services/schedule.service';
 import {Reservation} from '../../core/models/reservation.model';
@@ -39,14 +29,13 @@ const colors: any = {
 export class CalendarComponent implements OnInit, OnChanges {
   @Input() idRoom: number;
 
-  view: CalendarView = CalendarView.Week;
+  view: CalendarView = CalendarView.Month;
   calendarView = CalendarView;
   viewDate: Date = new Date();
-
   calendarData: CalendarEvent[] = [];
-
   activeDayIsOpen = true;
   refresh: Subject<any> = new Subject();
+
   private currentDate: Date;
 
   private static getPreviousMonday(date: Date) {
