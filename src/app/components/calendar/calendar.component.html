@@ -81,6 +81,7 @@
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
     [cellTemplate]="customMonthCellTemplate"
+    [openDayEventsTemplate]="customDayEventsTemplate"
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="openReservationFormDialog($event.event)"
   >
@@ -113,7 +114,17 @@
     <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
   </div>
   <ng-container *ngFor="let event of day.events">
-    <small class="month-event">{{ event.title }} -
-      {{event.start | date: 'h:mm a'}} à {{event.end | date: 'h:mm a'}}</small>
+    <small class="month-event">
+      <span>{{event.start | date: 'h:mm a'}}</span> : {{ event.title }}</small>
   </ng-container>
+</ng-template>
+
+<ng-template
+  #customDayEventsTemplate let-events="events" let-eventClicked="eventClicked" let-isOpen="isOpen">
+  <div class="cal-open-day-events" [@collapse] *ngIf="isOpen">
+    <div *ngFor="let event of events">
+      <div class="event" (click)="openReservationFormDialog(event)">{{event.start | date: 'h:mm a'}}
+        - {{event.end | date: 'h:mm a'}}: {{ event.title }}</div>
+    </div>
+  </div>
 </ng-template>

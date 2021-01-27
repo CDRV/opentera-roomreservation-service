@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {isSameDay, isSameMonth} from 'date-fns';
-import {CalendarEvent, CalendarView} from 'angular-calendar';
+import {CalendarEvent, CalendarView, collapseAnimation} from 'angular-calendar';
 import {ScheduleService} from '../../services/schedule.service';
 import {Reservation} from '../../core/models/reservation.model';
 import {Subject} from 'rxjs';
@@ -24,7 +24,8 @@ const colors: any = {
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [collapseAnimation]
 })
 export class CalendarComponent implements OnInit, OnChanges {
   @Input() idRoom: number;
@@ -57,7 +58,7 @@ export class CalendarComponent implements OnInit, OnChanges {
 
   private static createCalendarEvent(reservation: Reservation): CalendarEvent {
     return {
-      title: reservation.name,
+      title: `${reservation.name} (${reservation.user_name})`,
       start: new Date(reservation.reservation_start_datetime),
       end: new Date(reservation.reservation_end_datetime),
       color: reservation.session_uuid ? colors.session : colors.normal,
@@ -66,12 +67,11 @@ export class CalendarComponent implements OnInit, OnChanges {
         beforeStart: false,
         afterEnd: false,
       },
-      meta: reservation.id_reservation
+      meta: {idReservation: reservation.id_reservation}
     };
   }
 
-  constructor(private notificationService: NotificationService,
-              public dialog: MatDialog,
+  constructor(public dialog: MatDialog,
               private scheduleService: ScheduleService) {
     this.currentDate = CalendarComponent.getPreviousMonday(new Date());
   }

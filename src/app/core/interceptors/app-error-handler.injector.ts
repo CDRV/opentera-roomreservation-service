@@ -19,11 +19,11 @@ export class AppErrorHandler implements ErrorHandler {
       // Server Error
       message = errorService.getServerMessage(error);
       notifier.showError(message);
+      console.error(message, error);
     } else {
       // Client Error
       message = errorService.getClientMessage(error);
+      console.error(message, error);
     }
-
-    console.error(message, error);
   }
 }

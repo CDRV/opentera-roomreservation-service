@@ -28,15 +28,15 @@ registerLocaleData(localeFr);
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     CommonModule,
-    AppRoutingModule,
     LoginModule,
     ScheduleModule,
     RoomsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     AppMaterialModule,
-    LogoModule
+    LogoModule,
+    AppRoutingModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},

@@ -79,7 +79,7 @@ export class ReservationFormDialogComponent implements OnInit {
     });
     this.initializeForm();
     if (this.data.meta) {
-      this.idReservation = this.data.meta;
+      this.idReservation = this.data.meta.idReservation;
       this.getReservation();
     } else {
       this.reservation = new Reservation();
@@ -255,7 +255,7 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   private setDefaultName() {
-    if (!this.reservationForm.controls.name.value || !this.isCustomName) {
+    if (!!this.reservationForm && (!this.reservationForm.controls.name.value || !this.isCustomName)) {
       let defaultName = '';
       if (this.hasSession) {
         defaultName = 'Séance de téléréadaptation';
