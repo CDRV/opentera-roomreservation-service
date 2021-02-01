@@ -31,9 +31,11 @@ export class SiteSelectionComponent implements OnInit {
         const alreadySelected = this.sites.find(p => p.id_site === site.id_site);
         if (alreadySelected) {
           this.selectedOption = alreadySelected;
-          this.selectedSiteChange.emit(alreadySelected);
         }
+      } else {
+        this.selectedOption = this.sites[0];
       }
+      this.selectedSiteChange.emit(this.selectedOption);
       this.refreshing = false;
     });
   }
