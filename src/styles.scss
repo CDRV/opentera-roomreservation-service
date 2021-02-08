@@ -20,6 +20,7 @@ body {
   --field-background: #f1f5f9;
   --border: #bbc5ce;
   --light-text: #787e8a;
+  --light-primary-color: #36425f;
   --header-height: 70px;
 }
 
@@ -115,6 +116,16 @@ body {
   background-color: var(--primary-color);
 }
 
+.cal-month-view .cal-day-number {
+  opacity: 0.7;
+  color: var(--primary-color);
+}
+
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  font-size: 1.2em;
+  opacity: 1;
+}
+
 .cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
   color: var(--light-text);
 }
@@ -124,6 +135,10 @@ body {
 
 .cal-week-view .cal-ends-within-day .cal-event {
   color: var(--primary-color);
+}
+
+.cal-week-view .cal-header.cal-today, .cal-month-view .cal-day-cell.cal-today {
+  background-color: var(--field-background);
 }
 
 /****** BUTTONS ******/
