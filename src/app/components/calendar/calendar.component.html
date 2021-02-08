@@ -31,10 +31,10 @@
       Jour
     </button>
   </div>
-  <h3 class="large">{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
+  <h3 class="month large-screen">{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
   <div class="buttons-wrapper">
     <button
-      mat-flat-button
+      mat-stroked-button
       color="primary"
       mwlCalendarPreviousView
       [view]="view"
@@ -47,7 +47,7 @@
       <span>Précédent</span>
     </button>
     <button
-      mat-flat-button
+      mat-stroked-button
       color="primary"
       mwlCalendarToday
       [(viewDate)]="viewDate"
@@ -56,7 +56,7 @@
       Aujourd'hui
     </button>
     <button
-      mat-flat-button
+      mat-stroked-button
       color="primary"
       mwlCalendarNextView
       [view]="view"
@@ -71,7 +71,7 @@
   </div>
 </div>
 
-<h3 class="small">{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
+<h3 class="month small-screen">{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
 
 <div [ngSwitch]="view">
   <mwl-calendar-month-view

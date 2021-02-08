@@ -24,7 +24,7 @@
 
     app-room-selection,
     app-site-selection {
-      width: 50% !important;
+      width: calc(50% - 10px) !important;
     }
     app-site-selection {
       margin-left: 0;
