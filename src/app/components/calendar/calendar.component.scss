@@ -44,6 +44,11 @@ pre {
   align-items: center;
   width: 30%;
 
+  .selected-view {
+    color: var(--primary-color);
+    background-color: var(--border);
+  }
+
   &:first-of-type {
     justify-content: start;
   }

@@ -18,7 +18,7 @@ import {AppMaterialModule} from './shared/app-material.module';
 import localeFr from '@angular/common/locales/fr';
 import {LogoModule} from './components/logo/logo.module';
 
-registerLocaleData(localeFr);
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [

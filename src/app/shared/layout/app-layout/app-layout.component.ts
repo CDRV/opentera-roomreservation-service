@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {UserInfosService} from '../../../services/user-infos.service';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {GlobalConstants} from "../../../core/utils/global-constants";
+import {UserInfos} from "../../../core/models/user-infos.model";
 
 @Component({
   selector: 'app-app-layout',
@@ -14,6 +15,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private refreshing: boolean;
   version = GlobalConstants.version;
   organism = GlobalConstants.organism;
+  userInfos: UserInfos;
 
   constructor(changeDetectorRef: ChangeDetectorRef,
               media: MediaMatcher,
@@ -34,6 +36,9 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.userInfosService.userInfos$().subscribe((infos: UserInfos) => {
+      this.userInfos = infos;
+    });
     this.refreshUserInfos();
   }
 

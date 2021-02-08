@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CalendarComponent} from '../components/calendar/calendar.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {FlatpickrModule} from 'angularx-flatpickr';
 import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
@@ -13,15 +12,20 @@ import {RoomFormDialogComponent} from '../components/room-form-dialog/room-form-
 import {ReservationFormDialogComponent} from '../components/reservation-form-dialog/reservation-form-dialog.component';
 import {ParticipantSelectionComponent} from '../components/participant-selection/participant-selection.component';
 import {AppMaterialModule} from './app-material.module';
-import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@danielmoncada/angular-datetime-picker';
-import {PageTitleComponent} from "../components/page-title/page-title.component";
+import {
+  OWL_DATE_TIME_LOCALE,
+  OwlDateTimeIntl,
+  OwlDateTimeModule,
+  OwlNativeDateTimeModule
+} from '@danielmoncada/angular-datetime-picker';
+import {PageTitleComponent} from '../components/page-title/page-title.component';
+import {DefaultIntl} from '../core/utils/datetime-picker.config';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    NgbModalModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -55,6 +59,10 @@ import {PageTitleComponent} from "../components/page-title/page-title.component"
     ConfirmationDialogComponent,
     RoomFormDialogComponent,
     ReservationFormDialogComponent
+  ],
+  providers: [
+    {provide: OwlDateTimeIntl, useClass: DefaultIntl},
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr'},
   ]
 })
 export class SharedModule {

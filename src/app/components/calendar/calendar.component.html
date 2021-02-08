@@ -9,6 +9,7 @@
     <button
       mat-stroked-button
       color="primary"
+      [ngClass]="{'selected-view': view === 'month'}"
       (click)="setView(calendarView.Month)"
       [class.active]="view === calendarView.Month"
     >
@@ -17,6 +18,7 @@
     <button
       mat-stroked-button
       color="primary"
+      [ngClass]="{'selected-view': view === 'week'}"
       (click)="setView(calendarView.Week)"
       [class.active]="view === calendarView.Week"
     >
@@ -25,6 +27,7 @@
     <button
       mat-stroked-button
       color="primary"
+      [ngClass]="{'selected-view': view === 'day'}"
       (click)="setView(calendarView.Day)"
       [class.active]="view === calendarView.Day"
     >
