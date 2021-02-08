@@ -34,7 +34,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   calendarView = CalendarView;
   viewDate: Date = new Date();
   calendarData: CalendarEvent[] = [];
-  activeDayIsOpen = true;
+  activeDayIsOpen = false;
   refresh: Subject<any> = new Subject();
 
   private currentDate: Date;
