@@ -131,8 +131,8 @@ export class ReservationFormDialogComponent implements OnInit {
     this.reservationForm.controls.endTime.setValue(endTime);
 
     if (this.reservation.session) {
-      this.title = this.session.session_name;
       this.session = this.reservation.session[0];
+      this.title = this.session.session_name;
       this.hasSession = true;
       this.reservationForm.controls.hasSession.setValue(true);
       this.selectedParticipants = this.session.session_participants;
