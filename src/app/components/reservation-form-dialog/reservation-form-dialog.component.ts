@@ -33,6 +33,11 @@ export class ReservationFormDialogComponent implements OnInit {
   private session: Session;
   private isCustomName = false;
 
+  private static roundToNearestQuarter(date: Date): Date {
+    const coefficient = 1000 * 60 * 15;
+    return new Date(Math.round(date.getTime() / coefficient) * coefficient);
+  }
+
   private static dateToISOLikeButLocal(date: Date): string {
     const offsetMs = date.getTimezoneOffset() * 60 * 1000;
     const msLocal = date.getTime() - offsetMs;
@@ -89,8 +94,8 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   private initializeForm() {
-    const today = new Date();
-    const inOneHour = new Date();
+    const today = ReservationFormDialogComponent.roundToNearestQuarter(new Date());
+    const inOneHour = new Date(today);
     inOneHour.setHours(inOneHour.getHours() + 1);
     this.reservationForm = this.fb.group({
         name: new FormControl('', Validators.required),

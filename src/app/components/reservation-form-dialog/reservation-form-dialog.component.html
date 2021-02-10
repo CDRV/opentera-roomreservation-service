@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{title}}</h1>
+<h1 mat-dialog-title class="dialog-title">{{title}}</h1>
 
 <div class="message">
   <span class="instruction" *ngIf="siteIsNotSelected()">Sélectionner un site pour la réservation.</span>
@@ -51,7 +51,7 @@
         </mat-label>
         <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime"
                (dateTimeChange)="change($event)">
-        <owl-date-time [pickerType]="'timer'" #start></owl-date-time>
+        <owl-date-time [pickerType]="'timer'" [stepMinute]="15" #start></owl-date-time>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -60,7 +60,7 @@
         </mat-label>
         <input matInput [owlDateTimeTrigger]="end" [owlDateTime]="end" formControlName="endTime"
                (dateTimeChange)="change($event)">
-        <owl-date-time [pickerType]="'timer'" #end></owl-date-time>
+        <owl-date-time [pickerType]="'timer'" stepMinute="15" #end></owl-date-time>
       </mat-form-field>
     </div>
 
@@ -87,17 +87,18 @@
 
 </div>
 <div class="buttons" mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">
-    Annuler
-  </button>
-  <button mat-button [disabled]=!this.idReservation (click)="delete()">
+  <button class="delete" mat-button [disabled]=!this.idReservation (click)="delete()">
+    <mat-icon mat-list-icon>delete</mat-icon>
     <span>Supprimer</span>
-    <mat-icon mat-list-icon>delete
-    </mat-icon>
   </button>
-  <button mat-button [disabled]=!isSaveButtonEnabled (click)="validate()">
-    <span>Sauvegarder</span>
-    <mat-icon mat-list-icon>save
-    </mat-icon>
-  </button>
+  <div>
+    <button mat-button [disabled]=!isSaveButtonEnabled (click)="validate()">
+      <mat-icon mat-list-icon>save</mat-icon>
+      <span>Sauvegarder</span>
+    </button>
+    <button mat-button (click)="onNoClick()">
+      <mat-icon mat-list-icon>close</mat-icon>
+      <span>Annuler</span>
+    </button>
+  </div>
 </div>

@@ -1,3 +1,8 @@
+.dialog-title {
+  padding-bottom: 2px;
+  border-bottom: 2px solid var(--border);
+}
+
 .message {
   padding: 10px 0;
   display: flex;
@@ -71,15 +76,22 @@ form {
 .buttons {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  justify-content: space-between;
 
   button {
+    background-color: var(--border);
+
+    &.delete {
+      background-color: var(--warn-lighter-color);
+    }
+
     span {
+      padding-left: 5px;
       display: initial;
     }
 
-    mat-icon {
-      display: none;
+    &:first-of-type {
+      justify-self: start;
     }
   }
 }
@@ -105,7 +117,7 @@ form {
   }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 600px) {
   .buttons {
     button {
       span {
