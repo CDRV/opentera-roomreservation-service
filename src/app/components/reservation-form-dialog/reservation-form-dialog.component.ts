@@ -149,6 +149,7 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   selectedParticipantChange(selectedParticipant: Participant) {
+    console.log(selectedParticipant);
     const found = this.selectedParticipants.some(participant => participant.id_participant === selectedParticipant.id_participant);
     if (!found) {
       this.selectedParticipants.push(selectedParticipant);
@@ -184,25 +185,25 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   private createReservation(): Reservation {
-    const reservation = new Reservation();
-    reservation.id_reservation = reservation.id_reservation ? reservation.id_reservation : 0;
-    reservation.name = this.reservationForm.controls.name.value;
-    reservation.id_room = this.selectedRoom.id_room;
-    reservation.reservation_start_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
+    const newReservation = new Reservation();
+    newReservation.id_reservation = this.reservation.id_reservation ? this.reservation.id_reservation : 0;
+    newReservation.name = this.reservationForm.controls.name.value;
+    newReservation.id_room = this.selectedRoom.id_room;
+    newReservation.reservation_start_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
       this.setDate(this.reservationForm.controls.startTime.value));
-    reservation.reservation_end_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
+    newReservation.reservation_end_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
       this.setDate(this.reservationForm.controls.endTime.value));
-    reservation.user_uuid = this.userInfos.user_uuid;
-    reservation.user_name = this.userInfos.user_fullname;
+    newReservation.user_uuid = this.userInfos.user_uuid;
+    newReservation.user_name = this.userInfos.user_fullname;
 
     if (this.hasSession) {
-      reservation.session = this.createSession();
-      reservation.session.session_start_datetime = reservation.reservation_start_datetime;
-      reservation.session.session_duration = this.getDuration(this.reservationForm.controls.startTime.value,
+      newReservation.session = this.createSession();
+      newReservation.session.session_start_datetime = this.reservation.reservation_start_datetime;
+      newReservation.session.session_duration = this.getDuration(this.reservationForm.controls.startTime.value,
         this.reservationForm.controls.endTime.value);
     }
 
-    return reservation;
+    return newReservation;
   }
 
   private setDate(formValue: any): Date {
