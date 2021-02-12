@@ -21,10 +21,12 @@ mat-card {
   mat-form-field {
     display: block;
     margin-bottom: 20px;
+    padding-bottom: 10px;
   }
 
   mat-error {
     padding-bottom: 3px;
+    margin-top: 15px;
   }
 
   button {
