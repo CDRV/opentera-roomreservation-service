@@ -40,7 +40,6 @@ body {
   .mat-form-field-outline-end {
     background-color: var(--field-background);
   }
-
 }
 
 /****** CALENDAR ******/
@@ -133,7 +132,6 @@ body {
   .cal-header.cal-today {
     background-color: var(--primary-lighter-color);
     color: var(--primary-color);
-    background-color: var(--field-background);
   }
   .cal-ends-within-day {
     .cal-event {
