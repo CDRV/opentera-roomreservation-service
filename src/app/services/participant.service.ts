@@ -3,6 +3,7 @@ import {makeApiURL} from '../core/utils/make-api-url';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Participant} from '../core/models/participant.model';
+import {tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,12 @@ export class ParticipantService {
     return this.participantsListSubject.asObservable();
   }
 
-  getBySite(idSite: number) {
-    this.http.get<Participant[]>(this.API_URL + this.controller + '?id_site=' + idSite).subscribe(result => {
-      this.participantsList = result;
-      this.participantsListSubject.next(this.participantsList);
-    });
+  getByProject(idProject: number): Observable<Participant[]> {
+    return this.http.get<Participant[]>(this.API_URL + this.controller + '?enabled=true&id_project=' + idProject).pipe(
+      tap(result => {
+        this.participantsList = result;
+        this.participantsListSubject.next(this.participantsList);
+      })
+    );
   }
 }

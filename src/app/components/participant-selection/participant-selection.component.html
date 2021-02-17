@@ -1,8 +1,26 @@
-<mat-form-field appearance="outline">
-  <mat-label>Participant</mat-label>
-  <mat-select (selectionChange)="onValueChanged($event)" [value]="selectedOption">
-    <mat-option *ngFor="let participant of participants" [value]="participant">
+<div class="refreshing">
+  <mat-progress-spinner
+    *ngIf="refreshing"
+    [mode]="'indeterminate'"
+    [value]="50"
+    [diameter]="30"
+    [color]="'primary'">
+  </mat-progress-spinner>
+</div>
+
+<mat-form-field appearance="outline" *ngIf="!refreshing">
+  <mat-chip-list #chipList>
+    <mat-chip color="primary" *ngFor="let participant of selectedParticipants;let index=index;" [selectable]="selectable"
+              [removable]="removable" (removed)="remove(participant,index)">
+      {{participant.participant_name}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input placeholder="Ajouter un participant" #participantInput [formControl]="participantCtrl" [matAutocomplete]="auto"
+           [matChipInputFor]="chipList" [matChipInputAddOnBlur]="addOnBlur">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let participant of filteredParticipants | async" [value]="participant">
       {{participant.participant_name}}
     </mat-option>
-  </mat-select>
+  </mat-autocomplete>
 </mat-form-field>

@@ -45,8 +45,7 @@ registerLocaleData(localeFr, 'fr');
     {provide: LOCALE_ID, useValue: 'FR-fr'},
     AuthenticationService
   ],
-    exports: [
-    ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

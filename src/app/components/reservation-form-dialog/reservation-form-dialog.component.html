@@ -5,32 +5,27 @@
   <span class="instruction" *ngIf="roomIsNotSelected() && !siteIsNotSelected()">Sélectionner un local pour la
     réservation.
   </span>
-  <span class="instruction" *ngIf="hasSession && hasNoParticipant()">Indiquer le ou les participants pour la
-    séance
-    de téléréadaptation.
-  </span>
   <span class="error" *ngIf="startTimeAfterEndTime()">L'heure de début doit être avant l'heure de fin.</span>
 </div>
 
 <div mat-dialog-content>
-
   <form [formGroup]="reservationForm">
 
     <span class="row-title">Informations</span>
     <div class="fields-row">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="half-width">
         <mat-label>Réservation faite par</mat-label>
         <input matInput formControlName="user">
       </mat-form-field>
-      <mat-form-field appearance="outline" (change)="reservationNameChange()">
+      <mat-form-field appearance="outline" (change)="reservationNameChange()" class="half-width">
         <mat-label>Nom de la réservation</mat-label>
         <input matInput formControlName="name">
       </mat-form-field>
     </div>
 
     <div class="fields-row">
-      <app-site-selection (selectedSiteChange)=" selectedSiteChange($event)"></app-site-selection>
-      <app-room-selection [idSite]="selectedSite.id_site"
+      <app-site-selection class="half-width" (selectedSiteChange)=" selectedSiteChange($event)"></app-site-selection>
+      <app-room-selection [idSite]="selectedSite.id_site" class="half-width"
                           (selectedRoomChange)="selectedRoomChange($event)"></app-room-selection>
     </div>
 
@@ -65,27 +60,24 @@
     </div>
 
     <span class="row-title">Type de séance</span>
-    <div class="session-type">
-      <mat-checkbox formControlName="hasSession" (change)="changeSession($event)">
-        Séance de téléréadaptation
-      </mat-checkbox>
-
-      <div *ngIf="hasSession" class="session">
-        <app-participant-selection [idSite]="selectedSite.id_site"
-                                   (selectedParticipantChange)="selectedParticipantChange($event)"></app-participant-selection>
-        <mat-list>
-          <div mat-subheader>Participants</div>
-          <mat-list-item *ngFor="let participant of selectedParticipants">
-            <mat-icon mat-list-icon (click)="deleteParticipant(participant.id_participant)">delete
-            </mat-icon>
-            <div mat-line>{{participant.participant_name}}</div>
-          </mat-list-item>
-        </mat-list>
-      </div>
+    <div class="message">
+      <span class="instruction">Indiquer le projet auquel la séance est associée pour ajouter un type de séance et un ou des participants.</span>
+    </div>
+    <div class="fields-row">
+      <app-project-selection [idSite]="selectedSite.id_site" [idReservationProject]="idReservationProject"
+                             class="half-width" (selectedProjectChange)="selectedProjectChange($event)"></app-project-selection>
+      <app-session-type-selection [idProject]="selectedProject.id_project" [idSessionType]="session?.id_session_type"
+                                  class="half-width" *ngIf="selectedProject?.id_project"
+                                  (selectedSessionTypeChange)="selectedSessionTypeChange($event)"></app-session-type-selection>
+    </div>
+    <div class="fields-row">
+      <app-participant-selection [idProject]="selectedProject.id_project" *ngIf="selectedProject?.id_project"
+                                 [reservationParticipants]="session?.session_participants" class="full-width"
+                                 (selectedParticipantsChange)="selectedParticipantsChange($event)"></app-participant-selection>
     </div>
   </form>
-
 </div>
+
 <div class="buttons" mat-dialog-actions>
   <button class="delete" mat-button [disabled]=!this.idReservation (click)="delete()">
     <mat-icon mat-list-icon>delete</mat-icon>

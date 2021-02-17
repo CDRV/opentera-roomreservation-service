@@ -11,8 +11,9 @@ import {Participant} from '../../core/models/participant.model';
 import {Session} from '../../core/models/session.model';
 import {UserInfosService} from '../../services/user-infos.service';
 import {UserInfos} from '../../core/models/user-infos.model';
-import {MatCheckboxChange} from '@angular/material/checkbox';
 import {TimeValidator} from '../../shared/validators/time-validator';
+import {Project} from '../../core/models/project.model';
+import {SessionType} from '../../core/models/session-type.model';
 
 @Component({
   selector: 'app-reservation-form-dialog',
@@ -26,12 +27,15 @@ export class ReservationFormDialogComponent implements OnInit {
   reservationForm: FormGroup;
   hasSession = false;
   isSaveButtonEnabled = false;
+  idReservationProject: number;
+  session: Session;
   selectedSite: Site;
   selectedRoom: Room;
+  selectedProject: Project;
   selectedParticipants: Participant[] = [];
   private userInfos: UserInfos;
-  private session: Session;
   private isCustomName = false;
+  private selectedSessionType: SessionType;
 
   private static roundToNearestQuarter(date: Date): Date {
     const coefficient = 1000 * 60 * 15;
@@ -55,6 +59,7 @@ export class ReservationFormDialogComponent implements OnInit {
               private scheduleService: ScheduleService) {
     this.selectedRoom = new Room();
     this.selectedSite = new Site();
+    this.selectedProject = new Project();
   }
 
   onNoClick(): void {
@@ -89,7 +94,7 @@ export class ReservationFormDialogComponent implements OnInit {
     } else {
       this.reservation = new Reservation();
       this.title = 'Nouvelle réservation';
-      this.enableSave();
+      this.isSaveButtonEnabled = false;
     }
   }
 
@@ -102,8 +107,7 @@ export class ReservationFormDialogComponent implements OnInit {
         user: new FormControl({value: this.userInfos.user_fullname, disabled: true}, Validators.required),
         startDate: new FormControl(today, Validators.required),
         startTime: new FormControl(today, Validators.required),
-        endTime: new FormControl(inOneHour, Validators.required),
-        hasSession: new FormControl(false)
+        endTime: new FormControl(inOneHour, Validators.required)
       },
       {
         validator: TimeValidator('endTime', 'startTime')
@@ -113,6 +117,7 @@ export class ReservationFormDialogComponent implements OnInit {
 
   getReservation() {
     this.scheduleService.getById(this.idReservation).subscribe(reservation => {
+      console.log(reservation[0]);
       this.reservation = reservation[0];
       this.setValues();
       this.enableSave();
@@ -134,8 +139,8 @@ export class ReservationFormDialogComponent implements OnInit {
       this.session = this.reservation.session[0];
       this.title = this.session.session_name;
       this.hasSession = true;
-      this.reservationForm.controls.hasSession.setValue(true);
       this.selectedParticipants = this.session.session_participants;
+      this.idReservationProject = this.selectedParticipants[0].id_project;
     }
   }
 
@@ -148,24 +153,25 @@ export class ReservationFormDialogComponent implements OnInit {
     this.enableSave();
   }
 
-  selectedParticipantChange(selectedParticipant: Participant) {
-    console.log(selectedParticipant);
-    const found = this.selectedParticipants.some(participant => participant.id_participant === selectedParticipant.id_participant);
-    if (!found) {
-      this.selectedParticipants.push(selectedParticipant);
-    }
+  selectedParticipantsChange(selectedParticipants: Participant[]) {
+    this.selectedParticipants = selectedParticipants;
     this.enableSave();
   }
 
   enableSave() {
     if (this.reservationForm.invalid // If form has errors
       || !this.selectedRoom.hasOwnProperty('id_room') // No room selected
-      || (this.hasSession && this.selectedParticipants?.length === 0)) { // Missing session's information
+      || this.isSessionMissingInformation()) {
       this.validateAllFields(this.reservationForm); // Show errors in form
       this.isSaveButtonEnabled = false; // Disable save button
     } else {
       this.isSaveButtonEnabled = true;
     }
+  }
+
+  private isSessionMissingInformation(): boolean {
+    console.log(this.hasSession, this.hasNoParticipant(), !this.selectedProject, !this.selectedSessionType);
+    return this.hasSession && (this.hasNoParticipant() || !this.selectedProject || !this.selectedSessionType);
   }
 
   validate() {
@@ -202,7 +208,6 @@ export class ReservationFormDialogComponent implements OnInit {
       newReservation.session.session_duration = this.getDuration(this.reservationForm.controls.startTime.value,
         this.reservationForm.controls.endTime.value);
     }
-
     return newReservation;
   }
 
@@ -226,17 +231,12 @@ export class ReservationFormDialogComponent implements OnInit {
     session.id_session = this.session?.id_session ? this.session.id_session : 0;
     session.session_users_uuids = [this.userInfos.user_uuid];
     session.session_status = 0;
+    session.id_session_type = this.selectedSessionType.id_session_type;
     session.session_participants_uuids = this.selectedParticipants.map(a => a.participant_uuid);
     return session;
   }
 
   change($event: any) {
-    this.enableSave();
-  }
-
-  changeSession(event: MatCheckboxChange) {
-    this.hasSession = event.checked;
-    this.setDefaultName();
     this.enableSave();
   }
 
@@ -274,5 +274,17 @@ export class ReservationFormDialogComponent implements OnInit {
 
   reservationNameChange() {
     this.isCustomName = true;
+  }
+
+  selectedProjectChange(selectedProject: Project) {
+    this.selectedProject = selectedProject;
+    this.hasSession = !!selectedProject;
+    this.setDefaultName();
+    this.enableSave();
+  }
+
+  selectedSessionTypeChange(selectedSessionType: SessionType) {
+    this.selectedSessionType = selectedSessionType;
+    this.enableSave();
   }
 }

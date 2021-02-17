@@ -20,6 +20,8 @@ import {
 } from '@danielmoncada/angular-datetime-picker';
 import {PageTitleComponent} from '../components/page-title/page-title.component';
 import {DefaultIntl} from '../core/utils/datetime-picker.config';
+import {ProjectSelectionComponent} from '../components/project-selection/project-selection.component';
+import {SessionTypeSelectionComponent} from '../components/session-type-selection/session-type-selection.component';
 
 
 @NgModule({
@@ -34,13 +36,15 @@ import {DefaultIntl} from '../core/utils/datetime-picker.config';
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    AppMaterialModule
+    AppMaterialModule,
   ],
   declarations: [
     CalendarComponent,
     SiteSelectionComponent,
     RoomSelectionComponent,
+    ProjectSelectionComponent,
     ParticipantSelectionComponent,
+    SessionTypeSelectionComponent,
     ConfirmationDialogComponent,
     RoomFormDialogComponent,
     ReservationFormDialogComponent,
@@ -50,6 +54,8 @@ import {DefaultIntl} from '../core/utils/datetime-picker.config';
     CalendarComponent,
     SiteSelectionComponent,
     RoomSelectionComponent,
+    ProjectSelectionComponent,
+    SessionTypeSelectionComponent,
     ParticipantSelectionComponent,
     AppMaterialModule,
     PageTitleComponent
