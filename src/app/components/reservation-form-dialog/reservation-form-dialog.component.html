@@ -5,7 +5,6 @@
   <span class="instruction" *ngIf="roomIsNotSelected() && !siteIsNotSelected()">Sélectionner un local pour la
     réservation.
   </span>
-  <span class="error" *ngIf="startTimeAfterEndTime()">L'heure de début doit être avant l'heure de fin.</span>
 </div>
 
 <div mat-dialog-content>
@@ -47,6 +46,7 @@
         <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime"
                (dateTimeChange)="change($event)">
         <owl-date-time [pickerType]="'timer'" [stepMinute]="15" #start></owl-date-time>
+        <mat-error *ngIf="startTimeAfterEndTime()">L'heure de début doit être avant l'heure de fin.</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -65,7 +65,8 @@
     </div>
     <div class="fields-row">
       <app-project-selection [idSite]="selectedSite.id_site" [idReservationProject]="idReservationProject"
-                             class="half-width" (selectedProjectChange)="selectedProjectIdChange($event)"></app-project-selection>
+                             class="half-width"
+                             (selectedProjectChange)="selectedProjectIdChange($event)"></app-project-selection>
       <app-session-type-selection [idProject]="selectedProjectId" [idSessionType]="session?.id_session_type"
                                   class="half-width" *ngIf="selectedProjectId"
                                   (selectedSessionTypeChange)="selectedSessionTypeChange($event)"></app-session-type-selection>

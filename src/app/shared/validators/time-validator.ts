@@ -24,6 +24,7 @@ export function TimeValidator(
       endTime.setErrors({startTimeAfterEndTime: true});
     } else {
       endTime.setErrors(null);
+      startTime.setErrors(null);
     }
   };
 }
