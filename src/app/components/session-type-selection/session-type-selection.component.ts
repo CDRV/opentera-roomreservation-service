@@ -14,6 +14,7 @@ export class SessionTypeSelectionComponent implements OnInit, OnChanges {
   sessionTypes: SessionType[] = [];
   selectedOption: SessionType;
   refreshing = false;
+  private isInitialSetup: boolean;
 
   constructor(private sessionTypeService: SessionTypeService) {
   }
@@ -27,7 +28,7 @@ export class SessionTypeSelectionComponent implements OnInit, OnChanges {
       this.refreshSessionTypes();
     }
     if (changes.idSessionType) {
-      this.selectSessionType();
+      this.isInitialSetup = !!changes.idSessionType.previousValue;
     }
   }
 
@@ -41,6 +42,7 @@ export class SessionTypeSelectionComponent implements OnInit, OnChanges {
     if (this.idProject) {
       this.refreshing = true;
       this.sessionTypeService.getByProject(this.idProject).subscribe(() => {
+        this.selectSessionType();
         this.refreshing = false;
       });
     }

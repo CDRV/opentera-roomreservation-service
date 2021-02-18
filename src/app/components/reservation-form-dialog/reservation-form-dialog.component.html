@@ -65,13 +65,13 @@
     </div>
     <div class="fields-row">
       <app-project-selection [idSite]="selectedSite.id_site" [idReservationProject]="idReservationProject"
-                             class="half-width" (selectedProjectChange)="selectedProjectChange($event)"></app-project-selection>
-      <app-session-type-selection [idProject]="selectedProject.id_project" [idSessionType]="session?.id_session_type"
-                                  class="half-width" *ngIf="selectedProject?.id_project"
+                             class="half-width" (selectedProjectChange)="selectedProjectIdChange($event)"></app-project-selection>
+      <app-session-type-selection [idProject]="selectedProjectId" [idSessionType]="session?.id_session_type"
+                                  class="half-width" *ngIf="selectedProjectId"
                                   (selectedSessionTypeChange)="selectedSessionTypeChange($event)"></app-session-type-selection>
     </div>
     <div class="fields-row">
-      <app-participant-selection [idProject]="selectedProject.id_project" *ngIf="selectedProject?.id_project"
+      <app-participant-selection [idProject]="selectedProjectId" *ngIf="selectedProjectId"
                                  [reservationParticipants]="session?.session_participants" class="full-width"
                                  (selectedParticipantsChange)="selectedParticipantsChange($event)"></app-participant-selection>
     </div>

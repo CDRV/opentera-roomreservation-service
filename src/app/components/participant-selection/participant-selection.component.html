@@ -10,7 +10,7 @@
 
 <mat-form-field appearance="outline" *ngIf="!refreshing">
   <mat-chip-list #chipList>
-    <mat-chip color="primary" *ngFor="let participant of selectedParticipants;let index=index;" [selectable]="selectable"
+    <mat-chip color="primary" selected *ngFor="let participant of selectedParticipants;let index=index;" [selectable]="selectable"
               [removable]="removable" (removed)="remove(participant,index)">
       {{participant.participant_name}}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>

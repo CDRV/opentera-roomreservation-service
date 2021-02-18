@@ -12,7 +12,6 @@ import {Session} from '../../core/models/session.model';
 import {UserInfosService} from '../../services/user-infos.service';
 import {UserInfos} from '../../core/models/user-infos.model';
 import {TimeValidator} from '../../shared/validators/time-validator';
-import {Project} from '../../core/models/project.model';
 import {SessionType} from '../../core/models/session-type.model';
 
 @Component({
@@ -31,7 +30,7 @@ export class ReservationFormDialogComponent implements OnInit {
   session: Session;
   selectedSite: Site;
   selectedRoom: Room;
-  selectedProject: Project;
+  selectedProjectId: number;
   selectedParticipants: Participant[] = [];
   private userInfos: UserInfos;
   private isCustomName = false;
@@ -59,7 +58,6 @@ export class ReservationFormDialogComponent implements OnInit {
               private scheduleService: ScheduleService) {
     this.selectedRoom = new Room();
     this.selectedSite = new Site();
-    this.selectedProject = new Project();
   }
 
   onNoClick(): void {
@@ -117,7 +115,6 @@ export class ReservationFormDialogComponent implements OnInit {
 
   getReservation() {
     this.scheduleService.getById(this.idReservation).subscribe(reservation => {
-      console.log(reservation[0]);
       this.reservation = reservation[0];
       this.setValues();
       this.enableSave();
@@ -127,6 +124,7 @@ export class ReservationFormDialogComponent implements OnInit {
   private setValues() {
     const startTime = new Date(this.reservation.reservation_start_datetime);
     const endTime = new Date(this.reservation.reservation_end_datetime);
+    console.log(this.reservation);
 
     this.title = 'Informations de la réservation à ' + this.reservation.user_name;
     this.reservationForm.controls.name.setValue(this.reservation.name);
@@ -170,8 +168,8 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   private isSessionMissingInformation(): boolean {
-    console.log(this.hasSession, this.hasNoParticipant(), !this.selectedProject, !this.selectedSessionType);
-    return this.hasSession && (this.hasNoParticipant() || !this.selectedProject || !this.selectedSessionType);
+    console.log(this.hasSession, this.hasNoParticipant(), !this.selectedProjectId, !this.selectedSessionType);
+    return this.hasSession && (this.hasNoParticipant() || !this.selectedProjectId || !this.selectedSessionType);
   }
 
   validate() {
@@ -240,10 +238,6 @@ export class ReservationFormDialogComponent implements OnInit {
     this.enableSave();
   }
 
-  deleteParticipant(id: number) {
-    this.selectedParticipants = this.selectedParticipants.filter(participant => participant.id_participant !== id);
-  }
-
   startTimeAfterEndTime(): boolean {
     return this.reservationForm.controls.endTime.hasError('startTimeAfterEndTime');
   }
@@ -276,10 +270,9 @@ export class ReservationFormDialogComponent implements OnInit {
     this.isCustomName = true;
   }
 
-  selectedProjectChange(selectedProject: Project) {
-    this.selectedProject = selectedProject;
-    this.hasSession = !!selectedProject;
-    this.setDefaultName();
+  selectedProjectIdChange(selectedProjectId: number) {
+    this.selectedProjectId = selectedProjectId;
+    this.hasSession = !!selectedProjectId;
     this.enableSave();
   }
 

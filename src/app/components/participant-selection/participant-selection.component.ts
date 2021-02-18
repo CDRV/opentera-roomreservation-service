@@ -15,7 +15,6 @@ import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@angular/material/a
 import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {MatChipInputEvent} from '@angular/material/chips';
 
 @Component({
   selector: 'app-participant-selection',
@@ -26,7 +25,6 @@ export class ParticipantSelectionComponent implements OnInit, OnChanges {
   @Output() selectedParticipantsChange = new EventEmitter();
   @Input() idProject: number;
   @Input() reservationParticipants: Participant[];
-  selectedOption: any;
   refreshing = false;
   selectable = true;
   removable = true;
@@ -50,18 +48,25 @@ export class ParticipantSelectionComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('pp', changes);
     if (changes.idProject) {
+      this.selectedParticipants = [];
+      this.selectedParticipantsChange.emit(this.selectedParticipants);
       this.refreshParticipants();
     }
-    if (changes.reservationParticipants) {
-      this.participantCtrl.setValue(null);
-      this.selectedParticipants = !this.reservationParticipants ? [] : this.reservationParticipants;
+    this.participantCtrl.setValue(null);
+    if (this.reservationParticipants && this.reservationParticipants.length > 0
+      && this.reservationParticipants[0].id_project === this.idProject) {
+      this.selectedParticipants = this.reservationParticipants;
+      this.participantCtrl.setValue(this.selectedParticipants);
+    } else {
+      this.selectedParticipants = [];
     }
   }
 
   private getParticipants() {
     this.participantService.participantsList$().subscribe(participants => {
-      this.participants = participants;
+      this.participants = participants ? participants : [];
     });
   }
 
@@ -91,7 +96,6 @@ export class ParticipantSelectionComponent implements OnInit, OnChanges {
   }
 
   private _filter(filterBy: any): Participant[] {
-    console.log(filterBy);
     if (filterBy) {
       filterBy = filterBy.toString().toLocaleLowerCase();
       return this.participants.filter((part: Participant) =>
