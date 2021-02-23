@@ -3,8 +3,11 @@ import {MediaMatcher} from '@angular/cdk/layout';
 import {Router} from '@angular/router';
 import {UserInfosService} from '../../../services/user-infos.service';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {GlobalConstants} from "../../../core/utils/global-constants";
-import {UserInfos} from "../../../core/models/user-infos.model";
+import {GlobalConstants} from '../../../core/utils/global-constants';
+import {UserInfos} from '../../../core/models/user-infos.model';
+import {combineLatest} from 'rxjs';
+import {SelectedSiteService} from '../../../services/selected-site.service';
+import {Site} from '../../../core/models/site.model';
 
 @Component({
   selector: 'app-app-layout',
@@ -16,9 +19,11 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   version = GlobalConstants.version;
   organism = GlobalConstants.organism;
   userInfos: UserInfos;
+  private idSite: number;
 
   constructor(changeDetectorRef: ChangeDetectorRef,
               media: MediaMatcher,
+              private selectedSiteService: SelectedSiteService,
               private authService: AuthenticationService,
               private userInfosService: UserInfosService,
               public router: Router) {
@@ -39,12 +44,20 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.userInfosService.userInfos$().subscribe((infos: UserInfos) => {
       this.userInfos = infos;
     });
+
+    combineLatest([
+      this.userInfosService.userInfos$(),
+      this.selectedSiteService.getSelectedSite()
+    ]).subscribe(([infos, site]) => {
+      this.userInfos = infos;
+      this.idSite = site ? site.id_site : null;
+    });
     this.refreshUserInfos();
   }
 
   private refreshUserInfos() {
     this.refreshing = true;
-    this.userInfosService.getWithToken().subscribe(() => {
+    this.userInfosService.getWithToken(this.idSite).subscribe(() => {
       this.refreshing = false;
     });
   }

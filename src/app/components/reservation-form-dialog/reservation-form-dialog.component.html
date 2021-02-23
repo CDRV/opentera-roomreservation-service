@@ -9,6 +9,11 @@
         <mat-label>Réservation faite par</mat-label>
         <input matInput formControlName="user">
       </mat-form-field>
+      <app-user-selection *ngIf="userInfos.is_super_admin || userInfos.is_site_admin"
+                          class="half-width" [idSite]="selectedSite.id_site" [uuidUser]="uuidUser"
+                          [disabled]="!userInfos.is_super_admin && !userInfos.is_site_admin"
+                          (selectedUserChange)="selectedUserChange($event)"></app-user-selection>
+
       <mat-form-field appearance="outline" (change)="reservationNameChange()" class="half-width">
         <mat-label>Nom de la réservation</mat-label>
         <input matInput formControlName="name">
@@ -39,7 +44,8 @@
         <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime"
                (dateTimeChange)="change($event)">
         <owl-date-time [startAt]="today" [pickerType]="'timer'" [stepMinute]="15" #start></owl-date-time>
-        <mat-error class="time-error" *ngIf="startTimeAfterEndTime()">L'heure de début doit être avant l'heure de fin.</mat-error>
+        <mat-error class="time-error" *ngIf="startTimeAfterEndTime()">L'heure de début doit être avant l'heure de fin.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">

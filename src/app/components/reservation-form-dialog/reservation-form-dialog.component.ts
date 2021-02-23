@@ -15,6 +15,7 @@ import {TimeInputValidator} from '../../shared/validators/time-validator';
 import {SessionType} from '../../core/models/session-type.model';
 import {ReservationTimeInputValidator} from '../../shared/validators/reservation-time-validator';
 import {dateToISOLikeButLocal, getDuration, setDate} from '../../core/utils/utility-functions';
+import {User} from '../../core/models/user.model';
 
 @Component({
   selector: 'app-reservation-form-dialog',
@@ -27,6 +28,7 @@ export class ReservationFormDialogComponent implements OnInit {
   title: string;
   inOneHour: Date;
   today: Date;
+  uuidUser: string;
   reservationForm: FormGroup;
   hasSession = false;
   isSaveButtonEnabled = false;
@@ -39,6 +41,7 @@ export class ReservationFormDialogComponent implements OnInit {
   private userInfos: UserInfos;
   private isCustomName = false;
   private selectedSessionType: SessionType;
+  private selectedUser: User;
 
   private static roundToNearestQuarter(date: Date): Date {
     const coefficient = 1000 * 60 * 15;
@@ -66,7 +69,7 @@ export class ReservationFormDialogComponent implements OnInit {
       data: 'Êtes-vous sûr de vouloir supprimer cette réservation?'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.reservationService.delete(this.idReservation).subscribe(() => {
           this.notificationService.showSuccess('La réservation ' + this.idReservation + ' a été supprimée.');
@@ -93,6 +96,7 @@ export class ReservationFormDialogComponent implements OnInit {
   private getUserInfo() {
     this.userInfosService.userInfos$().subscribe((infos: UserInfos) => {
       this.userInfos = infos;
+      this.uuidUser = this.userInfos.user_uuid;
       this.setDefaultName();
     });
   }
@@ -114,8 +118,9 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   getReservation() {
-    this.reservationService.getById(this.idReservation).subscribe(reservation => {
+    this.reservationService.getById(this.idReservation).subscribe((reservation) => {
       this.reservation = reservation[0];
+      this.uuidUser = this.reservation.user_uuid;
       this.setValues();
       this.enableSave();
     });
@@ -164,6 +169,7 @@ export class ReservationFormDialogComponent implements OnInit {
 
   enableSave() {
     if (this.reservationForm.invalid // If form has errors
+      || !this.selectedUser // No user selected for reservation
       || !this.selectedRoom.hasOwnProperty('id_room') // No room selected
       || this.isSessionMissingInformation()) {
       this.validateAllFields(this.reservationForm); // Show errors in form
@@ -251,7 +257,12 @@ export class ReservationFormDialogComponent implements OnInit {
 
   private setDefaultName() {
     if (!!this.reservationForm && (!this.reservationForm.controls.name.value || !this.isCustomName)) {
-      const defaultName = !!this.userInfos.user_fullname ? `Réservation pour ${this.userInfos.user_fullname}` : 'Réservation';
+      let defaultName = '';
+      if (this.selectedUser) {
+        defaultName = !!this.userInfos.user_fullname ? `Réservation pour ${this.selectedUser.user_firstname} ${this.selectedUser.user_lastname}` : 'Réservation';
+      } else {
+        defaultName = !!this.userInfos.user_fullname ? `Réservation pour ${this.userInfos.user_fullname}` : 'Réservation';
+      }
       this.reservationForm.controls.name.setValue(defaultName);
     }
   }
@@ -268,6 +279,12 @@ export class ReservationFormDialogComponent implements OnInit {
 
   selectedSessionTypeChange(selectedSessionType: SessionType) {
     this.selectedSessionType = selectedSessionType;
+    this.enableSave();
+  }
+
+  selectedUserChange(selectedUser: User) {
+    this.selectedUser = selectedUser;
+    this.setDefaultName();
     this.enableSave();
   }
 }

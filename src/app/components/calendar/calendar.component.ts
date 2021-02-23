@@ -137,7 +137,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       this.currentDate = startDate;
       const start = CalendarComponent.getDateString(startDate);
       const end = CalendarComponent.getDateString(endDate);
-      this.reservationService.getByRoom(this.idRoom, start, end).subscribe(result => {
+      this.reservationService.getByRoom(this.idRoom, start, end).subscribe((result) => {
         const calendarData = [];
         result.forEach(reservation => {
           calendarData.push(CalendarComponent.createCalendarEvent(reservation));
@@ -156,9 +156,9 @@ export class CalendarComponent implements OnInit, OnChanges {
       disableClose: true
     });
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe(reservation => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe((reservation) => {
       if (reservation) {
-        this.reservationService.save(reservation).subscribe(res => {
+        this.reservationService.save(reservation).subscribe((res) => {
           this.dateChange();
         });
       } else {

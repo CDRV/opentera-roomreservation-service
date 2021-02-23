@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ['', Validators.required]
     });
 
-    this.subscription = this.loginButtonService.isDisabled().subscribe(isDisabled => {
+    this.subscription = this.loginButtonService.isDisabled().subscribe((isDisabled) => {
       this.isButtonDisabled = isDisabled;
     });
   }

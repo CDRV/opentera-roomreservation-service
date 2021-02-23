@@ -12,7 +12,7 @@ import {switchMap} from 'rxjs/operators';
 export class RoomSelectionComponent implements OnInit, OnChanges {
   @Output() selectedRoomChange = new EventEmitter();
   @Input() idSite: number;
-  rooms = [];
+  rooms: Room[] = [];
   selectedOption: any;
   refreshing: boolean;
 
@@ -63,5 +63,4 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
       this.selectedRoomChange.emit(null);
     }
   }
-
 }

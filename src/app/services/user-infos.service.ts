@@ -20,8 +20,9 @@ export class UserInfosService {
     return this.userInfosSubject.asObservable();
   }
 
-  getWithToken(): Observable<UserInfos> {
-    return this.http.get<UserInfos>(this.API_URL + this.controller).pipe(
+  getWithToken(idSite: number = null): Observable<UserInfos> {
+    const siteFilter = idSite ? `?id_site=${idSite}` : '';
+    return this.http.get<UserInfos>(this.API_URL + this.controller + siteFilter).pipe(
       tap(res => {
         this.userInfosSubject.next(res);
       }));

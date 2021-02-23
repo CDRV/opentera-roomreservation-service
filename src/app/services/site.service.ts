@@ -11,7 +11,6 @@ export class SiteService {
   private API_URL = makeApiURL();
   private controller = 'user/sites';
 
-
   constructor(private http: HttpClient) {
   }
 

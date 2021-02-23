@@ -30,7 +30,7 @@ export class ProjectSelectionComponent implements OnInit, OnChanges {
   }
 
   private getProjects() {
-    this.projectService.projectsList$().subscribe(projects => {
+    this.projectService.projectsList$().subscribe((projects) => {
       this.projects = projects;
     });
   }

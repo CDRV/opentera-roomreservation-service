@@ -14,7 +14,6 @@ export class SessionTypeSelectionComponent implements OnInit, OnChanges {
   sessionTypes: SessionType[] = [];
   selectedOption: SessionType;
   refreshing = false;
-  private isInitialSetup: boolean;
 
   constructor(private sessionTypeService: SessionTypeService) {
   }
@@ -26,9 +25,6 @@ export class SessionTypeSelectionComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.idProject) {
       this.refreshSessionTypes();
-    }
-    if (changes.idSessionType) {
-      this.isInitialSetup = !!changes.idSessionType.previousValue;
     }
   }
 

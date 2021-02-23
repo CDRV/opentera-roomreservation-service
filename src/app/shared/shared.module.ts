@@ -22,6 +22,7 @@ import {PageTitleComponent} from '../components/page-title/page-title.component'
 import {DefaultIntl} from '../core/utils/datetime-picker.config';
 import {ProjectSelectionComponent} from '../components/project-selection/project-selection.component';
 import {SessionTypeSelectionComponent} from '../components/session-type-selection/session-type-selection.component';
+import {UserSelectionComponent} from '../components/user-selection/user-selection.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import {SessionTypeSelectionComponent} from '../components/session-type-selectio
     RoomSelectionComponent,
     ProjectSelectionComponent,
     ParticipantSelectionComponent,
+    UserSelectionComponent,
     SessionTypeSelectionComponent,
     ConfirmationDialogComponent,
     RoomFormDialogComponent,
@@ -55,6 +57,7 @@ import {SessionTypeSelectionComponent} from '../components/session-type-selectio
     SiteSelectionComponent,
     RoomSelectionComponent,
     ProjectSelectionComponent,
+    UserSelectionComponent,
     SessionTypeSelectionComponent,
     ParticipantSelectionComponent,
     AppMaterialModule,

@@ -48,7 +48,6 @@ export class ParticipantSelectionComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('pp', changes);
     if (changes.idProject) {
       this.selectedParticipants = [];
       this.selectedParticipantsChange.emit(this.selectedParticipants);
@@ -65,7 +64,7 @@ export class ParticipantSelectionComponent implements OnInit, OnChanges {
   }
 
   private getParticipants() {
-    this.participantService.participantsList$().subscribe(participants => {
+    this.participantService.participantsList$().subscribe((participants) => {
       this.participants = participants ? participants : [];
     });
   }

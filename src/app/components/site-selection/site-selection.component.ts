@@ -3,6 +3,7 @@ import {SiteService} from '../../services/site.service';
 import {Site} from '../../core/models/site.model';
 import {SelectedSiteService} from '../../services/selected-site.service';
 import {switchMap} from 'rxjs/operators';
+import {UserInfosService} from '../../services/user-infos.service';
 
 @Component({
   selector: 'app-site-selection',
@@ -16,6 +17,7 @@ export class SiteSelectionComponent implements OnInit {
   refreshing: boolean;
 
   constructor(private siteService: SiteService,
+              private userInfosService: UserInfosService,
               private selectedSiteService: SelectedSiteService) {
   }
 
@@ -26,7 +28,7 @@ export class SiteSelectionComponent implements OnInit {
         this.sites = res;
         return this.selectedSiteService.getSelectedSite();
       })
-    ).subscribe(site => {
+    ).subscribe((site) => {
       if (site && site.id_site) {
         const alreadySelected = this.sites.find(p => p.id_site === site.id_site);
         if (alreadySelected) {
@@ -45,8 +47,14 @@ export class SiteSelectionComponent implements OnInit {
       const selected: Site = event.value;
       this.selectedSiteService.setSelectedSite(selected);
       this.selectedSiteChange.emit(selected);
+      this.getSiteRole(selected);
     } else {
       this.selectedSiteChange.emit(null);
     }
+  }
+
+  private getSiteRole(site: Site) {
+    this.userInfosService.getWithToken(site.id_site).subscribe((res) => {
+    });
   }
 }

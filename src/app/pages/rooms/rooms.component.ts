@@ -49,7 +49,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   }
 
   private getRooms() {
-    this.roomService.roomsList$().subscribe((rooms: Room[]) => {
+    this.roomService.roomsList$().subscribe((rooms) => {
       this.rooms = rooms;
       this.dataSource = new MatTableDataSource(rooms);
     });
@@ -82,7 +82,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       data: 'Êtes-vous sûr de vouloir supprimer ce local?'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.roomService.delete(idRoom).subscribe(() => {
           this.notificationService.showSuccess('Le local ' + idRoom + ' a été supprimé.');
@@ -101,7 +101,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       data: copy ? copy : new Room()
     });
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result) => {
       if (result) {
         if (!result.id_room) {
           result.id_room = 0;
