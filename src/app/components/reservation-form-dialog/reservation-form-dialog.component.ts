@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {ScheduleService} from '../../services/schedule.service';
+import {ReservationService} from '../../services/reservation.service';
 import {Reservation} from '../../core/models/reservation.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
@@ -11,8 +11,10 @@ import {Participant} from '../../core/models/participant.model';
 import {Session} from '../../core/models/session.model';
 import {UserInfosService} from '../../services/user-infos.service';
 import {UserInfos} from '../../core/models/user-infos.model';
-import {TimeValidator} from '../../shared/validators/time-validator';
+import {TimeInputValidator} from '../../shared/validators/time-validator';
 import {SessionType} from '../../core/models/session-type.model';
+import {ReservationTimeInputValidator} from '../../shared/validators/reservation-time-validator';
+import {dateToISOLikeButLocal, getDuration, setDate} from '../../core/utils/utility-functions';
 
 @Component({
   selector: 'app-reservation-form-dialog',
@@ -23,6 +25,8 @@ export class ReservationFormDialogComponent implements OnInit {
   idReservation: number;
   reservation: Reservation;
   title: string;
+  inOneHour: Date;
+  today: Date;
   reservationForm: FormGroup;
   hasSession = false;
   isSaveButtonEnabled = false;
@@ -41,21 +45,13 @@ export class ReservationFormDialogComponent implements OnInit {
     return new Date(Math.round(date.getTime() / coefficient) * coefficient);
   }
 
-  private static dateToISOLikeButLocal(date: Date): string {
-    const offsetMs = date.getTimezoneOffset() * 60 * 1000;
-    const msLocal = date.getTime() - offsetMs;
-    const dateLocal = new Date(msLocal);
-    const iso = dateLocal.toISOString();
-    return iso.slice(0, 19);
-  }
-
   constructor(public dialogRef: MatDialogRef<ReservationFormDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               public dialog: MatDialog,
               private userInfosService: UserInfosService,
               private notificationService: NotificationService,
-              private scheduleService: ScheduleService) {
+              private reservationService: ReservationService) {
     this.selectedRoom = new Room();
     this.selectedSite = new Site();
   }
@@ -72,7 +68,7 @@ export class ReservationFormDialogComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.scheduleService.delete(this.idReservation).subscribe(() => {
+        this.reservationService.delete(this.idReservation).subscribe(() => {
           this.notificationService.showSuccess('La réservation ' + this.idReservation + ' a été supprimée.');
           this.dialogRef.close();
         });
@@ -81,10 +77,7 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userInfosService.userInfos$().subscribe((infos: UserInfos) => {
-      this.userInfos = infos;
-      this.setDefaultName();
-    });
+    this.getUserInfo();
     this.initializeForm();
     if (this.data.meta) {
       this.idReservation = this.data.meta.idReservation;
@@ -94,27 +87,34 @@ export class ReservationFormDialogComponent implements OnInit {
       this.title = 'Nouvelle réservation';
       this.isSaveButtonEnabled = false;
     }
+    this.setDefaultName();
+  }
+
+  private getUserInfo() {
+    this.userInfosService.userInfos$().subscribe((infos: UserInfos) => {
+      this.userInfos = infos;
+      this.setDefaultName();
+    });
   }
 
   private initializeForm() {
-    const today = ReservationFormDialogComponent.roundToNearestQuarter(new Date());
-    const inOneHour = new Date(today);
-    inOneHour.setHours(inOneHour.getHours() + 1);
+    this.today = ReservationFormDialogComponent.roundToNearestQuarter(new Date());
+    this.inOneHour = ReservationFormDialogComponent.roundToNearestQuarter(new Date());
+    this.inOneHour.setHours(this.inOneHour.getHours() + 1);
     this.reservationForm = this.fb.group({
-        name: new FormControl('', Validators.required),
-        user: new FormControl({value: this.userInfos.user_fullname, disabled: true}, Validators.required),
-        startDate: new FormControl(today, Validators.required),
-        startTime: new FormControl(today, Validators.required),
-        endTime: new FormControl(inOneHour, Validators.required)
-      },
-      {
-        validator: TimeValidator('endTime', 'startTime')
-      });
-
+      name: new FormControl('', Validators.required),
+      user: new FormControl({value: this.userInfos.user_fullname, disabled: true}, Validators.required),
+      startDate: new FormControl(this.today, Validators.required),
+      startTime: new FormControl(this.today, Validators.required),
+      endTime: new FormControl(this.inOneHour, Validators.required)
+    }, {
+      validators: TimeInputValidator.validateTimes,
+      asyncValidators: ReservationTimeInputValidator.checkIfTimeSlotsTaken(this.reservationService, this.selectedRoom.id_room)
+    });
   }
 
   getReservation() {
-    this.scheduleService.getById(this.idReservation).subscribe(reservation => {
+    this.reservationService.getById(this.idReservation).subscribe(reservation => {
       this.reservation = reservation[0];
       this.setValues();
       this.enableSave();
@@ -124,8 +124,6 @@ export class ReservationFormDialogComponent implements OnInit {
   private setValues() {
     const startTime = new Date(this.reservation.reservation_start_datetime);
     const endTime = new Date(this.reservation.reservation_end_datetime);
-    console.log(this.reservation);
-
     this.title = 'Informations de la réservation à ' + this.reservation.user_name;
     this.reservationForm.controls.name.setValue(this.reservation.name);
     this.reservationForm.controls.user.setValue(this.reservation.user_name);
@@ -148,7 +146,15 @@ export class ReservationFormDialogComponent implements OnInit {
 
   selectedRoomChange(selectedRoom: Room) {
     this.selectedRoom = selectedRoom;
+    this.setupFormValidators();
     this.enableSave();
+  }
+
+  private setupFormValidators() {
+    this.reservationForm.clearAsyncValidators();
+    this.reservationForm.setAsyncValidators([
+      ReservationTimeInputValidator.checkIfTimeSlotsTaken(this.reservationService, this.selectedRoom.id_room)]);
+    this.reservationForm.updateValueAndValidity();
   }
 
   selectedParticipantsChange(selectedParticipants: Participant[]) {
@@ -168,7 +174,6 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   private isSessionMissingInformation(): boolean {
-    console.log(this.hasSession, this.hasNoParticipant(), !this.selectedProjectId, !this.selectedSessionType);
     return this.hasSession && (this.hasNoParticipant() || !this.selectedProjectId || !this.selectedSessionType);
   }
 
@@ -193,34 +198,20 @@ export class ReservationFormDialogComponent implements OnInit {
     newReservation.id_reservation = this.reservation.id_reservation ? this.reservation.id_reservation : 0;
     newReservation.name = this.reservationForm.controls.name.value;
     newReservation.id_room = this.selectedRoom.id_room;
-    newReservation.reservation_start_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
-      this.setDate(this.reservationForm.controls.startTime.value));
-    newReservation.reservation_end_datetime = ReservationFormDialogComponent.dateToISOLikeButLocal(
-      this.setDate(this.reservationForm.controls.endTime.value));
+    newReservation.reservation_start_datetime = dateToISOLikeButLocal(
+      setDate(this.reservationForm.controls.startDate.value, this.reservationForm.controls.startTime.value));
+    newReservation.reservation_end_datetime = dateToISOLikeButLocal(
+      setDate(this.reservationForm.controls.startDate.value, this.reservationForm.controls.endTime.value));
     newReservation.user_uuid = this.userInfos.user_uuid;
     newReservation.user_name = this.userInfos.user_fullname;
 
     if (this.hasSession) {
       newReservation.session = this.createSession();
       newReservation.session.session_start_datetime = this.reservation.reservation_start_datetime;
-      newReservation.session.session_duration = this.getDuration(this.reservationForm.controls.startTime.value,
-        this.reservationForm.controls.endTime.value);
+      newReservation.session.session_duration = getDuration(this.reservationForm.controls.startTime.value,
+        this.reservationForm.controls.endTime.value, this.reservationForm.controls.startDate.value);
     }
     return newReservation;
-  }
-
-  private setDate(formValue: any): Date {
-    const date: Date = new Date(this.reservationForm.controls.startDate.value);
-    const time: Date = formValue;
-    date.setHours(time.getHours(), time.getMinutes(), 0, 0);
-    return date;
-  }
-
-  private getDuration(startString: string, endString: string): number {
-    const start = this.setDate(startString);
-    const end = this.setDate(endString);
-    const diffMs = end.getTime() - start.getTime();
-    return Math.floor(diffMs / 60000);
   }
 
   private createSession(): Session {
@@ -234,12 +225,16 @@ export class ReservationFormDialogComponent implements OnInit {
     return session;
   }
 
-  change($event: any) {
+  change(event: any) {
     this.enableSave();
   }
 
   startTimeAfterEndTime(): boolean {
     return this.reservationForm.controls.endTime.hasError('startTimeAfterEndTime');
+  }
+
+  reservationPeriodsOverlapping(): boolean {
+    return this.reservationForm.hasError('timesOverlapping');
   }
 
   siteIsNotSelected(): boolean {
@@ -256,12 +251,7 @@ export class ReservationFormDialogComponent implements OnInit {
 
   private setDefaultName() {
     if (!!this.reservationForm && (!this.reservationForm.controls.name.value || !this.isCustomName)) {
-      let defaultName = '';
-      if (this.hasSession) {
-        defaultName = 'Séance de téléréadaptation';
-      } else {
-        defaultName = !!this.userInfos.user_fullname ? 'Réservation pour ' + this.userInfos.user_fullname : 'Réservation';
-      }
+      const defaultName = !!this.userInfos.user_fullname ? `Réservation pour ${this.userInfos.user_fullname}` : 'Réservation';
       this.reservationForm.controls.name.setValue(defaultName);
     }
   }

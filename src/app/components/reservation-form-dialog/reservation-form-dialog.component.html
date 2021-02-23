@@ -1,12 +1,5 @@
 <h1 mat-dialog-title class="dialog-title">{{title}}</h1>
 
-<div class="message">
-  <span class="instruction" *ngIf="siteIsNotSelected()">Sélectionner un site pour la réservation.</span>
-  <span class="instruction" *ngIf="roomIsNotSelected() && !siteIsNotSelected()">Sélectionner un local pour la
-    réservation.
-  </span>
-</div>
-
 <div mat-dialog-content>
   <form [formGroup]="reservationForm">
 
@@ -36,7 +29,7 @@
         </mat-label>
         <input matInput [owlDateTimeTrigger]="startDate" [owlDateTime]="startDate" formControlName="startDate"
                (dateTimeChange)="change($event)">
-        <owl-date-time [pickerType]="'calendar'" #startDate></owl-date-time>
+        <owl-date-time [startAt]="today" [pickerType]="'calendar'" #startDate></owl-date-time>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -45,8 +38,8 @@
         </mat-label>
         <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime"
                (dateTimeChange)="change($event)">
-        <owl-date-time [pickerType]="'timer'" [stepMinute]="15" #start></owl-date-time>
-        <mat-error *ngIf="startTimeAfterEndTime()">L'heure de début doit être avant l'heure de fin.</mat-error>
+        <owl-date-time [startAt]="today" [pickerType]="'timer'" [stepMinute]="15" #start></owl-date-time>
+        <mat-error class="time-error" *ngIf="startTimeAfterEndTime()">L'heure de début doit être avant l'heure de fin.</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -55,8 +48,21 @@
         </mat-label>
         <input matInput [owlDateTimeTrigger]="end" [owlDateTime]="end" formControlName="endTime"
                (dateTimeChange)="change($event)">
-        <owl-date-time [pickerType]="'timer'" stepMinute="15" #end></owl-date-time>
+        <owl-date-time [startAt]="inOneHour" [pickerType]="'timer'" stepMinute="15" #end></owl-date-time>
       </mat-form-field>
+    </div>
+
+    <div *ngIf="!roomIsNotSelected() && reservationPeriodsOverlapping()" class="period overlap">
+      <mat-icon>close</mat-icon>
+      Une réservation occupe déjà cette période.
+    </div>
+    <div *ngIf="!roomIsNotSelected() && !reservationPeriodsOverlapping()" class="period free">
+      <mat-icon>check</mat-icon>
+      Période libre pour réservation
+    </div>
+    <div *ngIf="roomIsNotSelected() && !siteIsNotSelected()" class="period room">
+      <mat-icon class="material-icons-outlined">room</mat-icon>
+      Choisir un local pour la réservation.
     </div>
 
     <span class="row-title">Type de séance</span>

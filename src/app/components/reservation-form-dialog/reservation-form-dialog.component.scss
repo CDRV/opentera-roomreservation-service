@@ -3,26 +3,10 @@
   border-bottom: 2px solid var(--border);
 }
 
-.message {
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-
-  span {
-    &.error {
-      color: var(--warn-color);
-    }
-
-    &.instruction {
-      color: var(--primary-color);
-    }
-  }
-}
-
 form {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
+  flex-direction: column;
 
   span.row-title {
     letter-spacing: 1px;
@@ -33,14 +17,37 @@ form {
     font-family: Montserrat, sans-serif;
   }
 
-  .instruction {
-    padding: 0 20px;
+  .period {
+    margin: 0 20px 20px;
+    padding: 3px 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+      padding-right: 3px;
+    }
+
+    &.free {
+      color: var(--accent-color);
+      background-color: var(--accent-lighter-color);
+    }
+
+    &.overlap {
+      color: var(--warn-color);
+      background-color: var(--warn-lighter-color);
+    }
+
+    &.room {
+      color: var(--primary-color);
+      background-color: var(--primary-lighter-color);
+    }
+
   }
 
   .fields-row {
     display: flex;
     padding: 10px 20px 20px;
-    width: 100%;
     justify-content: space-between;
     align-items: center;
 

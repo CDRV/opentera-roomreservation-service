@@ -47,6 +47,12 @@ mat-error {
   margin-top: 15px;
 }
 
+@media screen and (min-width: 850px) {
+  .mat-form-field-appearance-outline .mat-form-field-subscript-wrapper {
+    width: 400px;
+  }
+}
+
 /****** CALENDAR ******/
 .cal-month-view {
   .cal-open-day-events {

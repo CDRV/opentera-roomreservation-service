@@ -7,7 +7,7 @@ import {Reservation} from '../core/models/reservation.model';
 @Injectable({
   providedIn: 'root'
 })
-export class ScheduleService {
+export class ReservationService {
   private API_URL = makeApiURL(true);
   private controller = 'reservations';
 
@@ -29,5 +29,10 @@ export class ScheduleService {
 
   save(reservation: Reservation): Observable<any> {
     return this.http.post(this.API_URL + this.controller, {reservation});
+  }
+
+  checkOverlaps(idRoom: number, start: string, end: string) {
+    const args = '?id_room=' + idRoom + '&overlaps=true' + '&start_date=' + start + '&end_date=' + end;
+    return this.http.get<Reservation[]>(this.API_URL + this.controller + args);
   }
 }

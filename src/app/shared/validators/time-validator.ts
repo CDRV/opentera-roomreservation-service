@@ -1,20 +1,13 @@
-import {FormGroup} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 
 // Validate that the start of the reservation is before its end.
-export function TimeValidator(
-  endTimeControlName: string,
-  startTimeControlName: string
-) {
-  return (formGroup: FormGroup) => {
-    const endTime = formGroup.controls[endTimeControlName];
-    const startTime = formGroup.controls[startTimeControlName];
+export class TimeInputValidator {
 
-    if (!endTime.value || endTime.value.length === 0 || !startTime.value || startTime.value.length === 0) {
-      return;
-    }
-
-    const end = new Date(endTime.value);
+  public static validateTimes(control: AbstractControl) {
+    const startTime = control.get('startTime');
+    const endTime = control.get('endTime');
     const start = new Date(startTime.value);
+    const end = new Date(endTime.value);
 
     if (start.getHours() > end.getHours()) {
       startTime.setErrors({startTimeAfterEndTime: true});
@@ -26,5 +19,6 @@ export function TimeValidator(
       endTime.setErrors(null);
       startTime.setErrors(null);
     }
-  };
+    return null;
+  }
 }

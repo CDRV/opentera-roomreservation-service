@@ -1,11 +1,10 @@
 import {Component, ChangeDetectionStrategy, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {isSameDay, isSameMonth} from 'date-fns';
 import {CalendarEvent, CalendarView, collapseAnimation} from 'angular-calendar';
-import {ScheduleService} from '../../services/schedule.service';
+import {ReservationService} from '../../services/reservation.service';
 import {Reservation} from '../../core/models/reservation.model';
 import {Subject} from 'rxjs';
 import {ReservationFormDialogComponent} from '../reservation-form-dialog/reservation-form-dialog.component';
-import {NotificationService} from '../../services/notification.service';
 import {MatDialog} from '@angular/material/dialog';
 import {take} from 'rxjs/operators';
 
@@ -72,7 +71,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   constructor(public dialog: MatDialog,
-              private scheduleService: ScheduleService) {
+              private reservationService: ReservationService) {
     this.currentDate = CalendarComponent.getPreviousMonday(new Date());
   }
 
@@ -138,7 +137,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       this.currentDate = startDate;
       const start = CalendarComponent.getDateString(startDate);
       const end = CalendarComponent.getDateString(endDate);
-      this.scheduleService.getByRoom(this.idRoom, start, end).subscribe(result => {
+      this.reservationService.getByRoom(this.idRoom, start, end).subscribe(result => {
         const calendarData = [];
         result.forEach(reservation => {
           calendarData.push(CalendarComponent.createCalendarEvent(reservation));
@@ -159,7 +158,7 @@ export class CalendarComponent implements OnInit, OnChanges {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(reservation => {
       if (reservation) {
-        this.scheduleService.save(reservation).subscribe(res => {
+        this.reservationService.save(reservation).subscribe(res => {
           this.dateChange();
         });
       } else {
