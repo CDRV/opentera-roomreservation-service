@@ -5,7 +5,9 @@
 
     <span class="row-title">Informations</span>
     <div class="fields-row">
-      <mat-form-field appearance="outline" class="half-width">
+
+      <mat-form-field appearance="outline" class="half-width"
+                      *ngIf="!userInfos.is_super_admin && !userInfos.is_site_admin">
         <mat-label>Réservation faite par</mat-label>
         <input matInput formControlName="user">
       </mat-form-field>
