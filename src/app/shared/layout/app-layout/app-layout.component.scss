@@ -2,6 +2,11 @@
   padding: 40px;
 }
 
+.mat-drawer-container {
+  overflow: auto;
+  background-color: transparent;
+}
+
 .sidenav-wrapper {
   display: flex;
   flex-direction: column;
@@ -87,10 +92,6 @@ app-logo {
 
 .mat-drawer-content {
   height: auto;
-}
-
-.mat-drawer-container {
-  overflow: auto;
 }
 
 mat-nav-list {

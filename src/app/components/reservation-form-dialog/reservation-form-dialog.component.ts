@@ -38,7 +38,7 @@ export class ReservationFormDialogComponent implements OnInit {
   selectedRoom: Room;
   selectedProjectId: number;
   selectedParticipants: Participant[] = [];
-  private userInfos: UserInfos;
+  userInfos: UserInfos;
   private isCustomName = false;
   private selectedSessionType: SessionType;
   private selectedUser: User;
@@ -82,9 +82,12 @@ export class ReservationFormDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getUserInfo();
     this.initializeForm();
-    if (this.data.meta) {
-      this.idReservation = this.data.meta.idReservation;
+    console.log(this.data);
+    if (this.data.event && this.data.event.meta) {
+      this.idReservation = this.data.event.meta.idReservation;
       this.getReservation();
+    } else if (this.data.time) {
+      this.setNewTime();
     } else {
       this.reservation = new Reservation();
       this.title = 'Nouvelle réservation';
@@ -286,5 +289,14 @@ export class ReservationFormDialogComponent implements OnInit {
     this.selectedUser = selectedUser;
     this.setDefaultName();
     this.enableSave();
+  }
+
+  private setNewTime() {
+    const day = ReservationFormDialogComponent.roundToNearestQuarter(this.data.time);
+    const inOneHour = ReservationFormDialogComponent.roundToNearestQuarter(this.data.time);
+    inOneHour.setHours(this.inOneHour.getHours() + 1);
+    this.reservationForm.controls.startDate.setValue(day);
+    this.reservationForm.controls.startTime.setValue(day);
+    this.reservationForm.controls.endTime.setValue(inOneHour);
   }
 }

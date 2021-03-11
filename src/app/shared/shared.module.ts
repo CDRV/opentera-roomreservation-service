@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CalendarComponent} from '../components/calendar/calendar.component';
+import {ScheduleComponent} from '../pages/schedule/schedule.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlatpickrModule} from 'angularx-flatpickr';
@@ -40,7 +40,7 @@ import {UserSelectionComponent} from '../components/user-selection/user-selectio
     AppMaterialModule,
   ],
   declarations: [
-    CalendarComponent,
+    ScheduleComponent,
     SiteSelectionComponent,
     RoomSelectionComponent,
     ProjectSelectionComponent,
@@ -53,7 +53,7 @@ import {UserSelectionComponent} from '../components/user-selection/user-selectio
     PageTitleComponent
   ],
   exports: [
-    CalendarComponent,
+    ScheduleComponent,
     SiteSelectionComponent,
     RoomSelectionComponent,
     ProjectSelectionComponent,

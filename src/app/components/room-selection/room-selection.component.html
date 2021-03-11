@@ -1,15 +1,6 @@
-<mat-form-field appearance="outline" *ngIf="!refreshing">
-  <mat-label>Local</mat-label>
-  <mat-select (selectionChange)="onValueChanged($event)" [value]="selectedOption">
-    <mat-option *ngFor="let room of rooms" [value]="room">
-      {{room.room_name}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-
 <div class="refreshing">
   <mat-progress-spinner
-    *ngIf="refreshing"
+    *ngIf="refreshing == true"
     [mode]="'indeterminate'"
     [value]="50"
     [diameter]="30"
@@ -17,3 +8,11 @@
   </mat-progress-spinner>
 </div>
 
+<mat-form-field appearance="outline" *ngIf="refreshing == false">
+  <mat-label>Local</mat-label>
+  <mat-select (selectionChange)="onValueChanged($event)" [value]="selectedOption">
+    <mat-option *ngFor="let room of rooms" [value]="room">
+      {{room.room_name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

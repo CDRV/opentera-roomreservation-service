@@ -8,7 +8,6 @@ import {TokenInterceptor} from './core/interceptors/token.interceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthenticationService} from './services/authentication.service';
 import {LoginModule} from './pages/login/login.module';
-import {ScheduleModule} from './pages/schedule/schedule.module';
 import {AppLayoutComponent} from './shared/layout/app-layout/app-layout.component';
 import {LoginLayoutComponent} from './shared/layout/login-layout/login-layout.component';
 import {RoomsModule} from './pages/rooms/rooms.module';
@@ -30,7 +29,6 @@ registerLocaleData(localeFr, 'fr');
     BrowserModule,
     CommonModule,
     LoginModule,
-    ScheduleModule,
     RoomsModule,
     HttpClientModule,
     BrowserAnimationsModule,

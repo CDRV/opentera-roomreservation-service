@@ -41,10 +41,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userInfosService.userInfos$().subscribe((infos: UserInfos) => {
-      this.userInfos = infos;
-    });
-
     combineLatest([
       this.userInfosService.userInfos$(),
       this.selectedSiteService.getSelectedSite()
