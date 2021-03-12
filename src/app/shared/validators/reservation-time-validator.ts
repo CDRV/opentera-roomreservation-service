@@ -10,11 +10,11 @@ export class ReservationTimeInputValidator {
   public static checkIfTimeSlotsTaken(reservationService: ReservationService, idRoom: number) {
     if (idRoom) {
       return (control: AbstractControl): Observable<ValidationErrors | null> => {
-        const startTime = control.get('startTime');
-        const endTime = control.get('endTime');
-        const date = control.get('startDate');
-        const isoStartDate = dateToISOLikeButLocal(setDate(date.value, startTime.value));
-        const isoEndDate = dateToISOLikeButLocal(setDate(date.value, endTime.value));
+        const startTime = new Date(control.get('startTime').value);
+        const endTime = new Date(control.get('endTime').value);
+        const date = new Date(control.get('startDate').value);
+        const isoStartDate = dateToISOLikeButLocal(setDate(date, startTime));
+        const isoEndDate = dateToISOLikeButLocal(setDate(date, endTime));
         return reservationService.checkOverlaps(idRoom, isoStartDate, isoEndDate)
           .pipe(
             debounceTime(200),

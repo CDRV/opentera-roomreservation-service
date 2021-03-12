@@ -1,4 +1,13 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {RoomService} from '../../services/room.service';
 import {Room} from '../../core/models/room.model';
 import {SelectedRoomService} from '../../services/selected-room.service';
@@ -17,6 +26,7 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
   refreshing: boolean;
 
   constructor(private roomService: RoomService,
+              private cdRef: ChangeDetectorRef,
               private selectedRoomService: SelectedRoomService) {
   }
 
@@ -50,6 +60,7 @@ export class RoomSelectionComponent implements OnInit, OnChanges {
       this.refreshing = true;
       this.roomService.getBySite(this.idSite).subscribe(res => {
         this.refreshing = false;
+        this.cdRef.detectChanges();
       });
     }
   }

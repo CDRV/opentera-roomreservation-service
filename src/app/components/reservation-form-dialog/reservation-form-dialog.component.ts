@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ReservationService} from '../../services/reservation.service';
 import {Reservation} from '../../core/models/reservation.model';
@@ -23,11 +23,10 @@ import {User} from '../../core/models/user.model';
   styleUrls: ['./reservation-form-dialog.component.scss']
 })
 export class ReservationFormDialogComponent implements OnInit {
+  @ViewChild('picker') picker: any;
   idReservation: number;
   reservation: Reservation;
   title: string;
-  inOneHour: Date;
-  today: Date;
   uuidUser: string;
   reservationForm: FormGroup;
   hasSession = false;
@@ -82,13 +81,13 @@ export class ReservationFormDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getUserInfo();
     this.initializeForm();
-    console.log(this.data);
     if (this.data.event && this.data.event.meta) {
       this.idReservation = this.data.event.meta.idReservation;
       this.getReservation();
-    } else if (this.data.time) {
-      this.setNewTime();
     } else {
+      if (this.data.time) {
+        this.setNewTime();
+      }
       this.reservation = new Reservation();
       this.title = 'Nouvelle réservation';
       this.isSaveButtonEnabled = false;
@@ -105,15 +104,15 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   private initializeForm() {
-    this.today = ReservationFormDialogComponent.roundToNearestQuarter(new Date());
-    this.inOneHour = ReservationFormDialogComponent.roundToNearestQuarter(new Date());
-    this.inOneHour.setHours(this.inOneHour.getHours() + 1);
+    const today = ReservationFormDialogComponent.roundToNearestQuarter(new Date());
+    const inOneHour = ReservationFormDialogComponent.roundToNearestQuarter(new Date());
+    inOneHour.setHours(inOneHour.getHours() + 1);
     this.reservationForm = this.fb.group({
       name: new FormControl('', Validators.required),
       user: new FormControl({value: this.userInfos.user_fullname, disabled: true}, Validators.required),
-      startDate: new FormControl(this.today, Validators.required),
-      startTime: new FormControl(this.today, Validators.required),
-      endTime: new FormControl(this.inOneHour, Validators.required)
+      startDate: new FormControl(today, Validators.required),
+      startTime: new FormControl(today, Validators.required),
+      endTime: new FormControl(inOneHour, Validators.required)
     }, {
       validators: TimeInputValidator.validateTimes,
       asyncValidators: ReservationTimeInputValidator.checkIfTimeSlotsTaken(this.reservationService, this.selectedRoom.id_room)
@@ -292,11 +291,11 @@ export class ReservationFormDialogComponent implements OnInit {
   }
 
   private setNewTime() {
-    const day = ReservationFormDialogComponent.roundToNearestQuarter(this.data.time);
+    const start = ReservationFormDialogComponent.roundToNearestQuarter(this.data.time);
     const inOneHour = ReservationFormDialogComponent.roundToNearestQuarter(this.data.time);
-    inOneHour.setHours(this.inOneHour.getHours() + 1);
-    this.reservationForm.controls.startDate.setValue(day);
-    this.reservationForm.controls.startTime.setValue(day);
+    inOneHour.setHours(inOneHour.getHours() + 1);
+    this.reservationForm.controls.startDate.setValue(start);
+    this.reservationForm.controls.startTime.setValue(start);
     this.reservationForm.controls.endTime.setValue(inOneHour);
   }
 }

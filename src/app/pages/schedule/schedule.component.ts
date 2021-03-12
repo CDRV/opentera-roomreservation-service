@@ -28,7 +28,7 @@ const colors: any = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [collapseAnimation]
 })
-export class ScheduleComponent implements OnInit, OnChanges {
+export class ScheduleComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
   calendarView = CalendarView;
   viewDate: Date = new Date();
@@ -80,9 +80,6 @@ export class ScheduleComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.dateChange();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
   }
 
   selectedSiteChange(selectedSite: Site) {
@@ -177,8 +174,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
     });
   }
 
-  addReservation(date: Date) {
-    console.log(date);
+  openReservationFormDialogWithTime(date: Date) {
     const dialogRef = this.dialog.open(ReservationFormDialogComponent, {
       width: '800px',
       data: {time: date},

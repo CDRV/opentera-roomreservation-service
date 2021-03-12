@@ -35,7 +35,7 @@
         </mat-label>
         <input matInput [owlDateTimeTrigger]="startDate" [owlDateTime]="startDate" formControlName="startDate"
                (dateTimeChange)="change($event)">
-        <owl-date-time [startAt]="today" [pickerType]="'calendar'" #startDate></owl-date-time>
+        <owl-date-time [pickerType]="'calendar'" #startDate></owl-date-time>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -44,7 +44,7 @@
         </mat-label>
         <input matInput [owlDateTimeTrigger]="start" [owlDateTime]="start" formControlName="startTime"
                (dateTimeChange)="change($event)">
-        <owl-date-time [startAt]="today" [pickerType]="'timer'" formControlName="startTime" [stepMinute]="15" #start></owl-date-time>
+        <owl-date-time [pickerType]="'timer'" [stepMinute]="15" #start></owl-date-time>
         <mat-error class="time-error" *ngIf="startTimeAfterEndTime()">L'heure de début doit être avant l'heure de fin.
         </mat-error>
       </mat-form-field>
@@ -55,7 +55,7 @@
         </mat-label>
         <input matInput [owlDateTimeTrigger]="end" [owlDateTime]="end" formControlName="endTime"
                (dateTimeChange)="change($event)">
-        <owl-date-time [startAt]="inOneHour" [pickerType]="'timer'" formControlName="endTime" stepMinute="15" #end></owl-date-time>
+        <owl-date-time [pickerType]="'timer'" stepMinute="15" #end></owl-date-time>
       </mat-form-field>
     </div>
 
