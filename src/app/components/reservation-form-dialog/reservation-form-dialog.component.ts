@@ -1,21 +1,21 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {ReservationService} from '../../services/reservation.service';
-import {Reservation} from '../../core/models/reservation.model';
+import {ReservationService} from '@services/reservation.service';
+import {Reservation} from '@core/models/reservation.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
-import {NotificationService} from '../../services/notification.service';
-import {Site} from '../../core/models/site.model';
-import {Room} from '../../core/models/room.model';
-import {Participant} from '../../core/models/participant.model';
-import {Session} from '../../core/models/session.model';
-import {UserInfosService} from '../../services/user-infos.service';
-import {UserInfos} from '../../core/models/user-infos.model';
-import {TimeInputValidator} from '../../shared/validators/time-validator';
-import {SessionType} from '../../core/models/session-type.model';
-import {ReservationTimeInputValidator} from '../../shared/validators/reservation-time-validator';
-import {dateToISOLikeButLocal, getDuration, setDate} from '../../core/utils/utility-functions';
-import {User} from '../../core/models/user.model';
+import {NotificationService} from '@services/notification.service';
+import {Site} from '@core/models/site.model';
+import {Room} from '@core/models/room.model';
+import {Participant} from '@core/models/participant.model';
+import {Session} from '@core/models/session.model';
+import {UserInfosService} from '@services/user-infos.service';
+import {UserInfos} from '@core/models/user-infos.model';
+import {TimeInputValidator} from '@shared/validators/time-validator';
+import {SessionType} from '@core/models/session-type.model';
+import {ReservationTimeInputValidator} from '@shared/validators/reservation-time-validator';
+import {dateToISOLikeButLocal, getDuration, setDate} from '@core/utils/utility-functions';
+import {User} from '@core/models/user.model';
 
 @Component({
   selector: 'app-reservation-form-dialog',

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {ProjectService} from '../../services/project.service';
-import {Project} from '../../core/models/project.model';
+import {ProjectService} from '@services/project.service';
+import {Project} from '@models/project.model';
 
 @Component({
   selector: 'app-project-selection',

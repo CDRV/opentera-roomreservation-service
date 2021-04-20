@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {SiteService} from '../../services/site.service';
-import {Site} from '../../core/models/site.model';
-import {SelectedSiteService} from '../../services/selected-site.service';
+import {SiteService} from '@services/site.service';
+import {Site} from '@core/models/site.model';
+import {SelectedSiteService} from '@services/selected-site.service';
 import {switchMap} from 'rxjs/operators';
-import {UserInfosService} from '../../services/user-infos.service';
+import {UserInfosService} from '@services/user-infos.service';
 
 @Component({
   selector: 'app-site-selection',
@@ -12,7 +12,7 @@ import {UserInfosService} from '../../services/user-infos.service';
 })
 export class SiteSelectionComponent implements OnInit {
   @Output() selectedSiteChange = new EventEmitter();
-  sites = [];
+  sites: Site[] = [];
   selectedOption: any;
   refreshing: boolean;
 
@@ -24,7 +24,7 @@ export class SiteSelectionComponent implements OnInit {
   ngOnInit() {
     this.refreshing = true;
     this.siteService.getAccessibleSites().pipe(
-      switchMap(res => {
+      switchMap((res) => {
         this.sites = res;
         return this.selectedSiteService.getSelectedSite();
       })

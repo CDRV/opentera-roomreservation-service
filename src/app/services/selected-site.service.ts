@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Site} from '../core/models/site.model';
+import {Site} from '@models/site.model';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({

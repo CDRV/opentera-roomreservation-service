@@ -1,14 +1,14 @@
-import {RoomService} from '../../services/room.service';
-import {Room} from '../../core/models/room.model';
-import {Site} from '../../core/models/site.model';
+import {RoomService} from '@services/room.service';
+import {Room} from '@core/models/room.model';
+import {Site} from '@core/models/site.model';
 import {AfterViewInit, Component, ViewChild, OnInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
-import {ConfirmationDialogComponent} from '../../components/confirmation-dialog/confirmation-dialog.component';
-import {RoomFormDialogComponent} from '../../components/room-form-dialog/room-form-dialog.component';
-import {NotificationService} from '../../services/notification.service';
+import {ConfirmationDialogComponent} from '@components/confirmation-dialog/confirmation-dialog.component';
+import {RoomFormDialogComponent} from '@components/room-form-dialog/room-form-dialog.component';
+import {NotificationService} from '@services/notification.service';
 import {take} from 'rxjs/operators';
 
 @Component({

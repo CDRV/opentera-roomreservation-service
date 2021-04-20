@@ -8,12 +8,4 @@
   </mat-select>
 </mat-form-field>
 
-<div class="refreshing">
-  <mat-progress-spinner
-    *ngIf="refreshing"
-    [mode]="'indeterminate'"
-    [value]="50"
-    [diameter]="30"
-    [color]="'primary'">
-  </mat-progress-spinner>
-</div>
+<app-spinner *ngIf="refreshing"></app-spinner>

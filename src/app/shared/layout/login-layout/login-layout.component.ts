@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ShowResponsiveNavigationService} from '@services/show-responsive-navigation.service';
 
 @Component({
   selector: 'app-login-layout',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginLayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private showResponsiveNavigationService: ShowResponsiveNavigationService) { }
 
   ngOnInit(): void {
+    this.showResponsiveNavigationService.setNavigationView(false);
   }
 
 }

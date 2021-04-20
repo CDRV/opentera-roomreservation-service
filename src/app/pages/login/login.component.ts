@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService} from '../../services/authentication.service';
+import {AuthenticationService} from '@services/authentication.service';
 import {Router} from '@angular/router';
-import {GlobalConstants} from '../../core/utils/global-constants';
-import {LoginButtonService} from '../../services/login-button.service';
+import {GlobalConstants} from '@core/utils/global-constants';
+import {LoginButtonService} from '@services/login-button.service';
 import {Subscription} from 'rxjs';
 
 @Component({

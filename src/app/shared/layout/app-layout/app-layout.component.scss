@@ -1,121 +1,25 @@
-.content {
-  padding: 40px;
-}
-
-.mat-drawer-container {
-  overflow: auto;
-  background-color: transparent;
-}
-
-.sidenav-wrapper {
+.container {
+  //height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 
-.toolbar {
-  height: var(--header-height);
-}
-
-.is-mobile .toolbar {
-  position: fixed;
-  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
-  z-index: 2;
-}
-
-app-logo {
-  margin-left: 8px;
-  cursor: pointer;
-}
-
-.sidenav-container {
-  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
-     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
-  flex: 1;
-
-  .profile {
-    padding: 20px;
-    display: flex;
-    height: 100px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: var(--primary-color);
-
-    mat-icon {
-      height: 48px;
-      width: 48px;
-      font-size: 48px;
-      padding-bottom: 10px;
-      color: var(--primary-color);
-    }
-  }
-
-  footer {
-    bottom: 0;
-    position: absolute;
-    background-color: var(--primary-lighter-color);
+  app-header {
     width: 100%;
-    color: var(--primary-color);
-    padding: 5px;
-    text-align: right;
-    font-size: 11px;
-    display: flex;
-    align-items: flex-end;
-
-    .organism {
-      width: 90%;
-    }
-
-    .version {
-      width: 10%;
-    }
+    top: 0;
+    left: 0;
+    position: absolute;
   }
-}
 
-.is-mobile .sidenav-container {
-  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
-     `<body>` to be our scrolling element for mobile layouts. */
-  flex: 1 0;
-}
-
-.mat-drawer {
-  width: 250px;
-  position: fixed;
-  margin-top: var(--header-height);
-}
-
-.mat-drawer-content {
-  height: auto;
-}
-
-mat-nav-list {
-  a {
-    transition: ease-in-out border-left 0.3s;
-
-    &:hover {
-      border-left: 10px solid var(--primary-color);
-    }
-  }
-}
-
-.is-active {
-  border-left: 10px solid var(--primary-lighter-color);
-}
-
-@media screen and (max-width: 1000px) {
-  .mat-drawer {
-    margin-top: 0;
-  }
-}
-
-@media screen and (max-width: 700px) {
   .content {
-    padding: 40px 20px;
+    width: 100%;
+    min-height: calc(100vh - var(--header-height) - var(--app-content-padding));
+    margin-top: var(--header-height);
+    display: flex;
+    flex-direction: column;
+  }
+
+  app-footer {
+    width: 100%;
   }
 }

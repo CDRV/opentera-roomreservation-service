@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Room} from '../core/models/room.model';
+import {Room} from '@models/room.model';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({

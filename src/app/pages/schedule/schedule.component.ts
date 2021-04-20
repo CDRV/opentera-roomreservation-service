@@ -1,19 +1,19 @@
-import {Component, ChangeDetectionStrategy, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {isSameDay, isSameMonth} from 'date-fns';
 import {CalendarEvent, CalendarView, collapseAnimation} from 'angular-calendar';
-import {ReservationService} from '../../services/reservation.service';
-import {Reservation} from '../../core/models/reservation.model';
+import {ReservationService} from '@services/reservation.service';
+import {Reservation} from '@models/reservation.model';
 import {Subject} from 'rxjs';
-import {ReservationFormDialogComponent} from '../../components/reservation-form-dialog/reservation-form-dialog.component';
+import {ReservationFormDialogComponent} from '@components/reservation-form-dialog/reservation-form-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {take} from 'rxjs/operators';
-import {Site} from '../../core/models/site.model';
-import {Room} from '../../core/models/room.model';
+import {Site} from '@models/site.model';
+import {Room} from '@models/room.model';
 
 const colors: any = {
   normal: {
-    primary: '#1a202e',
-    secondary: '#f1f5f9',
+    primary: 'var(--accent-color)',
+    secondary: 'var(--background)',
   },
   session: {
     primary: '#85a96b',
@@ -141,6 +141,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   private getSchedule(startDate: Date, endDate: Date) {
+    console.log(this.currentDate);
+    console.log(startDate, endDate);
     if (this.selectedRoom.id_room) {
       const start = ScheduleComponent.getDateString(startDate);
       const end = ScheduleComponent.getDateString(endDate);

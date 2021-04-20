@@ -1,60 +1,89 @@
-table {
-  width: 100%;
+.page-container {
+  height: 100%;
+  background-color: var(--background);
+  padding-bottom: var(--app-content-padding);
+  box-sizing: border-box;
+  min-height: calc(100vh - var(--header-height) - var(--app-content-padding));
 
-  .mat-sort-header {
-    background-color: var(--primary-color);
-    color: #fff;
-    font-size: 14px;
-  }
-}
+  .rooms {
+    padding: 0 var(--app-content-padding);
 
-tr {
-  cursor: pointer;
-  transition: background-color ease-in-out 0.5s;
+    table {
+      width: 100%;
 
-  &:hover {
-    background-color: #efefef;
-  }
-}
+      .mat-sort-header {
+        background-color: var(--accent-lighter-color);
+        color: var(--text);
+        font-size: 14px;
+        font-family: "Nunito", sans-serif;
+        font-weight: bolder;
+      }
+    }
 
-.controls {
-  text-align: right;
-  max-width: 70px;
-}
+    tr {
+      cursor: pointer;
+      transition: background-color ease-in-out 0.5s;
 
-.mat-table {
-  .mat-icon {
-    cursor: pointer;
-    transition: color ease-in-out 0.3s;
-  }
-
-  .mat-icon:first-of-type {
-    margin-right: 10px;
+      &:hover {
+        background-color: #efefef;
+      }
+    }
   }
 
-  .mat-icon:hover {
-    color: var(--accent-color);
-  }
-}
-
-mat-form-field.filter {
-  width: 100%;
-  padding-bottom: 10px;
-}
-
-.table-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 10px;
-
-  app-site-selection {
-    margin-right: 20px;
-    width: calc(100% - 150px);
+  .controls {
+    text-align: right;
+    max-width: 70px;
   }
 
-  button {
-    width: 150px;
+  .mat-table {
+    .mat-icon {
+      cursor: pointer;
+      color: var(--accent-lighter-color);
+      transition: color ease-in-out 0.3s;
+    }
+
+    .mat-icon:first-of-type {
+      margin-right: 10px;
+    }
+
+    .mat-icon:hover {
+      color: var(--accent-color);
+    }
+  }
+
+  .table-controls {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background-color: var(--background);
+    padding: var(--app-content-padding) var(--app-content-padding) calc(var(--app-content-padding) / 2);
+
+    .row {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: calc(var(--app-content-padding) / 4);
+
+      &:first-of-type {
+        button {
+          width: 100px;
+          height: 40px;
+        }
+
+        app-site-selection {
+          width: calc(100% - 120px);
+        }
+      }
+
+      mat-form-field {
+        width: 100%;
+        padding-bottom: 10px;
+      }
+    }
   }
 }
 

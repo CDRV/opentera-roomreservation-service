@@ -1,9 +1,9 @@
-import {ReservationService} from '../../services/reservation.service';
+import {ReservationService} from '@services/reservation.service';
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
-import {Reservation} from '../../core/models/reservation.model';
-import {dateToISOLikeButLocal, setDate} from '../../core/utils/utility-functions';
+import {Reservation} from '@models/reservation.model';
+import {dateToISOLikeButLocal, setDate} from '@core/utils/utility-functions';
 
 export class ReservationTimeInputValidator {
 

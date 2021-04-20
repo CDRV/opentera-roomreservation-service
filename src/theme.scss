@@ -11,30 +11,29 @@
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-@import url('https://fonts.googleapis.com/css?family=Raleway:300,700');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&display=swap');
 
 $fontConfig: (
-  display-4: mat-typography-level(112px, 112px, 300, 'Open Sans', -0.0134em),
-  display-3: mat-typography-level(56px, 56px, 400, 'Open Sans', -0.0089em),
-  display-2: mat-typography-level(45px, 48px, 400, 'Open Sans', 0.0000em),
-  display-1: mat-typography-level(34px, 40px, 400, 'Open Sans', 0.0074em),
-  headline: mat-typography-level(24px, 32px, 400, 'Open Sans', 0.0000em),
-  title: mat-typography-level(20px, 32px, 500, 'Open Sans', 0.0075em),
-  subheading-2: mat-typography-level(16px, 28px, 400, 'Open Sans', 0.0094em),
-  subheading-1: mat-typography-level(15px, 24px, 500, 'Open Sans', 0.0067em),
-  body-2: mat-typography-level(14px, 24px, 500, 'Open Sans', 0.0179em),
-  body-1: mat-typography-level(14px, 20px, 400, 'Open Sans', 0.0179em),
-  button: mat-typography-level(14px, 14px, 500, 'Open Sans', 0.0893em),
-  caption: mat-typography-level(12px, 20px, 400, 'Open Sans', 0.0333em),
-  input: mat-typography-level(inherit, 1.125, 400, 'Open Sans', 1.5px)
+  display-4: mat-typography-level(112px, 112px, 300, 'Nunito', -0.0134em),
+  display-3: mat-typography-level(56px, 56px, 400, 'Nunito', -0.0089em),
+  display-2: mat-typography-level(45px, 48px, 400, 'Nunito', 0.0000em),
+  display-1: mat-typography-level(34px, 40px, 400, 'Nunito', 0.0074em),
+  headline: mat-typography-level(24px, 32px, 400, 'Nunito', 0.0000em),
+  title: mat-typography-level(20px, 32px, 500, 'Nunito', 0.0075em),
+  subheading-2: mat-typography-level(16px, 28px, 400, 'Nunito', 0.0094em),
+  subheading-1: mat-typography-level(15px, 24px, 500, 'Nunito', 0.0067em),
+  body-2: mat-typography-level(14px, 24px, 500, 'Nunito', 0.0179em),
+  body-1: mat-typography-level(14px, 20px, 400, 'Nunito', 0.0179em),
+  button: mat-typography-level(14px, 14px, 500, 'Nunito', 0.0893em),
+  caption: mat-typography-level(12px, 20px, 400, 'Nunito', 0.0333em),
+  input: mat-typography-level(inherit, 1.125, 400, 'Nunito', 1.5px)
 );
 
 // Foreground Elements
 
 // Light Theme Text
-$dark-text: #000000;
+$dark-text: #333333;
 $dark-primary-text: rgba($dark-text, 0.87);
 $dark-accent-text: rgba($dark-primary-text, 0.54);
 $dark-disabled-text: rgba($dark-primary-text, 0.38);
@@ -151,43 +150,43 @@ $mat-dark-theme-background: (
 // Theme Config
 
 body {
-  --primary-color: #1a202e;
-  --primary-lighter-color: #babcc0;
-  --primary-darker-color: #0f131d;
-  --text-primary-color: #{$light-primary-text};
+  --primary-color: #f8f7fc;
+  --primary-lighter-color: #fdfdfe;
+  --primary-darker-color: #f5f3fb;
+  --text-primary-color: #{$dark-primary-text};
   --text-primary-lighter-color: #{$dark-primary-text};
-  --text-primary-darker-color: #{$light-primary-text};
+  --text-primary-darker-color: #{$dark-primary-text};
 }
 
 $mat-primary: (
-  main: #1a202e,
-  lighter: #babcc0,
-  darker: #0f131d,
-  200: #1a202e, // For slide toggle,
+  main: #f8f7fc,
+  lighter: #fdfdfe,
+  darker: #f5f3fb,
+  200: #f8f7fc, // For slide toggle,
   contrast : (
-    main: $light-primary-text,
+    main: $dark-primary-text,
     lighter: $dark-primary-text,
-    darker: $light-primary-text,
+    darker: $dark-primary-text,
   )
 );
 $theme-primary: mat-palette($mat-primary, main, lighter, darker);
 
 body {
-  --accent-color: #85a96b;
-  --accent-lighter-color: #dae5d3;
-  --accent-darker-color: #688f4e;
-  --text-accent-color: #{$dark-primary-text};
+  --accent-color: #6f5bcf;
+  --accent-lighter-color: #d4cef1;
+  --accent-darker-color: #5240bd;
+  --text-accent-color: #{$light-primary-text};
   --text-accent-lighter-color: #{$dark-primary-text};
   --text-accent-darker-color: #{$light-primary-text};
 }
 
 $mat-accent: (
-  main: #85a96b,
-  lighter: #dae5d3,
-  darker: #688f4e,
-  200: #85a96b, // For slide toggle,
+  main: #6f5bcf,
+  lighter: #d4cef1,
+  darker: #5240bd,
+  200: #6f5bcf, // For slide toggle,
   contrast : (
-    main: $dark-primary-text,
+    main: $light-primary-text,
     lighter: $dark-primary-text,
     darker: $light-primary-text,
   )
@@ -195,21 +194,21 @@ $mat-accent: (
 $theme-accent: mat-palette($mat-accent, main, lighter, darker);
 
 body {
-  --warn-color: #d45c5c;
-  --warn-lighter-color: #f2cece;
-  --warn-darker-color: #c34141;
-  --text-warn-color: #{$light-primary-text};
+  --warn-color: #cf655b;
+  --warn-lighter-color: #f1d1ce;
+  --warn-darker-color: #bd4940;
+  --text-warn-color: #{$dark-primary-text};
   --text-warn-lighter-color: #{$dark-primary-text};
   --text-warn-darker-color: #{$light-primary-text};
 }
 
 $mat-warn: (
-  main: #d45c5c,
-  lighter: #f2cece,
-  darker: #c34141,
-  200: #d45c5c, // For slide toggle,
+  main: #cf655b,
+  lighter: #f1d1ce,
+  darker: #bd4940,
+  200: #cf655b, // For slide toggle,
   contrast : (
-    main: $light-primary-text,
+    main: $dark-primary-text,
     lighter: $dark-primary-text,
     darker: $light-primary-text,
   )

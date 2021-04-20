@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-logo',
@@ -7,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class LogoComponent implements OnInit {
   @Input() style: string;
-  logoPath = '../../assets/images/logo_rr.svg';
+  logoPath = environment.img_prefix + 'assets/images/logo_rr.svg';
   firstLine = 'OpenTera';
   secondLine = 'Réservation de locaux';
 
@@ -16,5 +17,4 @@ export class LogoComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

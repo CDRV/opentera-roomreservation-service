@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {makeApiURL} from '../core/utils/make-api-url';
+import {makeApiURL} from '@core/utils/make-api-url';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-import {Project} from '../core/models/project.model';
+import {Project} from '@models/project.model';
 
 @Injectable({
   providedIn: 'root'

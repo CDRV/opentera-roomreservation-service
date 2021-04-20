@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {makeApiURL} from '../core/utils/make-api-url';
+import {makeApiURL} from '@core/utils/make-api-url';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {Participant} from '../core/models/participant.model';
+import {Participant} from '@models/participant.model';
 import {tap} from 'rxjs/operators';
 
 @Injectable({

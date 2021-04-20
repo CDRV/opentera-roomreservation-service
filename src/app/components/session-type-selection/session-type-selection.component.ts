@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {SessionTypeService} from '../../services/session-type.service';
-import {SessionType} from '../../core/models/session-type.model';
+import {SessionTypeService} from '@services/session-type.service';
+import {SessionType} from '@models/session-type.model';
 
 @Component({
   selector: 'app-session-type-selection',

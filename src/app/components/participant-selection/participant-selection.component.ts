@@ -9,8 +9,8 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {ParticipantService} from '../../services/participant.service';
-import {Participant} from '../../core/models/participant.model';
+import {ParticipantService} from '@services/participant.service';
+import {Participant} from '@models/participant.model';
 import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';

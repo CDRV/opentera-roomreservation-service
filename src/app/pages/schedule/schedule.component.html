@@ -1,24 +1,18 @@
-<app-page-title [pageTitle]="'Horaire'"></app-page-title>
-
 <div class="controls-container">
 
-  <div class="filters">
-    <button mat-flat-button color="primary" (click)="openReservationFormDialog(null)">
-      Réserver
-    </button>
+  <app-schedule-instructions></app-schedule-instructions>
+
+  <div class="row">
     <app-site-selection (selectedSiteChange)="selectedSiteChange($event)"></app-site-selection>
     <app-room-selection [idSite]="selectedSite.id_site"
                         (selectedRoomChange)="selectedRoomChange($event)"></app-room-selection>
   </div>
 
-
-  <h3 class="month small-screen">{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
-
-  <div class="calendar-controls">
+  <div class="row">
     <div class="buttons-wrapper">
       <button
         mat-stroked-button
-        color="primary"
+        color="accent"
         mwlCalendarToday
         [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay($event)"
@@ -27,7 +21,7 @@
       </button>
       <button
         mat-stroked-button
-        color="primary"
+        color="accent"
         mwlCalendarPreviousView
         [view]="view"
         [(viewDate)]="viewDate"
@@ -39,7 +33,7 @@
       </button>
       <button
         mat-stroked-button
-        color="primary"
+        color="accent"
         mwlCalendarNextView
         [view]="view"
         [(viewDate)]="viewDate"
@@ -54,7 +48,7 @@
     <div class="buttons-wrapper">
       <button
         mat-stroked-button
-        color="primary"
+        color="accent"
         [ngClass]="{'selected-view': view === 'month'}"
         (click)="setView(calendarView.Month)"
         [class.active]="view === calendarView.Month"
@@ -63,7 +57,7 @@
       </button>
       <button
         mat-stroked-button
-        color="primary"
+        color="accent"
         [ngClass]="{'selected-view': view === 'week'}"
         (click)="setView(calendarView.Week)"
         [class.active]="view === calendarView.Week"
@@ -72,7 +66,7 @@
       </button>
       <button
         mat-stroked-button
-        color="primary"
+        color="accent"
         [ngClass]="{'selected-view': view === 'day'}"
         (click)="setView(calendarView.Day)"
         [class.active]="view === calendarView.Day"
@@ -81,9 +75,13 @@
       </button>
     </div>
   </div>
+
+  <div class="row small-screen">
+    <h3 class="month">{{ viewDate | calendarDate:(view + 'ViewTitle'):'fr' }}</h3>
+  </div>
 </div>
 
-<div [ngSwitch]="view">
+<div [ngSwitch]="view" class="schedule">
   <mwl-calendar-month-view
     *ngSwitchCase="calendarView.Month"
     [viewDate]="viewDate"
@@ -104,8 +102,9 @@
     [dayStartHour]="7"
     [dayEndHour]="21"
     [refresh]="refresh"
+    [eventTemplate]="customWeekEvent"
     (eventClicked)="openReservationFormDialog($event.event)"
-    (hourSegmentClicked)="addReservation($event.date)"
+    (hourSegmentClicked)="openReservationFormDialogWithTime($event.date)"
   >
   </mwl-calendar-week-view>
   <mwl-calendar-day-view
@@ -115,30 +114,45 @@
     [refresh]="refresh"
     [dayStartHour]="7"
     draggable="false"
+    [eventTemplate]="customWeekEvent"
     (eventClicked)="openReservationFormDialog($event.event)"
-    (hourSegmentClicked)="addReservation($event.date)"
+    (hourSegmentClicked)="openReservationFormDialogWithTime($event.date)"
   >
   </mwl-calendar-day-view>
 </div>
 
 <ng-template #customMonthCellTemplate let-day="day" let-locale="locale">
-  <div class="cal-cell-top">
+  <div class="cal-cell-top" (click)="openReservationFormDialogWithTime(day.date)">
     <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
-    <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+    <span class="cal-day-number">
+      <span>{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+    </span>
   </div>
-  <ng-container *ngFor="let event of day.events">
+  <div class="count" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</div>
+  <ng-container *ngFor="let event of day.events| slice:0:3; let i=index">
     <small class="month-event">
-      <span>{{event.start | date: 'h:mm a'}}</span> : {{ event.title }}</small>
+      <span>{{event.start | date: 'h:mm a'}}</span> : {{ event.title }}
+    </small>
   </ng-container>
-  <button mat-flat-button class="add-reservation" (click)="addReservation(day.date)"><mat-icon>add</mat-icon> Réserver</button>
+  <small class="month-event" *ngIf="day.events.length > 3">
+    <span>...</span>
+  </small>
 </ng-template>
 
-<ng-template
-  #customDayEventsTemplate let-events="events" let-eventClicked="eventClicked" let-isOpen="isOpen">
+<ng-template #customDayEventsTemplate let-events="events" let-eventClicked="eventClicked" let-isOpen="isOpen">
   <div class="cal-open-day-events" [@collapse] *ngIf="isOpen">
+    <div class="date">{{events[0].start | date: 'longDate' }}</div>
     <div *ngFor="let event of events">
       <div class="event" (click)="openReservationFormDialog(event)">{{event.start | date: 'h:mm a'}}
         - {{event.end | date: 'h:mm a'}}: {{ event.title }}</div>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #customWeekEvent let-weekEvent="weekEvent">
+  <div class="cal-event" [style.backgroundColor]="weekEvent.event.color?.secondary"
+       [style.borderColor]="weekEvent.event.color?.primary">
+    <div class="event" (click)="openReservationFormDialog(weekEvent.event)">{{weekEvent.event.start | date: 'h:mm a'}}
+      - {{weekEvent.event.end | date: 'h:mm a'}}: {{ weekEvent.event.title }}</div>
   </div>
 </ng-template>

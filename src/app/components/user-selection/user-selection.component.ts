@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {User} from '../../core/models/user.model';
-import {UserService} from '../../services/user.service';
-import {Room} from '../../core/models/room.model';
+import {User} from '@models/user.model';
+import {UserService} from '@services/user.service';
+import {Room} from '@models/room.model';
 
 @Component({
   selector: 'app-user-selection',

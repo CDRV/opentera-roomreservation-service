@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {makeApiURL} from '../core/utils/make-api-url';
-import {Room} from '../core/models/room.model';
+import {makeApiURL} from '@core/utils/make-api-url';
+import {Room} from '@models/room.model';
 import {tap} from 'rxjs/operators';
 
 @Injectable({

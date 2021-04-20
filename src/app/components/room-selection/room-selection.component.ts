@@ -8,9 +8,9 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import {RoomService} from '../../services/room.service';
-import {Room} from '../../core/models/room.model';
-import {SelectedRoomService} from '../../services/selected-room.service';
+import {RoomService} from '@services/room.service';
+import {Room} from '@core/models/room.model';
+import {SelectedRoomService} from '@services/selected-room.service';
 import {switchMap} from 'rxjs/operators';
 
 @Component({
