@@ -58,6 +58,7 @@ export class UserSelectionComponent implements OnInit, OnChanges {
     const alreadySelected = this.users.find(user => user.user_uuid === this.uuidUser);
     if (alreadySelected) {
       this.selectedOption = alreadySelected;
+      this.selectedUserChange.emit(alreadySelected);
     }
   }
 }
