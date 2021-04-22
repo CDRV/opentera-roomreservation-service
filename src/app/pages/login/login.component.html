@@ -7,7 +7,8 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <h2>Se connecter</h2>
         <mat-error *ngIf="loginInvalid">
-          Le nom d'utilisateur ou le mot de passe n'ont pas été reconnu.
+          Le nom d'utilisateur et le mot de passe que vous avez saisis ne correspondaient pas à nos enregistrements.
+          Veuillez vérifier et réessayer. 
         </mat-error>
         <mat-form-field appearance="outline" class="full-width-input">
           <mat-label>Nom d'utilisateur</mat-label>
