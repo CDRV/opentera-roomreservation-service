@@ -1,84 +1,84 @@
 import {NgModule} from '@angular/core';
-import {ScheduleComponent} from '@pages/schedule/schedule.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {FlatpickrModule} from 'angularx-flatpickr';
 import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
-import {SiteSelectionComponent} from '@components/site-selection/site-selection.component';
-import {RoomSelectionComponent} from '@components/room-selection/room-selection.component';
+import {SiteSelectorComponent} from '@components/selectors/site-selector/site-selector.component';
+import {RoomSelectorComponent} from '@components/selectors/room-selector/room-selector.component';
 import {ConfirmationDialogComponent} from '@components/confirmation-dialog/confirmation-dialog.component';
-import {RoomFormDialogComponent} from '@components/room-form-dialog/room-form-dialog.component';
-import {ReservationFormDialogComponent} from '@components/reservation-form-dialog/reservation-form-dialog.component';
-import {ParticipantSelectionComponent} from '@components/participant-selection/participant-selection.component';
-import {AppMaterialModule} from './app-material.module';
-import {
-  OWL_DATE_TIME_LOCALE,
-  OwlDateTimeIntl,
-  OwlDateTimeModule,
-  OwlNativeDateTimeModule
-} from '@danielmoncada/angular-datetime-picker';
-import {DefaultIntl} from '@core/utils/datetime-picker.config';
-import {ProjectSelectionComponent} from '@components/project-selection/project-selection.component';
-import {SessionTypeSelectionComponent} from '@components/session-type-selection/session-type-selection.component';
-import {UserSelectionComponent} from '@components/user-selection/user-selection.component';
-import {ScheduleInstructionsComponent} from '@components/schedule-instructions/schedule-instructions.component';
+import {RoomFormDialogComponent} from '@components/forms/room-form-dialog/room-form-dialog.component';
+import {ParticipantSelectorComponent} from '@components/selectors/participant-selector/participant-selector.component';
+import {MaterialModule} from './material.module';
+import {ProjectSelectorComponent} from '@components/selectors/project-selector/project-selector.component';
+import {SessionTypeSelectorComponent} from '@components/selectors/session-type-selector/session-type-selector.component';
+import {UserSelectorComponent} from '@components/selectors/user-selector/user-selector.component';
+import {CalendarInstructionsComponent} from '@components/calendar-instructions/calendar-instructions.component';
 import {AngularSvgIconModule} from 'angular-svg-icon';
 import {LogoComponent} from '@components/logo/logo.component';
 import {SpinnerComponent} from '@components/spinner/spinner.component';
+import {RouterModule} from '@angular/router';
+import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from '@angular-material-components/datetime-picker';
+import {DatetimeSelectorComponent} from '@components/selectors/datetime-selector/datetime-selector.component';
+import {HttpClientModule} from '@angular/common/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CalendarComponent} from '@pages/calendar/calendar.component';
 
 
 @NgModule({
+  declarations: [
+    LogoComponent,
+    SiteSelectorComponent,
+    RoomSelectorComponent,
+    ProjectSelectorComponent,
+    ParticipantSelectorComponent,
+    UserSelectorComponent,
+    SessionTypeSelectorComponent,
+    ConfirmationDialogComponent,
+    RoomFormDialogComponent,
+    CalendarInstructionsComponent,
+    SpinnerComponent,
+    DatetimeSelectorComponent,
+    CalendarComponent,
+  ],
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
     AngularSvgIconModule.forRoot(),
-    FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    }),
-    ReactiveFormsModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
-    AppMaterialModule,
-  ],
-  declarations: [
-    LogoComponent,
-    ScheduleComponent,
-    SiteSelectionComponent,
-    RoomSelectionComponent,
-    ProjectSelectionComponent,
-    ParticipantSelectionComponent,
-    UserSelectionComponent,
-    SessionTypeSelectionComponent,
-    ConfirmationDialogComponent,
-    RoomFormDialogComponent,
-    ReservationFormDialogComponent,
-    ScheduleInstructionsComponent,
-    SpinnerComponent
+    })
   ],
   exports: [
-    ScheduleComponent,
-    SiteSelectionComponent,
-    RoomSelectionComponent,
-    ProjectSelectionComponent,
-    UserSelectionComponent,
-    SessionTypeSelectionComponent,
-    ParticipantSelectionComponent,
-    AppMaterialModule,
-    LogoComponent
-
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    NgxMatDatetimePickerModule,
+    MaterialModule,
+    AngularSvgIconModule,
+    SpinnerComponent,
+    LogoComponent,
+    SiteSelectorComponent,
+    RoomSelectorComponent,
+    ProjectSelectorComponent,
+    UserSelectorComponent,
+    SessionTypeSelectorComponent,
+    LogoComponent,
+    DatetimeSelectorComponent,
+    ParticipantSelectorComponent
   ],
   entryComponents: [
     ConfirmationDialogComponent,
-    RoomFormDialogComponent,
-    ReservationFormDialogComponent
+    RoomFormDialogComponent
   ],
-  providers: [
-    {provide: OwlDateTimeIntl, useClass: DefaultIntl},
-    {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr'},
-  ]
+  providers: []
 })
 export class SharedModule {
 }

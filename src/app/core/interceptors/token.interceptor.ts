@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
-import {AuthenticationService} from '../../services/authentication.service';
+import {AuthenticationService} from '@services/authentication.service';
 import {GlobalConstants} from '../utils/global-constants';
 import {makeApiURL} from '../utils/make-api-url';
 

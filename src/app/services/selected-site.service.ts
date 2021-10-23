@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Site} from '@models/site.model';
+import {Site} from '@shared/models/site.model';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class SelectedSiteService {
     return this.siteSubject.asObservable();
   }
 
-  public setSelectedSite(site: Site) {
+  public setSelectedSite(site: Site): void {
     this.siteSubject.next(site);
   }
 }

@@ -3,7 +3,7 @@ import {makeApiURL} from '@core/utils/make-api-url';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-import {Project} from '@models/project.model';
+import {Project} from '@shared/models/project.model';
 
 @Injectable({
   providedIn: 'root'

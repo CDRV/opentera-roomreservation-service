@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {GlobalConstants} from '@core/utils/global-constants';
 import {LoginButtonService} from '@services/login-button.service';
 import {Subscription} from 'rxjs';
+import {Pages} from '@core/utils/pages';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   version = GlobalConstants.version;
   organism = GlobalConstants.organism;
   private formSubmitAttempt: boolean;
-  private subscription: Subscription;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -36,32 +37,42 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: ['', Validators.required]
     });
 
-    this.subscription = this.loginButtonService.isDisabled().subscribe((isDisabled) => {
-      this.isButtonDisabled = isDisabled;
-    });
+    this.subscriptions.push(
+      this.loginButtonService.isDisabled().subscribe((isDisabled) => {
+        this.isButtonDisabled = isDisabled;
+      })
+    );
+
+    this.subscriptions.push(
+      this.form.valueChanges.subscribe(x => {
+        if (this.isButtonDisabled) {
+          this.loginButtonService.enableButton(false);
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
-  private redirect() {
+  private redirect(): void {
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/home']);
+      this.router.navigate([Pages.homePage]);
     }
   }
 
   onSubmit() {
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
-    this.loginButtonService.disableButton(true);
+    this.loginButtonService.enableButton(true);
     this.isButtonDisabled = true;
     if (this.form.valid) {
       try {
         const username = this.form.get('username').value;
         const password = this.form.get('password').value;
-        this.authService.logIn(username, password).subscribe(() => {
-          this.loginButtonService.disableButton(false);
+        this.authService.login(username, password, true).subscribe(() => {
+          this.loginButtonService.enableButton(false);
         });
       } catch (err) {
         this.loginInvalid = true;

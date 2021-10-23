@@ -1,73 +1,78 @@
 import {RoomService} from '@services/room.service';
-import {Room} from '@core/models/room.model';
-import {Site} from '@core/models/site.model';
-import {AfterViewInit, Component, ViewChild, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ViewChild, OnInit, OnDestroy} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmationDialogComponent} from '@components/confirmation-dialog/confirmation-dialog.component';
-import {RoomFormDialogComponent} from '@components/room-form-dialog/room-form-dialog.component';
+import {RoomFormDialogComponent} from '@components/forms/room-form-dialog/room-form-dialog.component';
 import {NotificationService} from '@services/notification.service';
 import {take} from 'rxjs/operators';
+import {Site} from '@shared/models/site.model';
+import {Room} from '@shared/models/room.model';
+import {SelectedSiteService} from '@services/selected-site.service';
+import {Subscription} from 'rxjs';
+import {isObjectEmpty} from '@core/utils/utility-functions';
 
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.scss']
 })
-export class RoomsComponent implements OnInit, AfterViewInit {
+export class RoomsComponent implements OnInit, AfterViewInit, OnDestroy {
   private selectedSite: Site;
   private refreshing: boolean;
+  private subscription: Subscription;
 
   constructor(private roomService: RoomService,
               private notificationService: NotificationService,
+              private selectedSiteService: SelectedSiteService,
               public dialog: MatDialog) {
     this.rooms = [];
     this.dataSource = new MatTableDataSource(this.rooms);
   }
 
   rooms: Room[];
-  displayedColumns: string[] = ['room_name', 'controls'];
+  displayedColumns: string[] = ['room_name', 'site_name', 'controls'];
   dataSource: MatTableDataSource<Room>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
+    this.getSelectedSite();
     this.getRooms();
   }
 
-  selectedSiteChange(selected: Site) {
-    if (selected) {
-      this.selectedSite = selected;
+  private getSelectedSite(): void {
+    this.subscription = this.selectedSiteService.getSelectedSite().subscribe((site) => {
+      this.selectedSite = site;
       this.refreshRooms();
-    } else {
-      this.selectedSite = null;
-      this.rooms = [];
-    }
+    });
   }
 
-  private getRooms() {
-    this.roomService.roomsList$().subscribe((rooms) => {
+  private getRooms(): void {
+    this.roomService.rooms$().subscribe((rooms) => {
       this.rooms = rooms;
       this.dataSource = new MatTableDataSource(rooms);
     });
   }
 
-  private refreshRooms() {
+  private refreshRooms(): void {
     this.refreshing = true;
-    this.roomService.getBySite(this.selectedSite.id_site).subscribe(() => {
-      this.refreshing = false;
-    });
+    if (!isObjectEmpty(this.selectedSite)) {
+      this.roomService.getBySite(this.selectedSite.id_site).subscribe(() => {
+        this.refreshing = false;
+      });
+    }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -76,7 +81,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  deleteRoom(idRoom: number) {
+  deleteRoom(idRoom: number): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
       data: 'Êtes-vous sûr de vouloir supprimer ce local?'
@@ -94,7 +99,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openRoomFormDialog(row: any) {
+  openRoomFormDialog(row: Room): void {
     const copy = {...row};
     const dialogRef = this.dialog.open(RoomFormDialogComponent, {
       width: '500px',
@@ -106,11 +111,15 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         if (!result.id_room) {
           result.id_room = 0;
         }
-        result.id_site = this.selectedSite.id_site;
-        this.roomService.save(result).subscribe((updated: Room) => {
-          this.notificationService.showSuccess('Le local ' + updated.room_name + ' a été sauvegardé.');
+        this.roomService.update(result).subscribe((updated: Room) => {
+          this.notificationService.showSuccess('Le local ' + result.room_name + ' a été sauvegardé.');
+          this.refreshRooms();
         });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

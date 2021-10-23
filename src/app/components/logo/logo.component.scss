@@ -15,7 +15,7 @@
   }
 
   #logo {
-    fill: var(--accent-color);
+    fill: var(--primary-color);
   }
 
   .text {
@@ -34,7 +34,7 @@
 
     .first-line {
       text-transform: lowercase;
-      font-family: 'Quicksand', sans-serif;
+      font-family: var(--title-font), sans-serif;
       font-size: 40px;
       line-height: 40px;
       font-weight: 700;

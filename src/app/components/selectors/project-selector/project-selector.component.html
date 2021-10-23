@@ -1,0 +1,15 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Projet</mat-label>
+    <mat-select (selectionChange)="onValueChanged($event.value)" [value]="selectedOption" formControlName="project">
+      <mat-option *ngFor="let project of projects" [value]="project">
+        {{project.project_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      {{requiredMessage}}
+    </mat-error>
+  </mat-form-field>
+</form>
+
+<app-spinner *ngIf="refreshing"></app-spinner>

@@ -14,7 +14,7 @@ export class LoginButtonService {
     return this.isDisabledSubject.asObservable();
   }
 
-  disableButton(isEnabled: boolean) {
+  enableButton(isEnabled: boolean): void {
     this.isDisabledSubject.next(isEnabled);
   }
 }

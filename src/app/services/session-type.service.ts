@@ -3,7 +3,7 @@ import {makeApiURL} from '@core/utils/make-api-url';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-import {SessionType} from '@models/session-type.model';
+import {SessionType} from '@shared/models/session-type.model';
 
 @Injectable({
   providedIn: 'root'

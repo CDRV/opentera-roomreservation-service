@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {makeApiURL} from '@core/utils/make-api-url';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {User} from '@models/user.model';
+import {User} from '@shared/models/user.model';
 import {tap} from 'rxjs/operators';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  usersList$(): Observable<User[]> {
+  users$(): Observable<User[]> {
     return this.usersListSubject.asObservable();
   }
 

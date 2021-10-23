@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Room} from '@models/room.model';
+import {Room} from '@shared/models/room.model';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class SelectedRoomService {
     return this.roomSubject.asObservable();
   }
 
-  public setSelectedRoom(room: Room) {
+  public setSelectedRoom(room: Room): void {
     this.roomSubject.next(room);
   }
 }

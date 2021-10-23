@@ -1,8 +1,8 @@
-<div class="refreshing">
+<div class="wrapper">
+  <svg-icon src="{{logoPath}}" [stretch]="false" [applyClass]="true"></svg-icon>
   <mat-progress-spinner
-    [mode]="'indeterminate'"
-    [value]="50"
-    [diameter]="30"
-    [color]="'accent'">
+    [color]="color"
+    [mode]="mode"
+    [value]="value">
   </mat-progress-spinner>
 </div>

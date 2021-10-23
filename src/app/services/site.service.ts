@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {makeApiURL} from '@core/utils/make-api-url';
-import {Site} from '@models/site.model';
+import {Site} from '@shared/models/site.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,22 +1,19 @@
 .container {
-  //height: 100vh;
   width: 100%;
+  height: 100%;
+  min-height: var(--viewport-height);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--white);
+  border-radius: 0;
+  position: relative;
+  z-index: 2;
+  -webkit-backdrop-filter: blur(1rem);
+  backdrop-filter: blur(1rem);
 
-  app-header {
-    width: 100%;
-    top: 0;
-    left: 0;
-    position: absolute;
-  }
-
-  .content {
-    width: 100%;
-    min-height: calc(100vh - var(--header-height) - var(--app-content-padding));
-    margin-top: var(--header-height);
-    display: flex;
-    flex-direction: column;
+  section {
+    flex: 1;
   }
 
   app-footer {
