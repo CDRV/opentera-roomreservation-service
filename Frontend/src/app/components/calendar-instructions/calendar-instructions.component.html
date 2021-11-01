@@ -1,0 +1,15 @@
+<div class="instructions-container" *ngIf="showInstructions">
+
+  <mat-icon fontSet="material-icons" class="close" [title]="'Supprimer'" (click)="close()">close</mat-icon>
+
+  <svg-icon src="{{calendarPath}}" [stretch]="false" [applyClass]="true"></svg-icon>
+  <div class="text">
+    <div class="title">
+      Bienvenue sur la page des réservations
+    </div>
+    <div class="instructions">
+      <span>- Pour voir les réservations faites au calendrier, choisir un site et un local.</span>
+      <span>- Pour ajouter une réservation, cliquer sur la date ou l'heure dans le calendrier.</span>
+    </div>
+  </div>
+</div>

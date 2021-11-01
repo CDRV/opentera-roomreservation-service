@@ -1,0 +1,10 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Local</mat-label>
+    <mat-select (selectionChange)="onValueChanged($event.value)" [value]="selectedOption" formControlName="room">
+      <mat-option *ngFor="let room of rooms" [value]="room">
+        {{room.room_name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

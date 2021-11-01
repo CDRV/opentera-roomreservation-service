@@ -1,0 +1,27 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+
+  svg,
+  svg-icon {
+    height: 60px;
+    width: 40px;
+  }
+
+  svg-icon {
+    position: absolute;
+  }
+
+  #logo {
+    fill: var(--primary-color);
+  }
+
+  mat-progress-spinner {
+    position: absolute;
+    opacity: 0.4;
+  }
+}

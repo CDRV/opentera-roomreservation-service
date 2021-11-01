@@ -1,0 +1,13 @@
+<div [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Responsable</mat-label>
+    <mat-select [value]="selectedUser"  formControlName="user">
+      <mat-option *ngFor="let user of users" [value]="user">
+        {{user.user_firstname}} {{user.user_lastname}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      {{required}}
+    </mat-error>
+  </mat-form-field>
+</div>

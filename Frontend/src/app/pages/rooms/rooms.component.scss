@@ -1,0 +1,122 @@
+.page-container {
+  height: 100%;
+  background-color: var(--background);
+  padding: calc(var(--app-padding) / 3) var(--app-padding);
+  box-sizing: border-box;
+  min-height: calc(100vh - var(--header-height) - var(--app-padding));
+
+  .filter {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-items: center;
+    justify-content: space-between;
+
+    app-site-selector {
+      flex: 2 1 auto;
+      margin-right: 10px;
+    }
+
+    mat-form-field {
+      flex: 2 1 auto;
+      margin-right: 10px;
+    }
+
+    button {
+      flex: 1 1 auto;
+      margin: .25em 0 1.59em 10px;
+    }
+  }
+
+  table {
+    width: 100%;
+  }
+
+  tr {
+    cursor: pointer;
+    transition: background-color ease-in-out 0.5s;
+
+    &:hover {
+      background-color: #efefef;
+    }
+  }
+
+  td {
+    mat-icon {
+      margin: 0 10px;
+      cursor: pointer;
+      color: var(--primary-color);
+      opacity: 0.5;
+      transition: ease-in-out var(--transition) opacity;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &:last-of-type {
+      text-align: right;
+    }
+  }
+
+  .controls {
+    text-align: right;
+    max-width: 70px;
+  }
+
+  .mobile-label {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .page-container {
+    .filter {
+      app-site-selector {
+        margin-right: 0;
+      }
+
+      mat-form-field {
+        margin-right: 0;
+      }
+
+      button {
+        margin-left: 0;
+      }
+    }
+
+    .mobile-label {
+      width: 120px;
+      display: inline-block;
+    }
+
+    .mat-header-row {
+      display: none;
+    }
+
+    .mat-row {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 8px 24px;
+      height: initial;
+      margin: 20px 0;
+      border-left: 3px solid var(--primary-color);
+      border-bottom: none;
+    }
+
+    .mat-row:after {
+      display: none;
+    }
+
+    .mat-cell {
+      width: 100%;
+      border: none;
+      padding: 5px 0;
+    }
+
+    .mat-cell:first-of-type, .mat-cell:last-of-type {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+}

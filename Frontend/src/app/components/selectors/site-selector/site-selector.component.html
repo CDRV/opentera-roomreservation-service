@@ -1,0 +1,13 @@
+<form [formGroup]="form" *ngIf="managesSites">
+  <mat-form-field appearance="outline">
+    <mat-label>Site</mat-label>
+    <mat-select (selectionChange)="onValueChanged($event.value)" [value]="selectedSite" formControlName="site">
+      <mat-option *ngFor="let site of sites" [value]="site">
+        {{site.site_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      {{required}}
+    </mat-error>
+  </mat-form-field>
+</form>

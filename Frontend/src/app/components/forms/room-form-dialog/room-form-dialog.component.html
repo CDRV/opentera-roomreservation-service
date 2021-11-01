@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="roomForm">
+    <app-site-selector [form]="roomForm" [site]="room?.site"></app-site-selector>
+    <mat-form-field appearance="outline">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button [disabled]="!canSave" [color]="'primary'" (click)="validate()">Sauvegarder</button>
+</div>
