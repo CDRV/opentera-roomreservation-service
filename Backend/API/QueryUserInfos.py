@@ -3,10 +3,10 @@ from flask_restx import Resource
 # from services.RoomReservation.AccessManager import AccessManager, current_login_type, current_user_client, LoginType
 from opentera.services.ServiceAccessManager import ServiceAccessManager, current_login_type, current_user_client, \
     LoginType
-from services.BureauActif.FlaskModule import default_api_ns as api
+from FlaskModule import default_api_ns as api
 
 # Parser definition(s)
-from services.RoomReservation import Globals
+import Globals
 
 get_parser = api.parser()
 get_parser.add_argument('id_site', type=int, help='ID of the selected site')

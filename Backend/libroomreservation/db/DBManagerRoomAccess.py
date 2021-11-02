@@ -1,4 +1,4 @@
-from services.RoomReservation.libroomreservation.db.models.RoomReservationRoom import RoomReservationRoom
+from libroomreservation.db.models.RoomReservationRoom import RoomReservationRoom
 import datetime
 import calendar
 

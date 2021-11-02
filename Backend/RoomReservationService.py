@@ -1,8 +1,8 @@
-from services.RoomReservation.FlaskModule import FlaskModule, flask_app
-from services.RoomReservation.ConfigManager import ConfigManager
+from FlaskModule import FlaskModule, flask_app
+from ConfigManager import ConfigManager
 from opentera.redis import RedisVars
 from opentera.redis.RedisClient import RedisClient
-import services.RoomReservation.Globals as Globals
+import Globals as Globals
 from sqlalchemy.exc import OperationalError
 from opentera.services.ServiceOpenTera import ServiceOpenTera
 from twisted.internet import defer, reactor

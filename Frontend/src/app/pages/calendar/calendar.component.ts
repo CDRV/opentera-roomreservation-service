@@ -101,6 +101,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.today = new Date();
+    this.today.setHours(0, 0, 0, 0);
     this.getAccount();
     this.getSelectedSiteAndRoom();
     this.getEvents();

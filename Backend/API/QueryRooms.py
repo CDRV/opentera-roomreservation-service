@@ -5,10 +5,10 @@ from sqlalchemy import exc
 from flask_babel import gettext
 
 from opentera.services.ServiceAccessManager import ServiceAccessManager, current_user_client
-from services.RoomReservation import Globals
-from services.RoomReservation.FlaskModule import default_api_ns as api
-from services.RoomReservation.libroomreservation.db.models.RoomReservationRoom import RoomReservationRoom
-from services.RoomReservation.libroomreservation.db.DBManager import DBManager
+import Globals
+from FlaskModule import default_api_ns as api
+from libroomreservation.db.models.RoomReservationRoom import RoomReservationRoom
+from libroomreservation.db.DBManager import DBManager
 
 # Parser definition(s)
 get_parser = api.parser()

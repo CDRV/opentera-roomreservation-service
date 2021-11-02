@@ -1,4 +1,4 @@
-from services.RoomReservation.libroomreservation.db.Base import db, BaseModel
+from libroomreservation.db.Base import db, BaseModel
 
 
 class RoomReservationRoom(db.Model, BaseModel):

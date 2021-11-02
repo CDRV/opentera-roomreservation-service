@@ -1,22 +1,22 @@
 # Using same base as TeraServer
-from services.RoomReservation.libroomreservation.db.Base import db
+from libroomreservation.db.Base import db
 
 # Must include all Database objects here to be properly initialized and created if needed
 # All at once to make sure all files are registered.
-from services.RoomReservation.libroomreservation.db.models import *
+from libroomreservation.db.models import *
 
-from services.RoomReservation.ConfigManager import ConfigManager
+from ConfigManager import ConfigManager
 
-from services.RoomReservation.FlaskModule import flask_app
+from FlaskModule import flask_app
 
 # Alembic
 from alembic.config import Config
 from alembic import command
 
-from services.RoomReservation.libroomreservation.db.DBManagerRoomAccess import DBManagerRoomAccess
-from services.RoomReservation.libroomreservation.db.DBManagerReservationAccess import DBManagerReservationAccess
-from services.RoomReservation.libroomreservation.db.models.RoomReservationReservation import RoomReservationReservation
-from services.RoomReservation.libroomreservation.db.models.RoomReservationRoom import RoomReservationRoom
+from libroomreservation.db.DBManagerRoomAccess import DBManagerRoomAccess
+from libroomreservation.db.DBManagerReservationAccess import DBManagerReservationAccess
+from libroomreservation.db.models.RoomReservationReservation import RoomReservationReservation
+from libroomreservation.db.models.RoomReservationRoom import RoomReservationRoom
 
 
 class DBManager:

@@ -2,7 +2,7 @@ from flask import Flask, request, g, url_for
 from flask_session import Session
 from flask_restx import Api
 
-from .ConfigManager import ConfigManager
+from ConfigManager import ConfigManager
 from flask_babel import Babel
 
 from opentera.modules.BaseModule import BaseModule
@@ -219,10 +219,10 @@ class FlaskModule(BaseModule):
         # Default arguments
         kwargs = {'flaskModule': self}
 
-        from .API.QueryRooms import QueryRooms
-        from .API.QueryReservations import QueryReservations
-        from .API.QueryAccountInfos import QueryAccountInfos
-        from .API.QueryPermissions import QueryPermissions
+        from API.QueryRooms import QueryRooms
+        from API.QueryReservations import QueryReservations
+        from API.QueryAccountInfos import QueryAccountInfos
+        from API.QueryPermissions import QueryPermissions
 
         # Resources
         default_api_ns.add_resource(QueryRooms, '/rooms', resource_class_kwargs=kwargs)
@@ -231,7 +231,7 @@ class FlaskModule(BaseModule):
         default_api_ns.add_resource(QueryPermissions, '/permissions', resource_class_kwargs=kwargs)
 
     def init_views(self):
-        from .Views.Index import Index
+        from Views.Index import Index
 
         # Default arguments
         args = []

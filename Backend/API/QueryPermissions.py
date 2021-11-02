@@ -3,8 +3,8 @@ from opentera.services.ServiceAccessManager import ServiceAccessManager, current
 from flask_restx import Resource
 
 # Parser definition(s)
-from services.RoomReservation import Globals
-from services.RoomReservation.FlaskModule import api
+import Globals
+from FlaskModule import api
 
 get_parser = api.parser()
 get_parser.add_argument('id_project', type=int, help='ID of the project for which to fetch the role')

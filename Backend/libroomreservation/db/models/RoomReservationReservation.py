@@ -1,7 +1,7 @@
 import datetime
 from datetime import timedelta
 from sqlalchemy import ARRAY
-from services.RoomReservation.libroomreservation.db.Base import db, BaseModel
+from libroomreservation.db.Base import db, BaseModel
 
 
 class RoomReservationReservation(db.Model, BaseModel):

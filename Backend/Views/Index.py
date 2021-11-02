@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from services.RoomReservation.FlaskModule import flask_app
+from FlaskModule import flask_app
 from werkzeug.exceptions import NotFound
 
 

@@ -1,5 +1,5 @@
-from services.RoomReservation.ConfigManager import ConfigManager
-from services.RoomReservation.libroomreservation.db.DBManager import DBManager
+from ConfigManager import ConfigManager
+from libroomreservation.db.DBManager import DBManager
 
 
 redis_client = None

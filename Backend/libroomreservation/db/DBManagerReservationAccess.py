@@ -1,7 +1,7 @@
 from sqlalchemy import and_, tuple_, or_, literal
 from sqlalchemy.orm import aliased
 
-from services.RoomReservation.libroomreservation.db.models.RoomReservationReservation import RoomReservationReservation
+from libroomreservation.db.models.RoomReservationReservation import RoomReservationReservation
 from datetime import datetime
 
 
